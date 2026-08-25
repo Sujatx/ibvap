@@ -1,0 +1,4 @@
+dvr.env
+__pycache__/
+*.pyc
+snap_*.jpg
