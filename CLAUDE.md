@@ -36,6 +36,11 @@ Research → Product → Design → Architecture → Engineering → Testing →
 Do not skip ahead a stage before the stage(s) before it are complete for the
 relevant feature or decision.
 
+Before opening docs to find something, check
+[docs/00-project/manifest.md](docs/00-project/manifest.md) — a one-line-per-file
+index of what each doc holds and its status. Keep it current when docs are
+added or their status changes.
+
 ## 3. Rules
 
 1. The official SIH problem statement in

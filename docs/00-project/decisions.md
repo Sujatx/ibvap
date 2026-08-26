@@ -39,7 +39,7 @@ and camera-aware operation; it pursues sufficient accuracy for each defined use
 case rather than competing primarily on benchmark leadership. It will not claim
 universal camera support, and it will not chase headline accuracy figures
 disconnected from a measured use case — but accuracy remains a first-class,
-per-capability requirement, gated and reported by the Camera Passport rather than
+per-capability requirement, gated and reported by the Camera Spec Sheet rather than
 asserted in the abstract. It competes on running where nothing else runs and on
 stating, per camera, what it can and cannot do, at what measured accuracy.
 
@@ -47,7 +47,7 @@ stating, per camera, what it can and cannot do, at what measured accuracy.
 abstract is not a defensible sole differentiator against vendors with decades of
 tuning; the four best-evidenced pain points (PP2, PP3, PP4, PP7) are all
 conditions of deployment. Sufficient, measured accuracy per use case remains
-required — it is the entry condition the Camera Passport enforces (D-6) — it is
+required — it is the entry condition the Camera Spec Sheet enforces (D-6) — it is
 just not, by itself, the basis for competitive positioning
 ([product-discovery.md](../01-research/users/product-discovery.md) §4.1, §9).
 
@@ -102,7 +102,7 @@ users — the product is designed for these", Decision D-3.
 
 **DECISION:** Core workflows are modelled around artefacts and their states, with
 role assignment and permissions configurable. The product produces four core
-artefacts — an Event, an Alert, a Case, and a Camera Passport — and every
+artefacts — an Event, an Alert, a Case, and a Camera Spec Sheet — and every
 workflow is a path through those artefacts' states. Which human occupies which
 step, and what permissions that role carries, is configurable and carries no
 product assumption about the real SSB workflow.
@@ -161,7 +161,7 @@ disclaimer. Known cost: it means telling a buyer their estate cannot do what the
 hoped — the counter-evidence recorded against opportunity O1.
 
 **Reference:** [docs/02-product/PRD.md](../02-product/PRD.md), §7.2 "Camera
-Passport — capability measurement and disclosure", Decision D-6.
+Spec Sheet — capability measurement and disclosure", Decision D-6.
 
 **Status:** accepted
 
@@ -207,7 +207,7 @@ Decision D-7.
 
 **DECISION:** All eight SIH capabilities are explicitly addressed in the product,
 with implementation maturity, operating conditions and limitations declared for
-each. Each is delivered at a declared grade, gated by the Camera Passport, with
+each. Each is delivered at a declared grade, gated by the Camera Spec Sheet, with
 its limitations stated in the product surface. No capability is delivered as an
 unqualified claim, and no SIH capability is silently omitted.
 
@@ -296,7 +296,7 @@ Suspicious activity detection, Decision D-11.
 implemented as a first-class, separately-measured operating mode across the
 existing detection primitives, rather than as a separate "night AI model."
 Concretely, it is delivered through: (a) night-specific camera eligibility on
-the Camera Passport, measured after dark and reported independently of the day
+the Camera Spec Sheet, measured after dark and reported independently of the day
 verdict; (b) the same person and vehicle movement-detection primitives (CAP-1,
 CAP-2) run against night-eligible cameras; (c) night-scoped rules — time-of-day
 gating on zones, lines, direction and dwell; and (d) measured, disclosed
@@ -323,7 +323,7 @@ Night-time movement detection, Decision D-12.
 
 **DECISION:** The MVP is one site, complete. The smallest coherent product is a
 single deployment site with its existing cameras, running the full loop —
-ingest → passport → primitives → rules → event → alert → assessment → case →
+ingest → spec sheet → primitives → rules → event → alert → assessment → case →
 export → egress — end to end. The MVP boundary is: (a) one deployment site; (b)
 complete end-to-end operation across that loop; (c) local, site-level operation
 must work independently of any remote layer; (d) remote monitoring and/or

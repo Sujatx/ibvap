@@ -62,7 +62,7 @@ that its analytics primitives actually produce.
 ## 4. Core capabilities
 
 All eight capabilities named by the problem statement are addressed. Each
-ships at a declared maturity, gated by the per-camera Camera Passport verdict
+ships at a declared maturity, gated by the per-camera Camera Spec Sheet verdict
 — none is delivered as an unqualified, universal claim.
 
 | Capability | MVP grade | Key condition |
@@ -78,7 +78,7 @@ ships at a declared maturity, gated by the per-camera Camera Passport verdict
 | Real-time alerts and event logging | Primary-candidate | The product's spine: append-only hash-chained event log, payload-progressive alerts |
 
 No capability here is presented as working on every camera. Eligibility is
-measured per camera by the Camera Passport, and a capability is refused on a
+measured per camera by the Camera Spec Sheet, and a capability is refused on a
 camera that cannot support it.
 
 ## 5. MVP
@@ -87,7 +87,7 @@ The MVP is one deployment site, complete end-to-end: a single site's existing
 cameras, unmodified, running the full loop from ingest to an outbound event —
 locally and unattended, with no remote control room required.
 
-- **Camera Passport** — measures each camera and issues an eligibility verdict
+- **Camera Spec Sheet** — measures each camera and issues an eligibility verdict
   per analytic, with the reason in plain language.
 - **Analytics primitives** — person, vehicle, face, and plate detection on
   eligible cameras only.
@@ -108,7 +108,7 @@ claimed to represent any real border camera estate.
 ```mermaid
 flowchart LR
     A[Existing CCTV / DVR] --> B[Video Ingestion]
-    B --> C[Camera Passport]
+    B --> C[Camera Spec Sheet]
     C --> D[AI Analytics]
     D --> E[Rules]
     E --> F[Event]

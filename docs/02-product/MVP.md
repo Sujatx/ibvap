@@ -73,7 +73,7 @@ The objective is deliberately **one argument, not a feature list**. Per
 [PRD §10.3](PRD.md#103-why-each-block-is-in-the-mvp--the-coherence-argument),
 removing any block breaks the argument:
 
-- Without the **Camera Passport**, every claim IBVAP makes is the market's claim and D-1 is gone.
+- Without the **Camera Spec Sheet**, every claim IBVAP makes is the market's claim and D-1 is gone.
 - Without **primitives**, rules regress to pixel motion — which is what the estate already has.
 - Without **rules**, capabilities 5, 6 and 7 do not exist.
 - Without **Event/Alert separation**, the product designs for a role the research says may not exist.
@@ -145,7 +145,7 @@ it, not only in a document.
   recorder as a side effect, never takes ownership of recording, never alters the
   existing live-view path (FR-3, NG-1).
 - **All analysis at the site** — full video never has to leave it (FR-40, NG-5).
-- **All four artefacts** — Event, Alert, Case, Camera Passport (D-4).
+- **All four artefacts** — Event, Alert, Case, Camera Spec Sheet (D-4).
 - **Local operation with no uplink** for ≥72 h (NFR-6, FR-41).
 - **No internet dependency; isolated-network deployable** (FR-61, NFR-13, C-41).
 
@@ -182,7 +182,7 @@ The MVP loop, from [PRD §10.1](PRD.md#101-the-mvp-thesis) and the workflows W1�
 ([PRD §5](PRD.md#5-core-user-workflows)):
 
 ```
-ingest → passport → primitives → rules → event → alert → assessment → case → export → egress
+ingest → spec sheet → primitives → rules → event → alert → assessment → case → export → egress
 ```
 
 > ⚠ **Every workflow step below is a PRODUCT MODEL**, carried unchanged from
@@ -195,8 +195,8 @@ ingest → passport → primitives → rules → event → alert → assessment 
 | Step | What happens | Actor | Artefact produced | Requirements |
 |---|---|---|---|---|
 | **1. Ingest** | Point IBVAP at an existing stream — native IP camera or a channel behind an existing DVR/NVR — using credentials the force already holds. **Read-only.** Effective resolution reported, never the advertised one. | U1/U9 at the post, or U10/U9 remotely | — | FR-1 … FR-7 |
-| **2. Passport** | Measure the stream as delivered: effective resolution incl. anamorphic detection, achievable analysed fps, codec/GOP, bitrate, day/night behaviour, stability. Operator marks one reference distance. IBVAP issues per-analytic `Eligible` / `Eligible, degraded` / `Not eligible` **with the measured reason in plain language**. `Not eligible` analytics **cannot be enabled** — refusal, not degradation. | U1/U9 | **Camera Passport** | FR-8 … FR-13, D-6 |
-| **3. Primitives** | On eligible cameras only: person detection, vehicle detection + coarse class, single-camera tracking, face detection, ANPR where the Passport allows. Below the analysis-rate floor, tracking-dependent rules are **automatically disabled and the operator told why**. | nobody (continuous) | — | FR-14 … FR-19 |
+| **2. Spec Sheet** | Measure the stream as delivered: effective resolution incl. anamorphic detection, achievable analysed fps, codec/GOP, bitrate, day/night behaviour, stability. Operator marks one reference distance. IBVAP issues per-analytic `Eligible` / `Eligible, degraded` / `Not eligible` **with the measured reason in plain language**. `Not eligible` analytics **cannot be enabled** — refusal, not degradation. | U1/U9 | **Camera Spec Sheet** | FR-8 … FR-13, D-6 |
+| **3. Primitives** | On eligible cameras only: person detection, vehicle detection + coarse class, single-camera tracking, face detection, ANPR where the Spec Sheet allows. Below the analysis-rate floor, tracking-dependent rules are **automatically disabled and the operator told why**. | nobody (continuous) | — | FR-14 … FR-19 |
 | **4. Rules** | Object-class-gated zones, lines, directions, dwell timers; composite operator-authored conditions; starter library **marked unvalidated**; time-of-day and night scoping; open-border attention-zone framing available alongside the intrusion framing. | U1 authors; system evaluates | — | FR-23 … FR-26, D-10, D-11 |
 | **5. Event** | Every rule firing becomes an **Event** in a local, append-only, hash-chained log with a time-integrity status — **whether or not anyone is watching, whether or not the link is up**. Evidence hash computed **at capture**. | nobody | **Event** | FR-27, FR-32 … FR-35 |
 | **6. Alert** | Events matching an alerting rule become **Alerts**, delivered **payload-progressively**: event record → object crop → full clip **on demand**. Where no channel is reachable, they queue under a bounded, declared discard policy. Destinations are configurable and **none is assumed to exist**. | system → whoever is configured | **Alert** | FR-28, FR-31, FR-41 … FR-43 |
@@ -235,7 +235,7 @@ honestly or end-to-end.
 |---|---|
 | **Primary-candidate** | May be trusted as the sole detection mechanism for its rule, subject to measurement |
 | **Support** | Brings a human to the right frame; the human decides *(i-LIDS' "secondary" category)* |
-| **Conditional** | Available only on cameras whose Passport marks it eligible; typically lane-aimed or purpose-sited |
+| **Conditional** | Available only on cameras whose Spec Sheet marks it eligible; typically lane-aimed or purpose-sited |
 | **Gated** | Available only when a legal basis and named authority are recorded |
 
 **DECISION D-9 (accepted)** — in i-LIDS terms IBVAP operates in a **support posture
@@ -253,7 +253,7 @@ basis for a decision.
   camera view, maintaining identity across the analysis window. *(FR-14, FR-16, FR-19,
   FR-23, FR-27)*
 - **Priority:** **P0** — the foundation primitive. Grade: **Support**.
-- **What the MVP must demonstrate:** on a Passport-eligible camera, a person walking a
+- **What the MVP must demonstrate:** on a Spec-Sheet-eligible camera, a person walking a
   pre-marked route in daylight is detected and tracked without an identity switch at
   the product's stated analysis rate; below the analysis-rate floor, tracking-dependent
   rules disable themselves and say why in one sentence.
@@ -270,7 +270,7 @@ basis for a decision.
   route without a switch. **AC-1.3** below the floor, tracking-dependent rules are
   automatically disabled with a one-sentence reason. **AC-1.4** a person below the
   camera's stated pixel threshold is **not** counted as a detection failure — the
-  Passport already declared that range out of scope.
+  Spec Sheet already declared that range out of scope.
 
 #### CAP-2 — Vehicle detection and classification
 
@@ -299,10 +299,10 @@ basis for a decision.
 #### CAP-3a — Face detection
 
 - **Capability:** Detect faces — presence and location, **not identity** — on eligible
-  cameras, with Passport eligibility gating. *(FR-17, FR-10)*
+  cameras, with Spec Sheet eligibility gating. *(FR-17, FR-10)*
 - **Priority:** **P1**, ships **unconditionally** in MVP (D-7). Grade: **Support,
   Conditional**.
-- **What the MVP must demonstrate:** the Passport reports face-detection eligibility per
+- **What the MVP must demonstrate:** the Spec Sheet reports face-detection eligibility per
   camera with the measured reason; on an eligible lane- or gate-aimed camera a face at
   the stated range is detected; on a `Not eligible` camera the analytic **cannot be
   switched on** without a logged override.
@@ -362,7 +362,7 @@ basis for a decision.
   independently recorded fields**. **AC-3b.3** the environment classification is an
   explicit, authority-controlled, audited setting; an operator **cannot self-declare an
   operational site as "test"** to bypass AC-3b.2. **AC-3b.4** gallery is bounded and its
-  size is stated in the product surface. **AC-3b.5** only Passport recognition-grade
+  size is stated in the product surface. **AC-3b.5** only Spec Sheet recognition-grade
   cameras may run it. **AC-3b.6** a no-match generates **no biometric record**; template
   and probe retention is explicit, configurable and audited. **AC-3b.7** every match is
   `support`-graded — a reason to look, never an identification assertion. **AC-3b.8**
@@ -372,11 +372,11 @@ basis for a decision.
 
 #### CAP-4 — Automatic Number Plate Recognition (ANPR)
 
-- **Capability:** Read number plates on cameras whose Passport marks ANPR eligible, and
+- **Capability:** Read number plates on cameras whose Spec Sheet marks ANPR eligible, and
   log the reads with per-read confidence. *(FR-18, FR-10, FR-32)*
 - **Priority:** **P1 at eligible nodes** — check post / ICP lane / barrier; **excluded
   elsewhere**. Grade: **Conditional (lane-aimed cameras only)**.
-- **What the MVP must demonstrate:** the Passport derives ANPR eligibility per camera
+- **What the MVP must demonstrate:** the Spec Sheet derives ANPR eligibility per camera
   from measured plate-scale pixel density and mounting angle and **states the speed and
   angle envelope** it is valid within; within that envelope on an eligible camera,
   plates are read and logged with confidence; reads outside the envelope are marked as
@@ -396,7 +396,7 @@ basis for a decision.
   ANPR on wide-area border-road cameras is a **non-goal (NG-4) — physics, not effort**;
   **(h) [SIH/SSB]** whether an eligible camera exists at all, and who owns the CCTV at
   ICP Raxaul and Jogbani, are **UNKNOWN (OQ-11)** — **so this capability may have no
-  eligible camera in the validation estate, which the Passport will state plainly rather
+  eligible camera in the validation estate, which the Spec Sheet will state plainly rather
   than hide**.
 - **Acceptance criteria:** **AC-4.1** per-camera eligibility with a stated speed/angle
   envelope. **AC-4.2** reads logged with per-read confidence inside the envelope.
@@ -479,7 +479,7 @@ basis for a decision.
   disclosed night-vs-day limitations published per camera. *(FR-8, FR-10, FR-13, FR-26,
   FR-49; D-12)*
 - **Priority:** **P0**. Grade: **Support, with per-camera night eligibility**.
-- **What the MVP must demonstrate:** the Passport carries a **separate night verdict per
+- **What the MVP must demonstrate:** the Spec Sheet carries a **separate night verdict per
   analytic, measured after dark**; rules can be night-scoped and auto-disable on cameras
   whose night verdict is `Not eligible`, with the reason shown; nuisance rate and cause
   histogram are reported **separately for night**; and the product publishes **its own
@@ -568,7 +568,7 @@ scope; they are the MVP.
   own recording or live-view path — **this precedes every other activity on a live
   estate**.
 
-#### B2 — Camera Passport
+#### B2 — Camera Spec Sheet
 
 - **Capability:** Per-camera measurement (effective resolution, achievable analysed fps,
   codec/GOP, bitrate, day/night behaviour, stability), px/m at operator-marked reference
@@ -579,17 +579,17 @@ scope; they are the MVP.
   and **silent-degradation reporting distinct from stream loss**. *(FR-8 … FR-13; D-6)*
 - **Priority:** **P0** — without it, D-1 is gone and every claim IBVAP makes is the
   market's claim.
-- **What the MVP must demonstrate:** 100% Passport coverage of the demonstration estate,
+- **What the MVP must demonstrate:** 100% Spec Sheet coverage of the demonstration estate,
   and **at least one analytic genuinely refused on at least one camera with a
   plain-language reason** (Exit Gate 2). Refusals are a **success signal, not a defect
   count** (SM-5).
-- **Conditions / limitations:** the Passport measures what it can measure — it does not
+- **Conditions / limitations:** the Spec Sheet measures what it can measure — it does not
   improve any camera's optics, mounting, illumination or field of view (PRD §2.4). A
   reference distance is one operator mark, not a survey; where a range estimate is
   accepted instead, **its uncertainty is stated**. Override is possible, requires a
   **named authority**, and permanently marks resulting events (D-6).
 - **Acceptance criteria:** **AC-P3 (honesty invariant)** — no user-facing surface states
-  or implies a capability the Passport marks `Not eligible`; every refusal carries a
+  or implies a capability the Spec Sheet marks `Not eligible`; every refusal carries a
   plain-language measured reason; every override is logged and stamps its events.
   **NFR-16.** **SM-5** — 100% coverage.
 
@@ -736,14 +736,14 @@ items are listed in §12–13.
 | **P0** | **CAP-7** Night-time movement detection | Support | Separate night eligibility per camera |
 | **P0** | **CAP-8** Real-time alerts and event logging | Primary-candidate | None — fully in IBVAP's control |
 | **P0** | **B1** Ingest from existing estate | — | Read-only; estate safety verified first |
-| **P0** | **B2** Camera Passport | — | Refusal, not degradation |
+| **P0** | **B2** Camera Spec Sheet | — | Refusal, not degradation |
 | **P0** | **B3** Events, alerts, assessment | — | Destinations assume none exists |
 | **P0** | **B4** Log, evidence, time integrity | — | Hash at capture; no silent transcode |
 | **P0** | **B5** Site resilience | — | ≥72 h disconnected |
 | **P0** | **B6** Measurement and attribution | — | Published whatever the number is |
 | **P0** | **B7** Egress and integration | — | Generic contract; no named adapter |
 | **P0** | **B8** Authority, audit, isolation | — | Authority ≠ legal basis |
-| **P1** | **CAP-3a** Face detection | Support, Conditional | Passport-eligible cameras only; ships unconditionally |
+| **P1** | **CAP-3a** Face detection | Support, Conditional | Spec-Sheet-eligible cameras only; ships unconditionally |
 | **P1, gated** | **CAP-3b** Controlled face recognition | Gated, Conditional, watchlist-only | Dev/test demonstrable; **real deployment technically blocked** pending D-7's four conditions |
 | **P1 at eligible nodes** | **CAP-4** ANPR | Conditional | Lane-aimed cameras only; **excluded elsewhere** |
 | **P1** | **CAP-6** Suspicious activity detection | Support, rules only | Operator-authored rules; **no learned model** |
@@ -773,8 +773,8 @@ per-capability detail is in §5; this is the condition matrix.
 
 | # | Condition | Consequence when unmet |
 |---|---|---|
-| **OC-1** | The camera has a **current Camera Passport** | The analytic cannot be enabled (FR-11) |
-| **OC-2** | The Passport marks that analytic `Eligible` or `Eligible, degraded` **for the relevant period — day and night measured separately** | The analytic is **refused**, not degraded (D-6). Override requires a named authority and permanently stamps resulting events |
+| **OC-1** | The camera has a **current Camera Spec Sheet** | The analytic cannot be enabled (FR-11) |
+| **OC-2** | The Spec Sheet marks that analytic `Eligible` or `Eligible, degraded` **for the relevant period — day and night measured separately** | The analytic is **refused**, not degraded (D-6). Override requires a named authority and permanently stamps resulting events |
 | **OC-3** | Analysed frame rate is **at or above the product floor of ≥3 fps** for any tracking-dependent rule | The rule is **automatically disabled** and the operator told why in one sentence (FR-19, NFR-5) |
 | **OC-4** | **No hardware change** has been made — the estate is inherited as-is | Not a limitation but the premise: AC-P2, SM-6 = 100% |
 | **OC-5** | Analysis runs **at the site**; full video never has to leave it | FR-40, NG-5 |
@@ -837,15 +837,15 @@ Nothing is added; POST-MVP requirements are listed in §13.
 | **FR-6** | Maintain and expose a **tested-device record**: which makes/models/firmware have been verified, with what result |
 | **FR-7** | Degrade gracefully and *visibly* when a source is unavailable, unstable, or returns fewer frames than requested |
 
-### 8.2 Camera Passport
+### 8.2 Camera Spec Sheet
 
 | # | Requirement |
 |---|---|
 | **FR-8** | Measure, per camera: effective resolution, achievable analysed fps, codec/GOP, bitrate, day/night transition behaviour, and stability |
 | **FR-9** | Derive **pixels-per-metre at operator-marked reference distances**, expressed against published detection/observation/recognition/identification thresholds |
 | **FR-10** | Publish a per-camera, per-analytic eligibility verdict — `Eligible` / `Eligible, degraded` / `Not eligible` — **with the measured reason in plain language** |
-| **FR-11** | **Refuse to enable an analytic on a camera whose Passport marks it `Not eligible`**, with an explicit, logged, named-authority override that stamps every resulting Event as `capability-overridden` |
-| **FR-12** | Re-issue the Passport on demand and on schedule; raise a change when a camera's measured capability drops |
+| **FR-11** | **Refuse to enable an analytic on a camera whose Spec Sheet marks it `Not eligible`**, with an explicit, logged, named-authority override that stamps every resulting Event as `capability-overridden` |
+| **FR-12** | Re-issue the Spec Sheet on demand and on schedule; raise a change when a camera's measured capability drops |
 | **FR-13** | Report **silent analytic degradation** distinctly from stream loss, in language a non-technical post commander can relay over a radio |
 
 ### 8.3 Analytics primitives
@@ -856,7 +856,7 @@ Nothing is added; POST-MVP requirements are listed in §13.
 | **FR-15** | Detect **vehicles** and assign a **coarse type** class on eligible cameras |
 | **FR-16** | **Track** detected objects within a single camera view, maintaining identity across the analysis window |
 | **FR-17** | Detect **faces** — presence and location, not identity — on eligible cameras |
-| **FR-18** | Read **number plates** on cameras whose Passport marks ANPR eligible |
+| **FR-18** | Read **number plates** on cameras whose Spec Sheet marks ANPR eligible |
 | **FR-19** | Operate every primitive at a configurable analysed frame rate, with a **product floor** below which tracking-dependent rules are automatically disabled and the operator told why |
 | **FR-20** | Recognise faces against a **bounded, explicitly configured, authorized watchlist gallery** — **MVP, gated** in dev/test; **blocked** for real deployment pending the four D-7 conditions |
 
@@ -955,7 +955,7 @@ below is either derived from measured evidence or explicitly marked **to be vali
 | **NFR-13** | **Data residency / isolation:** deployable with no internet access and no cloud dependency | Required |
 | **NFR-14** | **Auditability:** every override, suppression, export, deletion and authority grant attributable to a person and a time | Required |
 | **NFR-15** | **Integrity:** the event log is append-only and tamper-evident **in every deployment**, not in an upper edition | Required |
-| **NFR-16** | **Honesty invariant:** no user-facing surface may state or imply a capability the Camera Passport marks `Not eligible` | Required |
+| **NFR-16** | **Honesty invariant:** no user-facing surface may state or imply a capability the Camera Spec Sheet marks `Not eligible` | Required |
 
 ---
 
@@ -971,8 +971,8 @@ is what the PRD said it would be.
 |---|---|---|
 | **AC-P1** | **Estate safety.** Running IBVAP against a live estate does not degrade the existing recorder's recording or live-view path | OQ-21 measurement, **before any live deployment** |
 | **AC-P2** | **Zero hardware change.** Every MVP capability demonstrated on cameras with **no** hardware modification, replacement, re-aiming or added illumination | Deployment record; SM-6 |
-| **AC-P3** | **Honesty invariant.** No user-facing surface states or implies a capability the Passport marks `Not eligible`; every refusal carries a plain-language measured reason; every override is logged and stamps its events | Adversarial review against NFR-16 + audit of every override path |
-| **AC-P4** | **Complete loop at one site.** A single post demonstrates ingest → passport → primitive → rule → event → alert → assessment → case → export → egress, end to end, unattended | End-to-end demonstration on the rig |
+| **AC-P3** | **Honesty invariant.** No user-facing surface states or implies a capability the Spec Sheet marks `Not eligible`; every refusal carries a plain-language measured reason; every override is logged and stamps its events | Adversarial review against NFR-16 + audit of every override path |
+| **AC-P4** | **Complete loop at one site.** A single post demonstrates ingest → spec sheet → primitive → rule → event → alert → assessment → case → export → egress, end to end, unattended | End-to-end demonstration on the rig |
 | **AC-P5** | **Works with nobody watching.** With no operator, no console open and no link, the system continues to analyse, log, alert locally and queue — and reconciles cleanly on reconnect | 72 h soak (OQ-25) |
 | **AC-P6** | **Works with somebody watching.** The same artefacts route to a human at a console **without changing the site's configuration** or requiring a different deployment | Configuration demonstration; validates D-3 / D-4 |
 | **AC-P7** | **Measured, not claimed.** Every number IBVAP publishes about itself — nuisance rate, day/night gap, latency, bandwidth, watts, read rate — is measured on the deployment's own footage and dated | Metrics audit against PRD §13 |
@@ -1012,11 +1012,11 @@ CCTV rig** (D-14). No scenario asserts an SSB workflow (D-13(e)).
 | # | Scenario | What it proves | Gate / criteria |
 |---|---|---|---|
 | **DS-1** | **Estate safety first.** Start concurrent IBVAP ingest against the rig's XVR while it is recording and being live-viewed; show the recorder's own recording and live-view path unaffected | The precondition for touching any live estate | **Gate 1**, NFR-9, AC-P1, OQ-21 |
-| **DS-2** | **Commission and refuse.** Commission two rig channels in under an hour with no site survey. Show the Passport reporting **effective** resolution on a 1080N channel — 960, not 1920 — then show at least one analytic **refused** on at least one camera with its plain-language measured reason, and show that it **cannot be switched on** without a named-authority override that stamps its events | D-1 and D-6 — the product's central claim | **Gate 2**, AC-P3, AC-P10, SM-5, SM-7 |
+| **DS-2** | **Commission and refuse.** Commission two rig channels in under an hour with no site survey. Show the Spec Sheet reporting **effective** resolution on a 1080N channel — 960, not 1920 — then show at least one analytic **refused** on at least one camera with its plain-language measured reason, and show that it **cannot be switched on** without a named-authority override that stamps its events | D-1 and D-6 — the product's central claim | **Gate 2**, AC-P3, AC-P10, SM-5, SM-7 |
 | **DS-3** | **The complete loop, daylight.** Person walks a marked route → CAP-1 detects and tracks → a class-gated CAP-5 line fires → **one** Event → Alert with crop → one-action assessment `real` → Case opened with an outcome → evidence pack exported → pack verified on a clean machine → event delivered to a real external consumer over the published schema | AC-P4 in full — the MVP thesis | **Gates 6 and 7**, AC-P4, AC-P8, SM-11, SM-12 |
 | **DS-4** | **Nobody is watching.** Pull the uplink. Show analysis, logging and local annunciation continuing; the queue growing under its declared discard policy; no licence expiry; clock status honest. Restore the link after ≥72 h and show idempotent reconciliation — zero duplicates, zero losses | D-3 and D-13(c)/(f) — local operation independent of any remote layer | **Gate 5**, AC-P5, NFR-6, SM-9, OQ-25 |
 | **DS-5** | **Somebody is watching.** Without changing the site's configuration, route the same Events and Alerts to a console or remote destination | D-3 and D-4 — correct under both answers to H-1 | AC-P6 |
-| **DS-6** | **Night.** Show the Passport's **separate night verdict** measured after dark; a night-scoped rule auto-disabling on a night-`Not eligible` camera with its reason shown; the night nuisance rate and cause histogram reported separately; and **IBVAP's own measured day-vs-night gap** on rig footage | D-12 — night as an explicit, measured capability | **Gate 4**, AC-7.1 … AC-7.5, OQ-23 |
+| **DS-6** | **Night.** Show the Spec Sheet's **separate night verdict** measured after dark; a night-scoped rule auto-disabling on a night-`Not eligible` camera with its reason shown; the night nuisance rate and cause histogram reported separately; and **IBVAP's own measured day-vs-night gap** on rig footage | D-12 — night as an explicit, measured capability | **Gate 4**, AC-7.1 … AC-7.5, OQ-23 |
 | **DS-7** | **The number nobody publishes.** Present the ≥7-day unattended run's per-camera per-rule nuisance rate and cause histogram **as measured, whatever it is**, and show it visible in the product surface | G2 and the disclosure asymmetry | **Gate 3**, AC-P7, SM-1, SM-2, FR-49, OQ-22 |
 | **DS-8** | **Suspicious activity, honestly.** Author a composite rule without code — e.g. *"a person in this zone between 2200 and 0500 for more than 90 seconds"* — show the rule stating what it will and will not catch, and show the starter library entries marked **unvalidated**. State that OQ-4 is unanswered | D-11 and NG-2 | AC-6.1 … AC-6.5 |
 | **DS-9** | **Controlled face recognition.** In the **controlled dev/test environment only**, enable recognition against a bounded test gallery and show a match presented as `support`-graded. Then show that under an operational classification it is **technically blocked** without all four D-7 conditions, that the environment classification is itself authority-controlled and audited, and that **every** biometric operation is logged | D-7 — the capability ships and is demonstrable **without** asserting a legal basis | AC-3b.1 … AC-3b.8, AC-P11 |
@@ -1107,7 +1107,7 @@ demo's substance.
 | Gate | Condition | What it protects | Demo |
 |---|---|---|---|
 | **Gate 1 — Safety** | **NFR-9 passes:** concurrent IBVAP ingest does **not** degrade the existing recorder's own recording or live-view path. **This gate precedes every other activity on a live estate** | Everything | DS-1 |
-| **Gate 2 — Honesty** | Every camera in the demonstration estate has a Passport, **and at least one analytic is refused on at least one camera with a plain-language reason** — because the estate genuinely cannot support it | D-1, D-6, AC-P3 | DS-2 |
+| **Gate 2 — Honesty** | Every camera in the demonstration estate has a Spec Sheet, **and at least one analytic is refused on at least one camera with a plain-language reason** — because the estate genuinely cannot support it | D-1, D-6, AC-P3 | DS-2 |
 | **Gate 3 — Measured nuisance** | A **≥7-day unattended run** has produced a per-camera nuisance rate and cause histogram, **and the number is published in the product surface whatever it is** | G2, SM-1, SM-2 | DS-7 |
 | **Gate 4 — Night** | The same measurement exists **separately for night**, with the product's **own measured** day-vs-night gap | D-12, CAP-7 | DS-6 |
 | **Gate 5 — Disconnection** | A **≥72 h link-down soak**: analysis continued, events reconciled without duplication or loss, no licence expiry, clock status honest | D-3, D-13(c), NFR-6 | DS-4 |
@@ -1132,7 +1132,7 @@ lives only in a document is not disclosed.
 
 | # | Limitation | Effect on the MVP |
 |---|---|---|
-| **L-1** | **Pixels on target.** Detection ~25 px/m; identification 250 px/m (2015) / reported 500 px/m (2025). **Interpolation manufactures no information** | Passport refusal is the correct behaviour, not a defect (NG-3, NG-4) |
+| **L-1** | **Pixels on target.** Detection ~25 px/m; identification 250 px/m (2015) / reported 500 px/m (2025). **Interpolation manufactures no information** | Spec Sheet refusal is the correct behaviour, not a defect (NG-3, NG-4) |
 | **L-2** | **Field of view and mounting.** A face that enters frame only as the top of a head cannot be recognised. NIST: improvement requires positioning, mounting, lighting, optics — **all hardware** | CAP-3a will be `Not eligible` on most of an inherited overview estate |
 | **L-3** | **Photons at night.** 33.9% relative detection drop, visible vs infrared, on the same scenes. Enhancement trades noise for blur; **it adds no photons** | CAP-7's night verdict must be measured, never inferred |
 | **L-4** | **Atmospheric attenuation.** Rain, fog and storms degrade line-of-sight — **and thermal is not exempt** | Weather-conditional eligibility; honest degradation reporting |
@@ -1150,7 +1150,7 @@ lives only in a document is not disclosed.
 | # | Limitation | Decision |
 |---|---|---|
 | **L-13** | **IBVAP is a support layer, not a sole detection system, and not a replacement for the existing surveillance system.** Every capability routes to a human for assessment | D-9 |
-| **L-14** | **No capability runs on a camera the Passport refuses** — without a logged named-authority override that permanently stamps its events | D-6 |
+| **L-14** | **No capability runs on a camera the Spec Sheet refuses** — without a logged named-authority override that permanently stamps its events | D-6 |
 | **L-15** | **"Suspicious activity" is operator-authored rules only.** No learned anomaly model. The starter library is **explicitly unvalidated** | D-11, NG-2 |
 | **L-16** | **Face recognition is bounded-gallery only, gated, and demonstrable in dev/test; against a real deployment it is technically blocked** pending four separately recorded conditions. **This document does not create a legal basis** | D-7, PM-1 |
 | **L-17** | **Vehicle classification is coarse type only.** No make, model or colour — and **colour is gone at night** | CAP-2 |
@@ -1206,7 +1206,7 @@ is D-13's. Where it shows a gate, that gate is D-6's or D-7's.
 | Class | Meaning |
 |---|---|
 | **Core** | P0. In MVP unconditionally. The loop does not work without it |
-| **Conditional** | In MVP, but only on cameras whose Passport marks the analytic eligible |
+| **Conditional** | In MVP, but only on cameras whose Spec Sheet marks the analytic eligible |
 | **Gated** | In MVP, but blocked behind a recorded legal basis + authority record for real deployment |
 | **Post-MVP** | In scope for the product, out of scope for this release |
 | **Non-goal** | Excluded by decision, not deferred |
@@ -1222,7 +1222,7 @@ and works with no remote layer present (D-13(c), D-3).
 flowchart LR
     CAM["Camera<br/>existing IP or analog behind DVR"]
     ING["Video Ingestion<br/>RTSP / ONVIF, read-only"]
-    PASS["Camera Passport<br/>measure, then permit or refuse"]
+    PASS["Camera Spec Sheet<br/>measure, then permit or refuse"]
     AI["AI Detection and Tracking<br/>person, vehicle, face, plate"]
     RULE["Rules<br/>zone, line, direction, dwell, time-of-day"]
     EV["Event<br/>append-only, hash-chained, time-stamped"]
@@ -1246,7 +1246,7 @@ flowchart LR
     class Q queue
 ```
 
-**Reading it:** the Passport sits **between ingest and analytics** deliberately. It is
+**Reading it:** the Spec Sheet sits **between ingest and analytics** deliberately. It is
 not a report produced after the fact — it is the gate that decides whether an analytic
 may run at all (D-6, FR-11). The dotted paths are the two behaviours the market's
 architectures assume away: **refusal**, and **operating with the link down**.
@@ -1278,7 +1278,7 @@ flowchart TD
         S1["CAP-8 Real-time alerts and event logging<br/>P0 - Core - the product's spine"]
     end
 
-    GATE{"Camera Passport<br/>eligible for this analytic?"}
+    GATE{"Camera Spec Sheet<br/>eligible for this analytic?"}
     LEGAL{"Legal basis AND authority record<br/>AND gallery AND retention?"}
 
     GATE -->|"eligible"| P1
@@ -1344,7 +1344,7 @@ flowchart TB
         I4["CAP-5 virtual fence + attention-zone framing"]
         I5["CAP-6 operator-authored rules · CAP-7 night mode"]
         I6["CAP-8 alerts and event log"]
-        I7["Camera Passport · refusal with measured reason"]
+        I7["Camera Spec Sheet · refusal with measured reason"]
         I8["Evidence pack · capture-time hash · custody log"]
         I9["72h+ disconnected operation · isolated network"]
         I10["Measured nuisance rate + cause histogram, published"]
@@ -1411,7 +1411,7 @@ flowchart LR
 
     subgraph SITE["IBVAP at site — the MVP"]
         direction TB
-        ANA["Analysis · Passport · rules"]
+        ANA["Analysis · Spec Sheet · rules"]
         LOG["Append-only hash-chained event log"]
         LOCAL["Local annunciation<br/>and on-site display"]
         QUEUE["Bounded outbound queue<br/>declared discard policy"]
@@ -1450,7 +1450,7 @@ drawn as destinations, **not as a workflow**, because the workflow is not establ
 
 ### 5. ONE COMPLETE DEMO SCENARIO
 
-One realistic run, end to end, on the development rig. This is DS-3 with the Passport
+One realistic run, end to end, on the development rig. This is DS-3 with the Spec Sheet
 step from DS-2 in front of it.
 
 ```mermaid
@@ -1458,7 +1458,7 @@ sequenceDiagram
     autonumber
     participant CAM as Rig channel<br/>analog behind XVR
     participant IB as IBVAP at site
-    participant PP as Camera Passport
+    participant PP as Camera Spec Sheet
     participant U1 as Post in-charge
     participant EXT as External consumer
 
@@ -1499,7 +1499,7 @@ schema), Gate 2, Gate 6 and Gate 7.
 
 ---
 
-### 6. CAMERA PASSPORT CONCEPT
+### 6. CAMERA SPEC SHEET CONCEPT
 
 The product's central claim (D-1, D-6), as a state machine.
 
@@ -1537,7 +1537,7 @@ flowchart TD
         I["Analytics run on eligible cameras only"]
         I2["Silent degradation reported distinctly from stream loss:<br/>dirt · spider web · condensation · IR hotspot · refocus · drift"]
         I3["Measured nuisance rate + cause histogram, day and night separately"]
-        I4["Passport re-issued on demand, on schedule, and on measured drop"]
+        I4["Spec Sheet re-issued on demand, on schedule, and on measured drop"]
         I --> I2 --> I3 --> I4
     end
 
@@ -1566,10 +1566,10 @@ matrix. **No row is dropped** (D-8).
 
 | Capability | MVP status | Operating conditions | Major limitation | Validation requirement |
 |---|---|---|---|---|
-| **CAP-1** Human detection and tracking | **P0 — in MVP**, Support grade, single-camera | Passport-eligible camera; **≥3 analysed fps** for tracking; unoccluded and above the stated pixel threshold | **Cross-camera tracking is not in MVP.** Occlusion is the dominant tracking failure mode; long range on a wide-angle camera falls below minimum object size | AC-1.1 ≥95% of qualifying frames; AC-1.2 no identity switch on the marked route; AC-1.3 auto-disable below the floor with a reason |
-| **CAP-2** Vehicle detection and classification | **P0 — in MVP** for detection + coarse class; attributes **excluded**; non-standard classes **post-MVP** | Passport-eligible camera; daylight for colour-dependent anything | **Coarse type only** — car/truck/bus/motorcycle/bicycle. **No make, model or colour. Colour is gone at night** under IR. The classes that dominate the force's ledger — porter, cart, livestock, timber — are **not standard model classes** | AC-2.1 ≥95% of qualifying frames; AC-2.2 explicit stated class vocabulary; AC-2.3 no make/model/colour surface; AC-2.4 unsupported classes stated on the surface |
+| **CAP-1** Human detection and tracking | **P0 — in MVP**, Support grade, single-camera | Spec-Sheet-eligible camera; **≥3 analysed fps** for tracking; unoccluded and above the stated pixel threshold | **Cross-camera tracking is not in MVP.** Occlusion is the dominant tracking failure mode; long range on a wide-angle camera falls below minimum object size | AC-1.1 ≥95% of qualifying frames; AC-1.2 no identity switch on the marked route; AC-1.3 auto-disable below the floor with a reason |
+| **CAP-2** Vehicle detection and classification | **P0 — in MVP** for detection + coarse class; attributes **excluded**; non-standard classes **post-MVP** | Spec-Sheet-eligible camera; daylight for colour-dependent anything | **Coarse type only** — car/truck/bus/motorcycle/bicycle. **No make, model or colour. Colour is gone at night** under IR. The classes that dominate the force's ledger — porter, cart, livestock, timber — are **not standard model classes** | AC-2.1 ≥95% of qualifying frames; AC-2.2 explicit stated class vocabulary; AC-2.3 no make/model/colour surface; AC-2.4 unsupported classes stated on the surface |
 | **CAP-3a** Face detection | **P1 — in MVP unconditionally** (D-7), Support + Conditional | **Camera must be sited so a face is large enough** — lane- or gate-aimed, not overhead overview | **Overhead wide-angle mounting sees the tops of heads — no model fixes geometry.** On most of an inherited overview estate this will be `Not eligible` | AC-3a.1 per-camera eligibility with measured reason; AC-3a.3 cannot enable on `Not eligible` without a logged override; AC-3a.4 never present "no faces" from an ineligible camera as evidence |
-| **CAP-3b** Controlled face recognition | **P1, GATED — ships in MVP**; demonstrable in dev/test; **technically blocked for real deployment** pending four conditions | Recognition-grade Passport eligibility **AND** legal basis **AND** authority record **AND** bounded authorized gallery **AND** retention/oversight — all four separately recorded and current | **NIST: video FR approaches still-photo accuracy "only if image collection can be improved" — all four levers are hardware.** FIVE reports ~60% to >99% purely on quality. **OQ-7 unresolved on a treaty-open border. No open-set recognition ships at any point** | AC-3b.1 dev/test demonstration; AC-3b.2 four-condition technical block, **authority ≠ legal basis**; AC-3b.3 environment classification is authority-controlled and audited; AC-3b.6 no-match leaves no biometric record; AC-3b.8 every operation logged |
+| **CAP-3b** Controlled face recognition | **P1, GATED — ships in MVP**; demonstrable in dev/test; **technically blocked for real deployment** pending four conditions | Recognition-grade Spec Sheet eligibility **AND** legal basis **AND** authority record **AND** bounded authorized gallery **AND** retention/oversight — all four separately recorded and current | **NIST: video FR approaches still-photo accuracy "only if image collection can be improved" — all four levers are hardware.** FIVE reports ~60% to >99% purely on quality. **OQ-7 unresolved on a treaty-open border. No open-set recognition ships at any point** | AC-3b.1 dev/test demonstration; AC-3b.2 four-condition technical block, **authority ≠ legal basis**; AC-3b.3 environment classification is authority-controlled and audited; AC-3b.6 no-match leaves no biometric record; AC-3b.8 every operation logged |
 | **CAP-4** ANPR | **P1 at eligible nodes — in MVP**; **excluded elsewhere**, Conditional | **Lane-aimed camera only**, within a stated **speed and angle envelope** — documented software LPR limits are ≤50 km/h and ≤30° look-down | **Needs identification-grade density (~250 px/m). NG-4 — no ANPR on wide-area border-road cameras: physics, not effort.** May have **no eligible camera at all** in the validation estate (OQ-11) | AC-4.1 eligibility with a stated envelope; AC-4.2 per-read confidence; AC-4.3 out-of-envelope reads marked; AC-4.5 **measured** read rate on own footage, no headline figure |
 | **CAP-5** Virtual fence intrusion detection | **P0 — in MVP in full**, plus open-border attention-zone framing (D-10), Support | Object-class-, confidence- and minimum-track-length-gated — **never raw pixel motion**; time-of-day scoped | **The mechanism is trivial; the product is the nuisance rejection.** Precedent is 90% false alarms. **[SIH/SSB]** on a treaty-open border a perfectly accurate line-crossing alarm is still almost entirely noise, and the usual "noise" categories are **targets** | AC-5.2 exactly one Event per crossing; AC-5.3 measured rate + cause histogram visible continuously; AC-5.4 visible reversible suppression; **Gate 3** — 7-day unattended run |
 | **CAP-6** Suspicious activity detection | **P1 — in MVP as operator-authored composite rules**; **P-never (MVP)** as a learned model (D-11, NG-2), Support | Composes over eligible primitives; rules state what they will and will not catch; starter library **marked unvalidated** | **The term is undefined in the statement and in every retrieved source (OQ-4).** Learned VAD collapses 94.55% → 16.35% AUC on reversed same-scene labels; FAR +42% on hard-normal sets; annotator agreement only κ 0.51–0.68 | AC-6.1 authoring without code; AC-6.3 library entries marked unvalidated; AC-6.5 **no learned anomaly score presented as suspicious activity**; **OQ-4 must be answered by the force — no experiment substitutes** |
@@ -1581,7 +1581,7 @@ matrix. **No row is dropped** (D-8).
 | Block | MVP status | Operating conditions | Major limitation | Validation requirement |
 |---|---|---|---|---|
 | **B1 Ingest** | **P0** | Read-only against the existing estate; credentials the force already holds | **NG-8 — no claim of universal camera support**; the recorder's shared bitrate/fps budget is fixed and no software raises it | **Gate 1 / AC-P1** — must not degrade the recorder's own recording or live view. **Precedes everything** |
-| **B2 Camera Passport** | **P0** | One operator-marked reference distance; re-issued on change | Measures; **does not improve** optics, mounting, illumination or field of view | **Gate 2** — 100% coverage **and** at least one genuine refusal with a plain-language reason |
+| **B2 Camera Spec Sheet** | **P0** | One operator-marked reference distance; re-issued on change | Measures; **does not improve** optics, mounting, illumination or field of view | **Gate 2** — 100% coverage **and** at least one genuine refusal with a plain-language reason |
 | **B3 Events, alerts, assessment** | **P0** | Destinations configurable, **none assumed to exist** | **NG-9 — produces notice and evidence, does not dispatch.** What carries an alert to a responder is UNKNOWN (H-3) | AC-P5 nobody watching; **AC-P6 somebody watching, same configuration** |
 | **B4 Log, evidence, time** | **P0** | Hash at capture; never silently re-encode | Mandated retention unestablished (OQ-9) → configurable, never hard-coded. **NG-18 — does not assert admissibility** | **Gate 6 / AC-P8** — clean-machine verification, hash matches capture-time hash |
 | **B5 Site resilience** | **P0** | Generator/solar power; possibly satellite link; no on-site technical cadre | At a site offline for days **the queue will fill** — hence the declared discard policy | **Gate 5** — ≥72 h soak, zero duplicates, zero losses; AC-P9 legibility; AC-P10 ≤1 h commissioning |
@@ -1608,7 +1608,7 @@ flowchart TB
     end
 
     subgraph DOES["WHAT IT DOES — at the site, unattended, no remote layer required"]
-        D1["1 · MEASURE each camera → Camera Passport<br/>permits what the optics support, REFUSES what they do not"]
+        D1["1 · MEASURE each camera → Camera Spec Sheet<br/>permits what the optics support, REFUSES what they do not"]
         D2["2 · DETECT on eligible cameras only<br/>person · vehicle coarse class · face presence · plate at a lane"]
         D3["3 · APPLY operator-authored rules<br/>zone · line · direction · dwell · time-of-day · night-scoped"]
         D4["4 · LOG every firing as an Event<br/>append-only · hash-chained · time-integrity stated"]
@@ -1666,14 +1666,14 @@ Everything that ships in the MVP, in one list.
    camera view, at ≥3 analysed fps. *(P0)*
 2. **Vehicle detection and coarse classification** — car / truck / bus / motorcycle /
    bicycle, from an explicitly stated class vocabulary. *(P0)*
-3. **Face detection** — presence and location, not identity, on Passport-eligible
+3. **Face detection** — presence and location, not identity, on Spec-Sheet-eligible
    cameras. *(P1, unconditional)*
 4. **Controlled face recognition** — bounded, explicitly configured, authorized
    watchlist gallery; demonstrable in a controlled dev/test environment; **technically
    blocked against a real deployment** pending a recorded legal basis, the authority
    record, the authorized gallery and retention/oversight — all four separate and
    current. *(P1, gated)*
-5. **ANPR** — on lane-aimed, Passport-eligible cameras within a stated speed and angle
+5. **ANPR** — on lane-aimed, Spec-Sheet-eligible cameras within a stated speed and angle
    envelope, with per-read confidence. *(P1 at eligible nodes; excluded elsewhere)*
 6. **Virtual fence intrusion detection** — object-class-gated zones, lines, directions
    and dwell timers, shipped in full, **plus** an open-border attention-zone framing.
@@ -1693,7 +1693,7 @@ Everything that ships in the MVP, in one list.
 10. **Ingest from the existing estate** — RTSP/ONVIF and analog-behind-DVR, read-only,
     read-back verification, anamorphic/effective-resolution correction, tested-device
     record.
-11. **Camera Passport** — per-camera measurement, px/m against published thresholds,
+11. **Camera Spec Sheet** — per-camera measurement, px/m against published thresholds,
     per-analytic eligibility with plain-language reasons, **refusal with logged
     named-authority override**, re-issue on change, silent-degradation reporting.
 12. **Events, alerts and assessment** — Event/Alert separation, payload-progressive
@@ -1751,7 +1751,7 @@ One continuous run, in order. Each step names the gate or criterion it satisfies
 |---|---|---|
 | 1 | **Estate safety.** Run concurrent IBVAP ingest against the rig's XVR while it records and is live-viewed; show the recorder's own paths unaffected | **Gate 1**, NFR-9, AC-P1 |
 | 2 | **Commission.** Two rig channels commissioned by a non-specialist in ≤1 h, no site survey, no integrator | AC-P10, SM-7 |
-| 3 | **Measure.** Passport reports **effective** resolution on the 1080N channel — 960, not 1920 — plus achievable analysed fps, codec, bitrate, stability | FR-5, FR-8 |
+| 3 | **Measure.** Spec Sheet reports **effective** resolution on the 1080N channel — 960, not 1920 — plus achievable analysed fps, codec, bitrate, stability | FR-5, FR-8 |
 | 4 | **Refuse.** At least one analytic marked `Not eligible` on at least one camera with its plain-language measured reason, and shown to be **unswitchable** without a named-authority override that stamps its events | **Gate 2**, AC-P3, SM-5, D-6 |
 | 5 | **Detect.** A person walks the marked route; CAP-1 detects and tracks without an identity switch | AC-1.1, AC-1.2 |
 | 6 | **Rule.** A class-gated CAP-5 line fires — object class, confidence and minimum track length all satisfied | AC-5.1, AC-5.2 |
@@ -1777,7 +1777,7 @@ A border force already owns CCTV cameras it cannot watch — too many screens, t
 people, at posts that are hard to reach, on links too thin to carry video. IBVAP is
 software that runs at one such site, plugs into those cameras exactly as they are —
 including old analog cameras behind an existing recorder — and starts watching for them.
-Before it promises anything, it **measures each camera** and issues a Camera Passport
+Before it promises anything, it **measures each camera** and issues a Camera Spec Sheet
 saying, in plain language, which kinds of analysis that camera can actually support and
 which it cannot; anything it cannot support is **refused, not quietly done badly**. On
 the cameras that qualify it detects people and vehicles, detects faces and reads number

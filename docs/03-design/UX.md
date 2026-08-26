@@ -73,7 +73,7 @@ change.**
 4. [User journeys](#4-user-journeys)
 5. [Event → Alert → Assessment → Case flow](#5-event--alert--assessment--case-flow)
 6. [Camera management](#6-camera-management)
-7. [Camera Passport experience](#7-camera-passport-experience)
+7. [Camera Spec Sheet experience](#7-camera-spec-sheet-experience)
 8. [Live monitoring experience](#8-live-monitoring-experience)
 9. [Alert experience](#9-alert-experience)
 10. [Investigation and evidence experience](#10-investigation-and-evidence-experience)
@@ -98,7 +98,7 @@ change.**
 **UX DECISION UX-1 — the information architecture is the artefact model, not a
 feature menu.**
 D-4 states that the product produces four artefacts — **Event, Alert, Case, Camera
-Passport** — and that every workflow is a path through their states. The IA mirrors
+Spec Sheet** — and that every workflow is a path through their states. The IA mirrors
 that exactly: four artefact spines, one configuration spine, one integrity spine.
 *Rationale:* a feature-shaped IA ("Detection", "Face", "ANPR", "Night") would imply
 eight independent products, would give CAP-7 a product surface D-12 explicitly forbids,
@@ -113,18 +113,18 @@ records that evaluators are *not* users — ahead of the person at the post.
 | **Now** | Site Status, Live View, Annunciator display | *(no artefact — a live lens over Cameras and Alerts)* | FR-45, D-3, AC-P5/P6 |
 | **Alerts** | Alert inbox, Alert detail and assessment | **Alert** | FR-27 … FR-31 |
 | **Record** | Events, Event detail, Plate reads, Cases, Case detail, Evidence packs | **Event**, **Case** | FR-32 … FR-39, FR-50 |
-| **Cameras** | Camera list, Commissioning, **Camera Passport**, tested-device record | **Camera Passport** | FR-1 … FR-13 |
+| **Cameras** | Camera list, Commissioning, **Camera Spec Sheet**, tested-device record | **Camera Spec Sheet** | FR-1 … FR-13 |
 | **Rules** | Rule list, Rule editor, starter library | *(configuration over primitives)* | FR-23 … FR-26 |
 | **System** | Health, Measurement, Integration, People & roles, Authority records, Audit log, Settings, Capability & Limits | *(integrity and configuration)* | FR-40 … FR-61 |
 
 **Two structural rules the IA enforces:**
 
-- **The Camera Passport is not a report inside a camera page; it is the gate every
+- **The Camera Spec Sheet is not a report inside a camera page; it is the gate every
   analytic passes through.** It is reachable from every surface that mentions an
-  analytic, and every analytic control anywhere in the product resolves to a Passport
+  analytic, and every analytic control anywhere in the product resolves to a Spec Sheet
   verdict before it can be switched on (FR-11, D-6).
 - **"Night" is not a top-level area and never becomes one.** Per D-12, night is a
-  *measured condition* applied across Passport verdicts, rule scoping and measurement —
+  *measured condition* applied across Spec Sheet verdicts, rule scoping and measurement —
   not a distinct detector with its own surface (CAP-7 (b), §14 below).
 
 ### 1.3 Information architecture diagram
@@ -140,7 +140,7 @@ flowchart TD
     ROOT --> RUL["RULES"]
     ROOT --> SYS["SYSTEM"]
 
-    NOW --> N1["Site Status<br/>health · alerts today · passport coverage"]
+    NOW --> N1["Site Status<br/>health · alerts today · spec sheet coverage"]
     NOW --> N2["Live View<br/>eligible analytics only, labelled"]
     NOW --> N3["Annunciator display mode<br/>unattended on-site display"]
 
@@ -154,9 +154,9 @@ flowchart TD
     REC --> R5["Case detail and outcome"]
     REC --> R6["Evidence pack builder and export"]
 
-    CAM --> C1["Camera list<br/>source state · passport state"]
+    CAM --> C1["Camera list<br/>source state · spec sheet state"]
     CAM --> C2["Add camera — commissioning"]
-    CAM --> C3["CAMERA PASSPORT<br/>per-analytic verdict, day and night"]
+    CAM --> C3["CAMERA SPEC SHEET<br/>per-analytic verdict, day and night"]
     CAM --> C4["Tested-device record"]
     C3 --> C5["Named-authority override<br/>logged · stamps every resulting event"]
 
@@ -227,7 +227,7 @@ and summarised in the [MVP Screen Inventory](#mvp-screen-inventory).
 | **S-10** | Evidence pack builder and export | Record | Flow |
 | **S-11** | Cameras | Cameras | Full screen |
 | **S-12** | Add camera — commissioning | Cameras | Flow |
-| **S-13** | **Camera Passport** | Cameras | Full screen |
+| **S-13** | **Camera Spec Sheet** | Cameras | Full screen |
 | **S-14** | Named-authority override | Cameras | Modal flow on S-13 |
 | **S-15** | Rules | Rules | Full screen |
 | **S-16** | Rule editor | Rules | Full screen |
@@ -262,14 +262,14 @@ nesting deeper than three levels.** *Rationale:* NFR-10 requires a two-camera si
 commissioned by a non-specialist in ≤1 h and C-31 [SIH/SSB] records that **no IT,
 cyber, video or electronics cadre exists in the force**; a discoverable flat structure
 is the design consequence. *Falsified by:* a naive-operator commissioning test
-(AC-P10) showing users cannot find the Passport or the assessment action.
+(AC-P10) showing users cannot find the Spec Sheet or the assessment action.
 
 | # | Navigation rule | Trace |
 |---|---|---|
 | **N-1** | The six areas of §1.2 are the primary navigation and never change position or membership | UX-3 |
 | **N-2** | **Alerts is the only area permitted to carry an attention indicator.** Nothing else in the navigation may compete for attention | FR-27 — only rule-selected observations may interrupt a human |
-| **N-3** | Every analytic name anywhere is a link to the **Camera Passport** verdict that governs it | FR-11, D-6, AC-P3 |
-| **N-4** | Every Alert links to its Event; every Event links to its camera, its rule and its Passport verdict; every Case links to its Events; every export links to its custody record | FR-39, FR-37 |
+| **N-3** | Every analytic name anywhere is a link to the **Camera Spec Sheet** verdict that governs it | FR-11, D-6, AC-P3 |
+| **N-4** | Every Alert links to its Event; every Event links to its camera, its rule and its Spec Sheet verdict; every Case links to its Events; every export links to its custody record | FR-39, FR-37 |
 | **N-5** | **Health status is globally persistent**, not a page you must visit. A degraded source, suspect clock, filling queue or filling storage is visible from any screen in one line | FR-45, NFR-11, AC-P9, NG-15 |
 | **N-6** | No navigation destination is hidden, greyed away, or removed because a capability is ineligible or blocked. **The destination remains and states the refusal** | AC-P3, AC-3a.4 — a missing menu item is a silent claim |
 | **N-7** | Destructive or authority-bearing actions (override, suppression, deletion, export, authority grant, environment classification) are never reachable by a single unconfirmed action, and always name the person they will be attributed to | NFR-14, FR-59 |
@@ -306,7 +306,7 @@ flowchart LR
 
     CAMERAS --> S11["S-11 Cameras"]
     S11 --> S12["S-12 Commissioning"]
-    S11 --> S13["S-13 Camera Passport"]
+    S11 --> S13["S-13 Camera Spec Sheet"]
     S13 --> S14["S-14 Named-authority override"]
 
     RULES --> S15["S-15 Rules"]
@@ -352,9 +352,9 @@ model, and every one of them can be renamed, merged or split.
 | **Viewer** | See Now, Alerts, Record; no assessment, no configuration | FR-59 |
 | **Assessor** | Viewer + record assessments (real / not real / unsure), open Cases | FR-29, FR-50 |
 | **Rule author** | Assessor + author zones, lines, rules; apply/reverse suppression | FR-23 … FR-26, FR-30 |
-| **Camera commissioner** | Add cameras, mark reference distances, re-issue Passports | FR-1, FR-9, FR-12 |
+| **Camera commissioner** | Add cameras, mark reference distances, re-issue Spec Sheets | FR-1, FR-9, FR-12 |
 | **Evidence custodian** | Build and export evidence packs; sees the custody log | FR-36, FR-37 |
-| **Authority holder** | Record and revoke authority records; approve Passport overrides; set environment classification | FR-60, FR-11, AC-3b.3 |
+| **Authority holder** | Record and revoke authority records; approve Spec Sheet overrides; set environment classification | FR-60, FR-11, AC-3b.3 |
 | **Integrator** | Configure destinations and egress; read the published schema | FR-53 … FR-55 |
 | **Administrator** | People, roles, retention, time settings; sees the full audit log | FR-38, FR-59 |
 
@@ -363,7 +363,7 @@ model, and every one of them can be renamed, merged or split.
 > work if one person holds all eight, and if eight people hold one each.
 
 **UX DECISION UX-13 (resolves [DQ-4](#design-questions)) — a single Authority holder
-may authorise a Passport override; no two-person approval workflow is introduced.**
+may authorise a Spec Sheet override; no two-person approval workflow is introduced.**
 The **Authority holder** permission set above is confirmed sufficient, on its own, to
 record the named authority, instrument, scope, expiry and reason on S-14 (§7.2).
 *Rationale:* D-4 and D-13(a) design the product to work at a single-person site — the
@@ -391,7 +391,7 @@ and to a user from [PRD §3](../02-product/PRD.md#3-target-users) and a job from
    what is being measured and how long is left — never a bare spinner (NFR-11).
 4. The operator marks **one** reference distance in the scene, or accepts a range
    estimate **with its uncertainty stated** (FR-9). One mark; no survey kit.
-5. **S-13 Camera Passport** is issued: per analytic, `Eligible` / `Eligible, degraded` /
+5. **S-13 Camera Spec Sheet** is issued: per analytic, `Eligible` / `Eligible, degraded` /
    `Not eligible`, **day and night separately**, each with the measured reason in one
    plain sentence (FR-10, AC-7.1).
 6. The operator sees at least one refusal presented as a **result, not a failure**, and
@@ -449,7 +449,7 @@ is a *view onto* the system, never the system (D-3, AC-P5).
 
 1. **S-06 Events** — query by time, camera, zone, class, rule, assessment and outcome
    (FR-39).
-2. Any result opens **S-07**, which links to its camera, its rule, its Passport verdict
+2. Any result opens **S-07**, which links to its camera, its rule, its Spec Sheet verdict
    and its Case if it has one (N-4).
 3. The screen states that this is **site-local, metadata-first** query; cross-site
    aggregation and pattern-over-time analytics are **post-MVP** and, on this border,
@@ -491,7 +491,7 @@ narcotics. It is reachable from the navigation and linked from every empty resul
 | **Event** | S-06 / S-07 | The system, on every rule firing | **No.** Events are machine-generated (D-4) |
 | **Alert** | S-04 / S-05 | The system, when an Event matches an alerting rule | **No** |
 | **Case** | S-08 / S-09 | **A human**, from one or more Events | **Yes — only** |
-| **Camera Passport** | S-13 | Measurement, on commissioning and re-issue | **No** — but a human marks the reference distance and may override a refusal |
+| **Camera Spec Sheet** | S-13 | Measurement, on commissioning and re-issue | **No** — but a human marks the reference distance and may override a refusal |
 
 **UX DECISION UX-4 — Event and Alert are never merged into one object in the
 interface.** They have different screens, different lists, different counts and
@@ -540,15 +540,10 @@ stateDiagram-v2
     SuppressionOffered: SUPPRESSION OFFERED<br/>per camera per rule<br/>visible · reversible · shows the count
     SuppressionOffered --> Assessed: declined
 
-    SuppressionOffered --> SuppressionActive: applied
-    SuppressionActive: SUPPRESSION ACTIVE<br/>time-bounded · per camera per rule<br/>visible · reversible · shows the count
-    SuppressionActive --> Assessed: reversed by a human
-    SuppressionActive --> ReconfirmDue: approaching expiry
-    ReconfirmDue: RECONFIRMATION DUE<br/>attributable · audited
-    ReconfirmDue --> SuppressionActive: reconfirmed — clock resets
-    ReconfirmDue --> SuppressionExpired: not reconfirmed
-    SuppressionExpired: SUPPRESSION EXPIRED<br/>underlying rule REACTIVATES
-    SuppressionExpired --> Assessed: rule live again, alerting resumes
+    SuppressionOffered --> SuppressionActive: applied — human picks a duration, or "until I turn it off"
+    SuppressionActive: SUPPRESSION ACTIVE<br/>operator-chosen duration, or indefinite<br/>visible · reversible any time · shows the count and end time
+    SuppressionActive --> Assessed: reversed by a human, at any time
+    SuppressionActive --> Assessed: chosen duration elapses — rule resumes, exactly as asked
 
     Assessed --> InCase: human opens or attaches a Case
     InCase: IN A CASE
@@ -558,12 +553,13 @@ stateDiagram-v2
 
 **States the market's designs usually omit, and which are mandatory here:** **Queued**,
 **Discarded by policy**, and the full suppression lifecycle — **offered**, **active**,
-**reconfirmation due**, and **expired** — each visible, each recorded, none silent
-(NG-15, FR-30, FR-43, AC-P13). The **reconfirmation-due → expired → rule reactivates**
-chain is **UX DECISION UX-14** (resolving [DQ-6](#design-questions)) — see [§5.4](#54-the-flows-non-negotiable-interaction-rules)
-and the [Design Questions](#design-questions) section for the full decision. The
-specific expiry duration or reconfirmation schedule is **not set by this diagram** —
-it is an unresolved product parameter (§5.4, F-4).
+each visible, each recorded, none silent (NG-15, FR-30, FR-43, AC-P13). A suppression
+works like a **notification snooze**: the human applying it picks how long it lasts — a
+short preset (1 hour / 1 day / 1 week) or **"until I turn it off"** — and it ends exactly
+then, or whenever a human reverses it early. This is **UX DECISION UX-14** (resolving
+[DQ-6](#design-questions)) — see [§5.4](#54-the-flows-non-negotiable-interaction-rules)
+and the [Design Questions](#design-questions) section for the full decision and its
+rationale.
 
 ### 5.3 Event → Case journey
 
@@ -594,10 +590,10 @@ journey
 | **F-1** | **Exactly one Event per rule firing.** The interface never shows a burst of duplicates for one crossing | AC-5.2, AC-8.1 |
 | **F-2** | Assessment is **one action** — not a form, not a wizard, not a required comment | FR-29 |
 | **F-3** | `unsure` is a **first-class outcome**, presented equally with `real` and `not real` — never a fallback or a skip | FR-29 |
-| **F-4** | Suppression is **never automatic and never global.** It is offered, scoped to one camera and one rule, always reversible, and always shows the count of what it suppressed. **Once applied, it is time-bounded or subject to periodic reconfirmation** (UX DECISION UX-14) — **the specific duration or reconfirmation schedule is not set here; it is an unresolved product parameter, to be established through validation**, echoing NFR-4's caution against setting a number before it is measured. Reconfirming a suppression is itself a human action, **attributable and audited** to the same standard as override, export and deletion. **On expiry without reconfirmation, the underlying rule reactivates** and alerting resumes | FR-30, R3, T2, NFR-14, UX-14 |
+| **F-4** | Suppression is **never automatic and never global.** It is offered, scoped to one camera and one rule, always reversible by a human at any time, and always shows the count and end time of what it suppressed. **Applying it means picking a duration — a short preset (1 hour / 1 day / 1 week) or "until I turn it off"** (UX DECISION UX-14) — never a product-invented schedule; the choice is the human's, made once, at the moment they apply it. This is also **persistently visible on S-02, S-15 and S-21**, so the risk of a suppression accumulating unnoticed is caught by review as well as by its own chosen end time. Reversing a suppression, and choosing its duration, are both **attributable and audited** to the same standard as override, export and deletion | FR-30, R3, T2, NFR-14, UX-14 |
 | **F-5** | The **expected wait for a clip is stated before it is requested** | NFR-3, AC-8.3 |
 | **F-6** | A Case is opened **only by a human**, and always carries an outcome field | FR-50, D-4 |
-| **F-7** | An Event whose camera ran under a Passport override is **permanently stamped `capability-overridden`**, and that stamp is visible on the Event, the Alert, the Case and inside the evidence pack | FR-11, D-6 |
+| **F-7** | An Event whose camera ran under a Spec Sheet override is **permanently stamped `capability-overridden`**, and that stamp is visible on the Event, the Alert, the Case and inside the evidence pack | FR-11, D-6 |
 | **F-8** | An Event created under a suspect clock is **marked**, everywhere it appears | FR-35, AC-8.5 |
 
 ---
@@ -610,20 +606,20 @@ journey
 |---|---|
 | **Purpose** | The single list of every source IBVAP ingests at this site, and the state of each |
 | **Primary user goal** | *"Which of my cameras are working, and which of them can actually do the thing I am relying on?"* (J9) |
-| **Information shown** | Per camera: name and location label; source type — **native IP over RTSP/ONVIF**, or **channel behind an existing DVR/XVR/NVR** (FR-1, FR-2); source state (live / degraded / lost); **Passport state** (measured / not yet measured / re-issue due / capability dropped); a one-line summary of which analytics are eligible **and which are refused**, day and night; whether any analytic runs under an override |
-| **Primary actions** | Add a camera (→ S-12); open a camera's **Passport** (→ S-13); re-issue a Passport (FR-12) |
-| **Secondary actions** | Rename / relabel; view the **tested-device record** (FR-6); filter by source state, Passport state, or by analytic eligibility |
-| **Important states** | **Not yet measured** — no analytic may run; **degraded source** — visible, distinct from lost (FR-7); **capability dropped** — a measured drop since the last Passport, raised as a change (FR-12); **override in force** — always visible at list level, never only in a detail page |
-| **Must NOT show or claim** | Any analytic as available on a camera whose Passport refuses it (NFR-16, AC-P3). **The advertised resolution** — only the **effective** resolution, including anamorphic/1080N correction (FR-5). Any implication that IBVAP records, owns, or has changed the camera or the recorder (FR-3, NG-1). Any make/model support claim beyond the tested-device record (NG-8) |
+| **Information shown** | Per camera: name and location label; source type — **native IP over RTSP/ONVIF**, or **channel behind an existing DVR/XVR/NVR** (FR-1, FR-2); source state (live / degraded / lost); **Spec Sheet state** (measured / not yet measured / re-issue due / capability dropped); a one-line summary of which analytics are eligible **and which are refused**, day and night; whether any analytic runs under an override. Optionally, a **site sketch** — one static image with hand-placed camera markers (UX-15) |
+| **Primary actions** | Add a camera (→ S-12); open a camera's **Spec Sheet** (→ S-13); re-issue a Spec Sheet (FR-12) |
+| **Secondary actions** | Rename / relabel; view the **tested-device record** (FR-6); filter by source state, Spec Sheet state, or by analytic eligibility; upload/replace the site sketch and place or move a camera's marker on it (UX-15) |
+| **Important states** | **Not yet measured** — no analytic may run; **degraded source** — visible, distinct from lost (FR-7); **capability dropped** — a measured drop since the last Spec Sheet, raised as a change (FR-12); **override in force** — always visible at list level, never only in a detail page; **no site sketch uploaded** — the normal default, list view remains fully usable without one |
+| **Must NOT show or claim** | Any analytic as available on a camera whose Spec Sheet refuses it (NFR-16, AC-P3). **The advertised resolution** — only the **effective** resolution, including anamorphic/1080N correction (FR-5). Any implication that IBVAP records, owns, or has changed the camera or the recorder (FR-3, NG-1). Any make/model support claim beyond the tested-device record (NG-8). The site sketch as GPS-accurate, surveyed, or coverage-complete — it is a hand-placed orientation aid, not a geospatial layer (UX-15, D-13(a)) |
 
 ### S-12 — Add camera (commissioning)
 
 | Facet | Definition |
 |---|---|
-| **Purpose** | Turn an existing stream into a measured, Passported source without a site survey or a certified integrator |
+| **Purpose** | Turn an existing stream into a measured, Spec-Sheeted source without a site survey or a certified integrator |
 | **Primary user goal** | *"Get this camera in, in minutes, without breaking anything."* |
 | **Information shown** | A read-only promise stated **before** credentials are entered: IBVAP will not reconfigure the camera or recorder, will not take over recording, and will not alter the existing live-view path (FR-3, NG-1). Then: connection result; **effective** resolution with anamorphic detection called out explicitly; achievable analysed fps; codec/GOP; bitrate; stability over the observation window; day/night transition behaviour (FR-8). Where the product *is* asked to write a device setting, the **actual landed value read back** — never the value requested (FR-4) |
-| **Primary actions** | Connect; **mark one reference distance** in the scene, or accept a range estimate **with its uncertainty stated** (FR-9); issue the Passport |
+| **Primary actions** | Connect; **mark one reference distance** in the scene, or accept a range estimate **with its uncertainty stated** (FR-9); issue the Spec Sheet |
 | **Secondary actions** | Test the connection again; label the camera; defer the night measurement (it cannot be inferred — see §14) |
 | **Important states** | **Measuring** — with what is being measured and how long remains, never a bare spinner; **connected but unstable**; **credentials rejected**; **stream reachable but starved** — returning fewer frames than requested (FR-7); **night not yet measured** — an explicit, honest state, never an assumed verdict (AC-7.1) |
 | **Must NOT show or claim** | A verdict for an analytic that has not been measured. A night verdict inferred from the day measurement (AC-7.1). A resolution the stream does not deliver (FR-5, L-8). Success on a device write that was silently discarded by firmware — the rig has already proven firmware returns OK for values it drops (FR-4, D-14) |
@@ -634,11 +630,11 @@ DS-2).
 
 ---
 
-## 7. Camera Passport experience
+## 7. Camera Spec Sheet experience
 
-**The Passport is the product's central claim (D-1, D-6). It is a gate, not a report.**
+**The Spec Sheet is the product's central claim (D-1, D-6). It is a gate, not a report.**
 
-### 7.1 Passport journey
+### 7.1 Spec Sheet journey
 
 ```mermaid
 flowchart TD
@@ -677,19 +673,19 @@ flowchart TD
     class M unk
 ```
 
-### S-13 — Camera Passport
+### S-13 — Camera Spec Sheet
 
 | Facet | Definition |
 |---|---|
 | **Purpose** | State, per camera, what this camera can and cannot support **at this mounting, right now** — and enforce it |
 | **Primary user goal** | *"Tell me what this camera can actually tell me, before I depend on the answer."* — **the single outcome that defines the MVP** (MVP §2) |
 | **Information shown** | The measured facts (effective resolution incl. anamorphic correction, achievable analysed fps, codec/GOP, bitrate, stability, day/night behaviour); the marked reference distance and derived **px/m**, expressed against published detection / observation / recognition / identification thresholds (FR-9); a **per-analytic verdict, day and night as separate rows** — CAP-1 person, CAP-2 vehicle, CAP-3a face detection, CAP-3b recognition, CAP-4 ANPR, and the tracking-dependent rule floor; **the measured reason for every verdict, in one plain sentence**; the date of measurement; whether an override is in force, by whom, under what instrument |
-| **Primary actions** | Re-issue the Passport (FR-12); mark or re-mark the reference distance; **request a named-authority override** on a refusal (→ S-14) |
-| **Secondary actions** | View the day-vs-night gap for this camera (→ S-21); view this camera's nuisance history; view the rules that depend on each verdict; print / export the Passport |
+| **Primary actions** | Re-issue the Spec Sheet (FR-12); mark or re-mark the reference distance; **request a named-authority override** on a refusal (→ S-14) |
+| **Secondary actions** | View the day-vs-night gap for this camera (→ S-21); view this camera's nuisance history; view the rules that depend on each verdict; print / export the Spec Sheet |
 | **Important states** | `Eligible` · `Eligible, degraded` · `Not eligible` · **`Not measured`** · **`Night not measured`** · **`Capability dropped since last measurement`** (FR-12) · **`Running under override`** |
 | **Must NOT show or claim** | A verdict as a **score, grade, star rating or percentage of camera quality** — the verdict is per analytic and carries a reason, not a rank. A night verdict **inferred** from day (AC-7.1). A refusal styled as an **error or a defect** — a refusal is a success signal (SM-5). Any suggestion that IBVAP can improve the camera: **it measures; it does not improve optics, mounting, illumination or field of view** (PRD §2.4, L-1, L-2) |
 
-**The one sentence the Passport screen exists to make true** (MVP §Visual Model 6):
+**The one sentence the Spec Sheet screen exists to make true** (MVP §Visual Model 6):
 
 > *"A person at 40 m is 19 px tall here; person detection needs ~25 px/m — this camera
 > can tell you **someone** is there, not **who**."*
@@ -729,9 +725,9 @@ which point PM-4's control-room surface, which is **post-MVP**, becomes the righ
 |---|---|
 | **Purpose** | Answer, in one screen and without interaction, *"is this site being watched properly right now, and is anything wrong?"* |
 | **Primary user goal** | *"Tell me what I need to know without me having to watch."* (J1) |
-| **Information shown** | The persistent health line (N-5); alerts awaiting assessment; alerts assessed today; **Passport coverage** — how many cameras measured, how many analytics refused, presented **neutrally as a count of measured truths, not defects** (SM-5); source states; queue and storage state; time-integrity state; whether the uplink is up, and for how long it has been down (FR-41, FR-45) |
-| **Primary actions** | Open Alerts; open a camera's Passport; open Health |
-| **Secondary actions** | Enter **Annunciator mode** (S-03a); open Measurement |
+| **Information shown** | The persistent health line (N-5); alerts awaiting assessment; alerts assessed today; **Spec Sheet coverage** — how many cameras measured, how many analytics refused, presented **neutrally as a count of measured truths, not defects** (SM-5); source states; queue and storage state; time-integrity state; whether the uplink is up, and for how long it has been down (FR-41, FR-45); **the count of active suppressions site-wide** — each with its own chosen end time or "until reversed," so a review here catches anything accumulating even before its own timer would (UX-14) |
+| **Primary actions** | Open Alerts; open a camera's Spec Sheet; open Health |
+| **Secondary actions** | Enter **Annunciator mode** (S-03a); open Measurement; open the site sketch, where one exists (→ S-11, UX-15) |
 | **Important states** | **Nobody watching / unattended** — the normal state, presented as normal, not as a warning; **link down for N hours** with the queue policy visible; **degraded** sources or analytics; **suspect clock**; **storage filling**; **power event** (FR-45) |
 | **Must NOT show or claim** | A "system healthy / all clear" summary that a refused, unmeasured or degraded analytic could hide behind (AC-P3). A "quiet night" or "nothing detected" summary drawn from cameras that were not eligible for the relevant analytic in the relevant period (**AC-7.5, AC-3a.4**). Any count that mixes Events with Alerts (UX-4) |
 
@@ -742,10 +738,10 @@ which point PM-4's control-room surface, which is **post-MVP**, becomes the righ
 | **Purpose** | Look at a camera now — to verify an alert, to check a scene, to confirm a rule is drawn where the user thinks it is |
 | **Primary user goal** | *"Show me that camera, and tell me honestly what it is analysing right now."* |
 | **Information shown** | The live stream at its **effective** resolution; **which analytics are running on this camera and which are refused**, always on-screen; the rules drawn on the scene (zones, lines, direction arrows, dwell timers); the current analysed frame rate and whether it is **above or below the ≥3 fps tracking floor** (NFR-5); day/night state; time-integrity state |
-| **Primary actions** | Select camera; show/hide rule overlays; jump to this camera's Passport; jump to this camera's rules |
+| **Primary actions** | Select camera; show/hide rule overlays; jump to this camera's Spec Sheet; jump to this camera's rules |
 | **Secondary actions** | Enter Annunciator mode; open recent Events for this camera |
 | **Important states** | **Live** · **degraded** (visible, distinct from lost — FR-7) · **lost** · **analysing below the floor** — tracking-dependent rules automatically disabled, with the one-sentence reason on screen (FR-19, AC-1.3) · **running under override** · **night** |
-| **Must NOT show or claim** | Detection boxes, tracks or labels for an analytic the Passport refuses on this camera. An **absence** of boxes as evidence that nothing was there — an ineligible analytic draws nothing and must say why it draws nothing (AC-3a.4). Any label that asserts identity, intent, or an offence — see the language rules in [§19.3](#193-language-rules) |
+| **Must NOT show or claim** | Detection boxes, tracks or labels for an analytic the Spec Sheet refuses on this camera. An **absence** of boxes as evidence that nothing was there — an ineligible analytic draws nothing and must say why it draws nothing (AC-3a.4). Any label that asserts identity, intent, or an offence — see the language rules in [§19.3](#193-language-rules) |
 
 ### S-03a — Annunciator display mode
 
@@ -781,11 +777,11 @@ decision.
 |---|---|
 | **Purpose** | The list of the things the rules judged worth spending a human's attention on — and nothing else |
 | **Primary user goal** | *"What needs me?"* (J1, J2) |
-| **Information shown** | Per alert: **what fired, where, when, which camera, which rule** — the record, first and always (FR-28); the crop when it has landed; the assessment state; whether the Event is stamped `capability-overridden` or created under a suspect clock; whether the alert was **queued** and for how long; whether a suppression currently applies to this camera+rule and **the count it has suppressed** (FR-30) |
+| **Information shown** | Per alert: **what fired, where, when, which camera, which rule** — the record, first and always (FR-28); the crop when it has landed; the assessment state; whether the Event is stamped `capability-overridden` or created under a suspect clock; whether the alert was **queued** and for how long; whether a suppression currently applies to this camera+rule and **the count it has suppressed** (FR-30); an **operator-assigned impact grade**, where one was recorded, always labelled as the assessor's own judgement (UX-16) |
 | **Primary actions** | Open an alert (→ S-05); **assess in one action from the list** where the record and crop are enough (FR-29) |
-| **Secondary actions** | Filter by camera, rule, assessment state, day/night; jump to the rule; jump to the Passport |
+| **Secondary actions** | Filter by camera, rule, assessment state, day/night, **operator-assigned impact grade**; jump to the rule; jump to the Spec Sheet |
 | **Important states** | Unassessed · assessed (real / not real / unsure) · **queued** · **delivered late after reconciliation** · **discarded by policy** (recorded and shown, never silent — FR-43) · in a Case |
-| **Must NOT show or claim** | Every Event. This list is **only** rule-selected observations (FR-27, UX-4). A severity, threat level, or risk score IBVAP has not measured and does not compute. Any ordering that implies a threat ranking — the ordering is temporal and rule-derived, not a judgement |
+| **Must NOT show or claim** | Every Event. This list is **only** rule-selected observations (FR-27, UX-4). A severity, threat level, or risk score IBVAP has **measured or computed itself** — an **operator-assigned** impact grade is a different object and is allowed (UX-16), but must never be styled or worded as a system finding. Any ordering that implies a threat ranking — the ordering is temporal and rule-derived, not a judgement |
 
 ### S-05 — Alert detail and assessment
 
@@ -793,10 +789,10 @@ decision.
 |---|---|
 | **Purpose** | Give a human exactly enough to decide **real / not real / unsure**, as fast as the link allows |
 | **Primary user goal** | *"Decide, in seconds, whether this is real."* (J2 — design target: seconds, not minutes) |
-| **Information shown** | **Payload-progressive, in this order:** (1) the event record — what fired, where, when, which camera, which rule, confidence, geometry; (2) the **object crop** (~25 KB ≈ 1.6 s on a 128 kbps link); (3) the **full clip only on demand**, with the **expected wait stated before the request** (~7.5 MB ≈ 7.8 min on the same link) — **arithmetic, not preference**, a factor of ~300 (FR-28, NFR-3). Plus: the governing Passport verdict for the analytic that produced it; the time-integrity status; the override stamp if any; the rule's **measured** alert and nuisance rate |
+| **Information shown** | **Payload-progressive, in this order:** (1) the event record — what fired, where, when, which camera, which rule, confidence, geometry; (2) the **object crop** (~25 KB ≈ 1.6 s on a 128 kbps link); (3) the **full clip only on demand**, with the **expected wait stated before the request** (~7.5 MB ≈ 7.8 min on the same link) — **arithmetic, not preference**, a factor of ~300 (FR-28, NFR-3). Plus: the governing Spec Sheet verdict for the analytic that produced it; the time-integrity status; the override stamp if any; the rule's **measured** alert and nuisance rate |
 | **Primary actions** | **Real / Not real / Unsure — one action each** (FR-29); request the clip; open or attach to a Case (FR-50) |
-| **Secondary actions** | Apply the offered per-camera-per-rule suppression, with its count and its reversal visible (FR-30); **reconfirm a suppression nearing expiry, attributed to this session** (UX-14); open the rule; open the Passport; export this Event's evidence (→ S-10) |
-| **Important states** | Record only (crop pending) · crop available · **clip requested, wait stated** · clip available · assessed · **capability-overridden** · **suspect clock** · queued/reconciled · **governing rule suppressed — reconfirmation due** · **governing rule suppression expired, rule reactivated** |
+| **Secondary actions** | Apply the offered per-camera-per-rule suppression — picking **how long it lasts** (a short preset: 1 hour / 1 day / 1 week, or "until I turn it off," UX-14) and capturing a **cause**, as one optional tap on a short preset list (e.g. wind, animal, shadow, glare, rain, other, don't know), **never free text, never blocking** (UX-19) — with its count, end time and reversal always visible (FR-30); **reverse an active suppression early, attributed to this session**, at any time (UX-14); record or change an **operator-assigned impact grade** — optional, never defaulted, never suggested by IBVAP (UX-16); open the rule; open the Spec Sheet; export this Event's evidence (→ S-10) |
+| **Important states** | Record only (crop pending) · crop available · **clip requested, wait stated** · clip available · assessed · **capability-overridden** · **suspect clock** · queued/reconciled · **governing rule suppressed** — until [chosen end time] or indefinite, with its cause if one was recorded (UX-14, UX-19) |
 | **Must NOT show or claim** | That the detection is an **intrusion, an offence, a suspect, a trafficker, or contraband** (NG-12, NG-18, §19.3). That a face was **identified** — CAP-3a is presence and location, **not identity** (FR-17). Any dispatch, tasking or "send a team" action — **NG-9: IBVAP produces notice and evidence; it does not command**. A silent clip wait (NFR-3, NG-15). An auto-applied suppression (FR-30) |
 
 **HYPOTHESIS UX-H1** — the record alone will be sufficient to assess a meaningful share
@@ -817,7 +813,7 @@ design is not paying for itself and the crop's content must be reconsidered.
 | **Primary user goal** | *"What happened on this camera, in this window?"* (J5, J8) |
 | **Information shown** | Query by **time, camera, zone, class, rule, assessment and outcome** (FR-39); per event: time (with time-integrity status), camera, object class, rule, confidence, evidence pointer, assessment, Case link, override stamp |
 | **Primary actions** | Query; open an event (→ S-07); select events and open a Case (→ S-09) |
-| **Secondary actions** | Export the query result as a plain dataset (FR-51); jump to camera / rule / Passport |
+| **Secondary actions** | Export the query result as a plain dataset (FR-51); jump to camera / rule / Spec Sheet |
 | **Important states** | Results · **no results** (see §18 — *"no events matched"* is never *"nothing happened"*) · **partial coverage** — the query window includes a period when a camera was lost, degraded, or ineligible for the queried analytic, which **must be stated in the result** |
 | **Must NOT show or claim** | That the record is complete for a camera that was down, degraded, or ineligible during the window. Cross-site results — MVP is **one site** (D-13(a)). Pattern-over-time / route-usage analytics — **post-MVP and legally gated** (PM-5, OQ-7, NG-14) |
 
@@ -827,10 +823,10 @@ design is not paying for itself and the crop's content must be reconsidered.
 |---|---|
 | **Purpose** | One machine observation, in full, with everything needed to trust or distrust it |
 | **Primary user goal** | *"What exactly did the system see, and how much should I rely on it?"* |
-| **Information shown** | The full event record; the evidence pointer and available media; the **capture-time hash** (FR-33); **time-integrity status** (FR-35); the governing Passport verdict; the rule and its measured rates; the assessment and who made it; the Case link; the override stamp |
+| **Information shown** | The full event record; the evidence pointer and available media; the **capture-time hash** (FR-33); **time-integrity status** (FR-35); the governing Spec Sheet verdict; the rule and its measured rates; the assessment and who made it; the Case link; the override stamp |
 | **Primary actions** | Assess (if unassessed); open/attach a Case; export evidence (→ S-10) |
-| **Secondary actions** | View the audit entries touching this event; view the rule; view the Passport |
-| **Important states** | Assessed / unassessed · in a Case / not · **capability-overridden** · **suspect clock** · media retained / **deleted under retention policy** with the logged deletion record shown (FR-38) |
+| **Secondary actions** | View the audit entries touching this event; view the rule; view the Spec Sheet |
+| **Important states** | Assessed / unassessed · in a Case / not · **in an open Case — exempt from the class retention clock** (UX-17) · **capability-overridden** · **suspect clock** · media retained / **deleted under retention policy** with the logged deletion record shown (FR-38) |
 | **Must NOT show or claim** | An interpretation of the event beyond class, rule, geometry, time and confidence. A re-encoded, "enhanced", upscaled or beautified rendering presented as the evidence — **no silent re-encode on any retrieval path** (FR-34) |
 
 ### S-08 / S-09 — Cases and Case detail
@@ -839,11 +835,11 @@ design is not paying for itself and the crop's content must be reconsidered.
 |---|---|
 | **Purpose** | A human-opened container binding Events, evidence, assessment and an **outcome**, exportable for handover |
 | **Primary user goal** | *"Make this stand up when it leaves my hands."* (J7) |
-| **Information shown** | Case identifier and title; bound Events with their assessments; the **outcome** — apprehension / seizure / nothing found / handed over / no action (FR-50); who opened it and when; exports made from it and their custody records (FR-37) |
-| **Primary actions** | Open a Case; attach/detach Events; **record the outcome**; build an evidence pack (→ S-10) |
+| **Information shown** | Case identifier and title; bound Events with their assessments; **two independent fields, always shown together, never merged** (UX-17): an **administrative state** and a **recorded outcome** — apprehension / seizure / nothing found / handed over / no action (FR-50); an **owner** — a person reference, empty by default (UX-17); who opened it and when; exports made from it and their custody records (FR-37) |
+| **Primary actions** | Open a Case; attach/detach Events; **assign to me** (self-assign shortcut, UX-17); **record the outcome**; **close the Case** — a separate administrative act from recording the outcome, and the point its bound evidence's retention clock starts (UX-17); **reopen a closed Case** with a recorded trigger, which **re-suspends the retention clock** (UX-17); build an evidence pack (→ S-10) |
 | **Secondary actions** | Add a note; view the audit trail; export the Case's events as a plain dataset (FR-51) |
-| **Important states** | Open · outcome recorded · exported (with custody entries) · retention-limited (media deleted under policy, record retained) |
-| **Must NOT show or claim** | A legal classification of the case. A charge, an offence, or a statutory category IBVAP has inferred. **NG-12** — no contraband/trafficking/currency/narcotics category exists in the outcome vocabulary beyond the plain, human-entered outcome list above |
+| **Important states** | **Administrative state:** **open — unassigned** (on creation) · **open — assigned** to an owner · **parked** — not currently being worked, **explicitly not a closure** (UX-17) · **closed** — bound evidence's retention clock starts here (UX-17) · **reopened** — carries the trigger that reopened it, and **re-suspends the retention clock** (UX-17). **Outcome** (recorded independently of the above): unrecorded · recorded — one of the five plain values. **Export:** not exported · exported (with custody entries) · retention-limited (media deleted under policy after closure, record retained) |
+| **Must NOT show or claim** | A legal classification of the case. A charge, an offence, or a statutory category IBVAP has inferred. **NG-12** — no contraband/trafficking/currency/narcotics category exists in the outcome vocabulary beyond the plain, human-entered outcome list above. A legally-freighted clearance vocabulary — "cleared by arrest," "unfounded," or any statistical-reporting term borrowed from another system (UX-17). Any hierarchy, rank, or approval chain implied by the owner field — owner is a person reference, not a role (UX-17, S-23) |
 
 ### S-10 — Evidence pack builder and export
 
@@ -867,11 +863,11 @@ design is not paying for itself and the crop's content must be reconsidered.
 |---|---|
 | **Purpose** | Every rule at this site, with **its measured behaviour attached to it** |
 | **Primary user goal** | *"What am I being told about, how often, and how much of it is noise?"* |
-| **Information shown** | Per rule: name, camera(s), type (zone / line / direction / dwell / composite), object-class gating, confidence and minimum-track-length gating, time-of-day scope, alerting or log-only; **the measured alert rate and assessed-nuisance rate with the cause histogram, day and night separately** (FR-49, AC-5.3); whether the rule is **auto-disabled** and why; whether a suppression applies, **its count, and its expiry or next reconfirmation date** (UX-14) |
-| **Primary actions** | Create a rule (→ S-16); enable/disable; open a rule; **reconfirm a suppression nearing expiry** |
-| **Secondary actions** | Duplicate to another camera (subject to that camera's Passport); open the starter library (→ S-17); open Measurement (→ S-21) |
-| **Important states** | Active · log-only · **auto-disabled — analysed fps below the ≥3 fps tracking floor**, with the one-sentence reason (FR-19, NFR-5, AC-1.3) · **auto-disabled — night-ineligible camera**, with the reason (AC-7.2) · **suppressed — active** (visible, reversible, counted, time-bounded) · **suppression reconfirmation due** · **suppression expired — rule reactivated** (UX-14) · **unvalidated** (starter-library origin) |
-| **Must NOT show or claim** | A rule as available on a camera whose Passport refuses the primitive it depends on. A "recommended" or "smart" rule set that implies validation IBVAP does not have (AC-6.3). Any anomaly score, learned-model score or "suspicion" number — **NG-2, AC-6.5** |
+| **Information shown** | Per rule: name, camera(s), type (zone / line / direction / dwell / composite), object-class gating, confidence and minimum-track-length gating, time-of-day scope, alerting or log-only; **the measured alert rate and assessed-nuisance rate with the cause histogram, day and night separately** (FR-49, AC-5.3) — **built from the causes captured on suppression** (UX-19); whether the rule is **auto-disabled** and why; whether a suppression applies, **its count and its chosen end time (or "indefinite")** (UX-14) |
+| **Primary actions** | Create a rule (→ S-16); enable/disable; open a rule; **reverse an active suppression early** |
+| **Secondary actions** | Duplicate to another camera (subject to that camera's Spec Sheet); open the starter library (→ S-17); open Measurement (→ S-21) |
+| **Important states** | Active · log-only · **auto-disabled — analysed fps below the ≥3 fps tracking floor**, with the one-sentence reason (FR-19, NFR-5, AC-1.3) · **auto-disabled — night-ineligible camera**, with the reason (AC-7.2) · **suppressed — active, until [chosen end time] or indefinite** (visible, reversible early, counted, UX-14) · **unvalidated** (starter-library origin) |
+| **Must NOT show or claim** | A rule as available on a camera whose Spec Sheet refuses the primitive it depends on. A "recommended" or "smart" rule set that implies validation IBVAP does not have (AC-6.3). Any anomaly score, learned-model score or "suspicion" number — **NG-2, AC-6.5** |
 
 ### S-16 — Rule editor
 
@@ -882,7 +878,7 @@ design is not paying for itself and the crop's content must be reconsidered.
 | **Information shown** | The camera's live or reference frame with drawing tools for **zones, lines, direction and dwell timers** (FR-23); the required gating — **object class, confidence, minimum track length** (never raw pixel motion, CAP-5); **time-of-day scoping** with night eligibility applied automatically (FR-26); composite conditions across class, zone, direction, dwell, time-of-day and camera (FR-24); **and, permanently on screen, a plain statement of what this rule will and will not catch** (AC-6.2) |
 | **Primary actions** | Draw; set class/confidence/track-length gates; set time scope; choose **alerting or log-only**; save |
 | **Secondary actions** | Start from the **starter library** (→ S-17); preview against recent footage; frame a zone as an **attention zone** rather than an intrusion line (see below); test-fire |
-| **Important states** | Draft · saved · **will auto-disable at night on this camera** (stated at authoring time, not discovered later) · **cannot be saved** — the camera's Passport refuses a primitive this rule needs, with the reason and a link to the Passport |
+| **Important states** | Draft · saved · **will auto-disable at night on this camera** (stated at authoring time, not discovered later) · **cannot be saved** — the camera's Spec Sheet refuses a primitive this rule needs, with the reason and a link to the Spec Sheet |
 | **Must NOT show or claim** | That a rule detects **suspicion, intent, threat or an offence**. That the starter library is validated. That drawing a line makes crossing it unlawful — **[SIH/SSB]** on the validation border **crossing is a treaty right**, and a perfectly accurate line-crossing alarm there would still be almost entirely noise (D-10, L-25, CAP-5 (d)) |
 
 **Both framings ship, and the UI offers both (D-10):**
@@ -904,13 +900,25 @@ design is not paying for itself and the crop's content must be reconsidered.
 | **Important states** | Unvalidated (**all entries, always**) · in use at this site (with its measured rate attached) |
 | **Must NOT show or claim** | A definition of "suspicious". A recommendation, a ranking, a "best practice" label, or a claim of provenance from any force. A learned model behind any entry — **there is none in MVP** (NG-2) |
 
+### S-21 — Measurement
+
+| Facet | Definition |
+|---|---|
+| **Purpose** | Show, per camera and per rule, whether the system is behaving — and if not, exactly what to fix first (AC-P7, P-8) |
+| **Primary user goal** | *"Is this system behaving, and what's the worst offender?"* |
+| **Information shown** | **Two separate views, not one combined chart** (UX-18): a **rate view** — alerts per hour per camera+rule (mean), the worst hour in the window, and how many hours exceeded a stated threshold, **peak always shown beside the average, never the average alone** (UX-18); and a **ranked-offender view** — the top-N noisiest camera+rule pairs and their share of all alerts in the window (UX-18). Both views, and the assessed-nuisance rate and cause histogram they carry, **split day and night throughout — including the ranked list**, not only the headline number (FR-49, AC-7.3). The **measurement window** stated on screen (start date, duration) — no trend drawn below it (UX-18). A **suppression panel**: every active suppression, its chosen end time (or "indefinite"), its cause if one was recorded, and its count — reviewable here even before its own end time arrives (UX-14, UX-18). Outcome attribution per Case (FR-50) |
+| **Primary actions** | Switch day/night; switch rate view / ranked view; export the plain dataset (FR-51) |
+| **Secondary actions** | Jump to a camera or rule from the ranked list; jump to a suppression's rule (→ S-15) |
+| **Important states** | **Not enough data yet** — window not yet reached, an honest empty state distinct from "nothing happened" (§18) · has data, split by day/night |
+| **Must NOT show or claim** | Any target or "acceptable rate" number IBVAP has not measured on this deployment — **no target is displayed, ever** (UX-18, NFR-4, AC-P7). A trend drawn below the stated measurement window. Any number not split by day and night where FR-49 requires it (AC-7.3). Cross-site or cross-deployment comparison — MVP is **one site** (D-13(a)) |
+
 ---
 
 ## 12. ANPR experience
 
 **Scope reminder:** ANPR is **P1 at eligible nodes** — check post / ICP lane / barrier —
 and **excluded elsewhere**; **NG-4 — no ANPR on wide-area border-road cameras: physics,
-not effort.** The Passport decides, per camera, and **may find no eligible camera at all
+not effort.** The Spec Sheet decides, per camera, and **may find no eligible camera at all
 in the validation estate** (OQ-11) — which the product states plainly rather than hides.
 
 **UX DECISION UX-6 — ANPR has a log, not a dashboard.** *Rationale:* CAP-4's MVP
@@ -928,9 +936,9 @@ NG-14, OQ-7).
 | **Primary user goal** | *"What plates did the lane camera read, and how much do I trust each one?"* (U2, J8) |
 | **Information shown** | Per read: time, camera, the read string, **per-read confidence** (FR-18, AC-4.2), whether the read was **inside or outside the stated speed and angle envelope** — out-of-envelope reads are **marked, never silently included** (AC-4.3); the associated Event; time-integrity status. At the top of the screen, permanently: **this camera's stated speed and angle envelope**, and the product's **measured read rate on this deployment's own footage**, dated (AC-4.1, AC-4.5) |
 | **Primary actions** | Query by time / camera / confidence; open the underlying Event |
-| **Secondary actions** | Export as a plain dataset (FR-51); open the camera's Passport and its ANPR verdict |
+| **Secondary actions** | Export as a plain dataset (FR-51); open the camera's Spec Sheet and its ANPR verdict |
 | **Important states** | **No ANPR-eligible camera at this site** — an explicit, plainly-stated state, with the measured reason per camera (OQ-11, §18); **eligible, degraded**; **running under override** (every read stamped); **outside envelope** |
-| **Must NOT show or claim** | A **headline accuracy figure** — only the measured read rate on this deployment's own footage (AC-4.5, NG-7). Ownership, registration, or any identity behind a plate — IBVAP reads characters, it does not look anyone up. A plate watchlist, hotlist or alerting-on-plate surface — **not in the frozen MVP**. Reads from a camera the Passport refuses, without the override stamp (AC-4.4) |
+| **Must NOT show or claim** | A **headline accuracy figure** — only the measured read rate on this deployment's own footage (AC-4.5, NG-7). Ownership, registration, or any identity behind a plate — IBVAP reads characters, it does not look anyone up. A plate watchlist, hotlist or alerting-on-plate surface — **not in the frozen MVP**. Reads from a camera the Spec Sheet refuses, without the override stamp (AC-4.4) |
 
 **Where ANPR is refused, the refusal is stated on the surface where the user would look
 for the capability** (AC-P3, N-6) — not by the screen being absent.
@@ -945,16 +953,16 @@ section exists to prevent.
 ### 13.1 CAP-3a — Face detection *(presence and location, not identity)*
 
 **UX DECISION UX-7 — face detection has no screen of its own.** *Rationale:* CAP-3a is a
-primitive (FR-17). Its user-visible surfaces are exactly three: (1) its **Passport
+primitive (FR-17). Its user-visible surfaces are exactly three: (1) its **Spec Sheet
 verdict** per camera, day and night (S-13); (2) the **Events** it contributes to (S-06 /
 S-07); (3) its availability as a **class gate in the rule editor** (S-16) where the
-Passport allows. A "faces" gallery, feed or browse surface is not in the frozen MVP and
+Spec Sheet allows. A "faces" gallery, feed or browse surface is not in the frozen MVP and
 would read as identity tooling the product does not have.
 
 | Facet | Definition |
 |---|---|
 | **What is shown** | On S-13: `Eligible` / `Eligible, degraded` / `Not eligible` for face detection, **day and night separately, with the measured reason** — most commonly, on an inherited overview estate, *"this camera is mounted overhead and sees the tops of heads"* (CAP-3a (b), L-2) |
-| **Primary action** | Enable face detection **only** where the Passport permits it |
+| **Primary action** | Enable face detection **only** where the Spec Sheet permits it |
 | **Important states** | Eligible · degraded · **Not eligible — cannot be switched on** without a logged override (AC-3a.3) |
 | **Must NOT show or claim** | **Identity.** Detection is presence and location only (FR-17). And critically — **AC-3a.4** — the product must **never** present *"no faces detected"* from a `Not eligible` camera as evidence that no face was present. Any surface that could imply that must instead state the refusal (§18) |
 
@@ -975,9 +983,9 @@ required, independently recorded fields (AC-3b.2).
 |---|---|
 | **Purpose** | Make the four conditions **visible, separate, individually recorded and individually enforced** — and make the blocked state the honest default |
 | **Primary user goal** | *"Show me exactly what would have to be true for this to be allowed, and who put their name to each part."* |
-| **Information shown** | **Four separate condition rows**, each with its own state, its own record, its own expiry, and its own author — never one combined "enabled" switch: **legal basis** · **authority record** · **authorized bounded gallery** (with **its size stated in the product surface** — AC-3b.4) · **retention and oversight**. Plus: the **environment classification** — dev/test vs operational — shown prominently, with the statement that it is **itself authority-controlled and audited** and that **an operator cannot self-declare an operational site as "test"** (AC-3b.3). Plus: the **Passport recognition-grade eligibility** of every camera, since **only recognition-grade cameras may run it** (AC-3b.5). Plus: the biometric audit trail — enable, match, no-match, gallery change, authority-record change, legal-basis-record change, environment-classification change, expiry (AC-3b.8) |
+| **Information shown** | **Four separate condition rows**, each with its own state, its own record, its own expiry, and its own author — never one combined "enabled" switch: **legal basis** · **authority record** · **authorized bounded gallery** (with **its size stated in the product surface** — AC-3b.4) · **retention and oversight**. Plus: the **environment classification** — dev/test vs operational — shown prominently, with the statement that it is **itself authority-controlled and audited** and that **an operator cannot self-declare an operational site as "test"** (AC-3b.3). Plus: the **Spec Sheet recognition-grade eligibility** of every camera, since **only recognition-grade cameras may run it** (AC-3b.5). Plus: the biometric audit trail — enable, match, no-match, gallery change, authority-record change, legal-basis-record change, environment-classification change, expiry (AC-3b.8) |
 | **Primary actions** | Record / revoke each condition **separately**; manage the bounded gallery; view the biometric audit trail |
-| **Secondary actions** | Open the authority record (S-25); open the audit log (S-24); open a camera's Passport |
+| **Secondary actions** | Open the authority record (S-25); open the audit log (S-24); open a camera's Spec Sheet |
 | **Important states** | **Blocked — operational classification, conditions not all current** (the default) · **permitted — dev/test, bounded test gallery** · **permitted — operational, all four current** · **expired** — any condition lapsing re-blocks the capability, immediately and visibly · **no recognition-grade camera at this site** |
 | **Must NOT show or claim** | A single "enable face recognition" toggle. That the **authority record** satisfies the legal-basis condition — the interface must make it structurally impossible to read one as the other (D-7, AC-3b.2). A **match as an identification**: every match is **`support`-graded — a reason to look, never an identification assertion** (AC-3b.7). Any **open-set, population-scale, or unbounded** search surface — **none ships at any point** (NG-3, AC-3b.4). A **no-match** as a biometric record — **a no-match generates no biometric record** (AC-3b.6), so no "searched and cleared" list exists |
 
@@ -999,7 +1007,7 @@ never as a fifth surface.
 
 | Where night appears | What it does there | Trace |
 |---|---|---|
-| **S-13 Camera Passport** | A **separate night verdict per analytic, measured after dark**, shown as its own row beside the day verdict — never derived from it, and never blank-by-implication: an unmeasured night verdict reads **`Night not measured`** | FR-8, AC-7.1 |
+| **S-13 Camera Spec Sheet** | A **separate night verdict per analytic, measured after dark**, shown as its own row beside the day verdict — never derived from it, and never blank-by-implication: an unmeasured night verdict reads **`Night not measured`** | FR-8, AC-7.1 |
 | **S-16 Rule editor** | **Time-of-day scoping** on any rule, with per-camera night eligibility applied **automatically**; at authoring time the editor states which cameras this rule will auto-disable on at night, and why | FR-26, AC-7.2 |
 | **S-21 Measurement** | Alert rate, assessed-nuisance rate and **cause histogram reported separately for night**, alongside **IBVAP's own measured day-vs-night gap on this deployment's own footage** | FR-49, AC-7.3, AC-7.4 |
 | **S-02 / S-03** | The current day/night state of each camera, and whether the analytics running now are night-eligible | AC-7.5 |
@@ -1031,7 +1039,7 @@ sentence a non-technical post commander can relay over a radio.** **FACT [SIH/SS
 | **Purpose** | Say what is wrong, in one sentence per thing, in words a non-specialist can repeat |
 | **Primary user goal** | *"Is it working? If not, what do I say on the radio?"* (J9) |
 | **Information shown** | The full state set of FR-45, each as one plain sentence: **source down** · **source degraded** · **analytic degraded** · **clock suspect** · **queue filling** · **storage filling** · **power event**. Plus: uplink state and how long it has been down; time since last successful egress delivery; **the declared discard policy and what it has discarded** (FR-43); the analysed frame rate per camera against the ≥3 fps floor |
-| **Primary actions** | Acknowledge a state; open the affected camera / Passport / queue |
+| **Primary actions** | **Acknowledge** a state — records who saw it and when (attributable, audited); it does **not** clear the state from the health line, which stays until the underlying condition is actually resolved (P-2); open the affected camera / Spec Sheet / queue |
 | **Secondary actions** | Export a health summary; view the health history |
 | **Important states** | Healthy · degraded · **link down (N hours), still analysing and logging** — presented as **normal operation**, not as failure (FR-41, AC-P5) · queue bounded and discarding under policy · storage filling · **suspect clock** · power event |
 | **Must NOT show or claim** | A stack trace, an error code, a log excerpt, or a technical term as the primary message. That the system has **stopped** when it has not — with the link down, **analysis, logging and local alerting continue** and the screen must say so. That anything expired, disabled or degraded **because a licence or update server was unreachable** — **FR-44 forbids this from happening at all**, so no such state may exist to display |
@@ -1044,7 +1052,7 @@ nothing in the surveyed market addresses this. In the UX:
 
 - A degraded analytic **never** looks like a working analytic returning nothing.
 - The message names the observed cause where the measurement supports one, in plain
-  language, and links to the camera's Passport (which may have been re-issued with a
+  language, and links to the camera's Spec Sheet (which may have been re-issued with a
   **capability dropped** change — FR-12).
 - "Stream lost" and "still streaming, but this analytic can no longer be trusted" are
   **different states with different words**, never one shared "camera offline" icon.
@@ -1092,9 +1100,57 @@ control systems" means for this force. SIMS is eliminated and nothing has replac
 **SM-12 is the bar this screen is designed against:** at least one **real** external
 consumer ingesting the published schema **without bespoke help**.
 
+**No classification, ownership or release-filter field is in the schema shown here** —
+considered and explicitly deferred pending OQ-10; see the note after
+[DQ-13](#design-questions).
+
 ---
 
 ## 17. Permissions, authority and audit experience
+
+### S-01 — Sign in
+
+| Facet | Definition |
+|---|---|
+| **Purpose** | Authenticate a person and establish their permission set — the precondition for every consequential action, including the one-action assessment on S-05 (UX-12) |
+| **Primary user goal** | *"Get me in, fast, at a site with no IT desk to call."* |
+| **Information shown** | Credential prompt; **why access was refused, as one of four distinct sentences** — wrong credential, locked, disabled, session expired (UX-20) — never one shared "sign-in failed" message |
+| **Primary actions** | Sign in; sign out; recover access with a **pre-issued recovery code, consumed once** (UX-20) |
+| **Secondary actions** | — |
+| **Important states** | Signed out · signed in · **session expiring soon** — a plain warning before an in-progress action is interrupted · **locked — self-clearing after [stated interval]**, the interval shown on screen (UX-20) · **disabled by an administrator** · **recovery code consumed, new sign-in required** |
+| **Must NOT show or claim** | A security question, a password hint, or any credential-recovery path depending on email, SMS, or an outbound connection — **FR-61 forbids the dependency** (UX-20). A forced periodic password change, or a composition rule beyond a stated minimum length (UX-20) |
+
+**UX DECISION UX-20 — session, lockout and recovery, sized for one person and no help
+desk.** Inactivity and overall session timeouts are **configurable, with defaults in the
+evidenced range** — never hard-coded, the same treatment FR-38 already gives retention. A
+failed sign-in triggers **progressive delay, not an administrator-cleared lockout**; any
+lockout **clears itself** after a stated interval, shown on screen. Recovery is a
+**pre-issued recovery code, held on paper at the post, consumed once**, plus a locally
+held administrative reset — never a security question, a hint, or an email/SMS
+round-trip. No password expiry and no composition rule beyond a minimum length. **Disabled**,
+**expired** and **locked** are three different states with three different sentences —
+§18's rule that no state family wears another's clothes, applied here.
+**Annunciator mode's exemption from all of this is deliberate, not an oversight:** a
+receive-only terminal that remains staffed is the standard, named exemption elsewhere —
+it applies because the terminal **cannot act**, and S-03a carries no assessment control
+(UX-12), which is exactly the condition that earns it.
+
+*Rationale:* [investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+(§7, R-18 through R-22) found the session-length standards themselves disagree by
+design — the older, still-binding criminal-justice text and current general guidance land
+in different ranges — so the honest transfer is *configurability*, not a borrowed number.
+It also found the standard administrator-cleared lockout assumes an administrator a
+single-operator post does not have, that stored security questions and hints are
+explicitly forbidden by both standards, and that FR-61 independently rules out email/SMS
+recovery — which together rule out every conventional fallback design and point at
+recovery codes as the one mechanism that works isolated, with nobody to call. The
+receive-only-terminal exemption (R-19) supplies a citable rationale for UX-12, already
+decided, rather than changing it.
+
+*Affects:* [S-01](#17-permissions-authority-and-audit-experience) (§17, new), [S-03a](#8-live-monitoring-experience)
+(§8, UX-12 rationale strengthened, unchanged in substance).
+
+---
 
 ### 17.1 Three separate concepts, never merged
 
@@ -1128,7 +1184,7 @@ consequential presentation rule in the document.
 |---|---|
 | **Purpose** | Hold the records that gate legally-sensitive capabilities, with expiry |
 | **Primary user goal** | *"Record who authorised this, under what, until when."* |
-| **Information shown** | Per record: who authorised, under what instrument, scope, expiry, current state; what it currently gates (Passport overrides, CAP-3b conditions); the audit entries it produced |
+| **Information shown** | Per record: who authorised, under what instrument, scope, expiry, current state; what it currently gates (Spec Sheet overrides, CAP-3b conditions); the audit entries it produced |
 | **Primary actions** | Record; revoke; view what an expiry will switch off |
 | **Secondary actions** | Open the audit log; open the gated capability |
 | **Important states** | Current · **expiring** · **expired — the gated capability is off, immediately and visibly** · revoked |
@@ -1150,7 +1206,12 @@ consequential presentation rule in the document.
 
 Holds: **per-class retention** with configurable periods and **an explicit, logged
 deletion record** (FR-38 — mandated retention is **UNKNOWN (OQ-9)**, therefore
-configurable and **never hard-coded**); time source and time-integrity configuration
+configurable and **never hard-coded**). Evidence bound to an **open** Case is exempt
+from its class clock; the clock starts from the Case's **closure**, and **restarts if the
+Case is reopened**, instead of the evidence's capture time (UX-17). Also holds: the
+**suppression cause preset list** — site-extensible, shipped as an unvalidated first
+attempt with no external precedent for a video-scene cause taxonomy (UX-19, open
+question Q-1); time source and time-integrity configuration
 (FR-35); the **environment classification** (dev/test vs operational), which is
 **authority-controlled and audited** (AC-3b.3); the tested-device record (FR-6); and
 egress/queue policy display. **Must not** contain: a licence, subscription or activation
@@ -1163,8 +1224,8 @@ telemetry-to-vendor default.
 |---|---|
 | **Purpose** | Put the honest limit **on the product surface**, because **NG-12 is a requirement, not a caveat** (MVP §2, DS-11, AC-P13) |
 | **Primary user goal** | *"Before I rely on this, what is it actually able to see?"* |
-| **Information shown** | Plainly: IBVAP detects **people, vehicles, faces, plates, movement and time**. It does **not** detect **trafficking, contraband, currency or narcotics** — *a camera cannot see contraband inside a sack*. Plus, per capability, its **declared grade** and its **stated limitations** (D-8, D-9, AC-P11), and this site's **current Passport verdicts** so the statement is specific to this deployment rather than generic |
-| **Primary actions** | Open the per-capability limitation; open the Passport that makes it concrete here |
+| **Information shown** | Plainly: IBVAP detects **people, vehicles, faces, plates, movement and time**. It does **not** detect **trafficking, contraband, currency or narcotics** — *a camera cannot see contraband inside a sack*. Plus, per capability, its **declared grade** and its **stated limitations** (D-8, D-9, AC-P11), and this site's **current Spec Sheet verdicts** so the statement is specific to this deployment rather than generic |
+| **Primary actions** | Open the per-capability limitation; open the Spec Sheet that makes it concrete here |
 | **Secondary actions** | Print / export for a briefing |
 | **Important states** | Reflects **this site's** measured verdicts, dated |
 | **Must NOT show or claim** | Marketing language. A capability matrix that implies universal camera support (**NG-8**). Any accuracy percentage not measured on this deployment's own footage (**AC-P7, NG-7**) |
@@ -1185,8 +1246,8 @@ absence*. A single generic "no data" state would violate all of these at once.
 | Family | Means | Never means | Required treatment |
 |---|---|---|---|
 | **Empty** | Nothing has happened yet, or nothing matched | *Nothing happened* | State the coverage: which cameras, which analytics, which period — and whether all of them were eligible and healthy throughout |
-| **Not measured** | The Passport has not been issued, or the **night** verdict has not been measured | Not eligible; nor eligible | An explicit state, with the action that resolves it (measure / re-issue) |
-| **Ineligible** | The Passport **refuses** this analytic on this camera, with a measured reason | Broken; unavailable-for-now; a defect | The **plain-language measured reason**, the fact that it **cannot be switched on**, and the override path with its cost stated (D-6, S-14). A refusal is a **success signal** (SM-5) |
+| **Not measured** | The Spec Sheet has not been issued, or the **night** verdict has not been measured | Not eligible; nor eligible | An explicit state, with the action that resolves it (measure / re-issue) |
+| **Ineligible** | The Spec Sheet **refuses** this analytic on this camera, with a measured reason | Broken; unavailable-for-now; a defect | The **plain-language measured reason**, the fact that it **cannot be switched on**, and the override path with its cost stated (D-6, S-14). A refusal is a **success signal** (SM-5) |
 | **Blocked** | A **gate** is unsatisfied — legal basis, authority record, gallery, retention/oversight, environment classification | Ineligible; broken; "coming soon" | Name **which** condition is unsatisfied, separately (UX-8), and who can satisfy it |
 | **Degraded** | Running, but measurably worse — or **silently degrading** (dirt, web, condensation, IR hotspot, refocus, drift) | Working normally; nor lost | Distinct from stream loss, in different words, with the cause where measured (FR-13) |
 | **Error / lost** | The source, the link, the storage, the clock or the power is in a bad state | The system stopped | One plain sentence, relayable over a radio (AC-P9); plus what **is still working** — with the link down, analysis, logging and local alerting continue |
@@ -1199,13 +1260,11 @@ absence*. A single generic "no data" state would violate all of these at once.
 | **S-06 Events** | Empty with a gap | *"No events matched. Camera 3 was lost for 4 hours in this window."* |
 | **S-06 Events** | Empty, analytic ineligible | *"This camera is not eligible for face detection, so no face events exist for it. That is not evidence that no face was present."* (**AC-3a.4**) |
 | **S-02 Site Status** | Night, camera night-ineligible | Never *"quiet night"*. Instead: *"Camera 2 is not night-eligible; it was not analysing for movement after dark."* (**AC-7.5**) |
-| **S-18 Plate reads** | No eligible camera | *"No camera at this site is eligible for plate reading."* — with the measured reason per camera and a link to each Passport (**OQ-11**, NG-4) |
+| **S-18 Plate reads** | No eligible camera | *"No camera at this site is eligible for plate reading."* — with the measured reason per camera and a link to each Spec Sheet (**OQ-11**, NG-4) |
 | **S-19 Watchlist** | Blocked | Which of the four conditions is missing, **each named separately**, and the environment classification (**AC-3b.2, AC-3b.3**) |
 | **S-15 Rules** | Auto-disabled | *"This rule is off on Camera 1: the camera is analysing at 2 fps and tracking needs 3."* (**FR-19, AC-1.3**) — and separately, *"…off at night: this camera is not night-eligible."* (**AC-7.2**) |
 | **S-05 Alert detail** | Clip pending | The **expected wait, stated before the request** (**NFR-3**) |
-| **Anywhere** | Suppression active | The suppression, its scope (this camera, this rule), **the count of what it has suppressed**, its **expiry or next reconfirmation date**, and how to reverse it (**FR-30, UX-14**) |
-| **Anywhere** | Suppression reconfirmation due | *"Suppression on Camera 4 / Line 2 needs reconfirming by [date], or the rule reactivates."* — reconfirming is attributable and audited (**FR-30, NFR-14, UX-14**) |
-| **S-15 Rules** | Suppression expired | *"Suppression on Camera 4 / Line 2 expired on [date]; the rule is active again."* — stated, never silent (**FR-30, R3, UX-14**) |
+| **Anywhere** | Suppression active | The suppression, its scope (this camera, this rule), **the count of what it has suppressed**, **its chosen end time or "indefinite"**, and how to reverse it early (**FR-30, UX-14**) |
 | **Anywhere** | Queue discarding | The declared policy and what it discarded — **recorded, never silent** (**FR-43**) |
 | **Anywhere** | Suspect clock | The Event is marked wherever it appears, including in the evidence pack (**FR-35, AC-8.5**) |
 | **S-20 Health** | Link down | *"The link has been down for 14 hours. Analysis, logging and local alerts are continuing; 312 events are queued."* (**FR-41, AC-P5**) |
@@ -1247,7 +1306,7 @@ Nine principles. Each is derived from a frozen requirement — none is a matter 
   records SIH evaluators as a real audience and **not an operational user**; the
   strongest pressure to make the eight-capability list *be* the product comes from
   there. The IA (§1.1) resolves this by organising around artefacts, and satisfies the
-  coverage obligation through **S-27** and the Passport, which show all eight
+  coverage obligation through **S-27** and the Spec Sheet, which show all eight
   capabilities *with their real, measured state at this site*.
 - **Not for the buyer over the post.** [PRD §3.4](../02-product/PRD.md#34-the-buyer-is-not-the-user)
   resolves buyer/post conflicts **in favour of the post (U1)** and requires saying so at
@@ -1301,21 +1360,21 @@ standalone surface; **Not in MVP** = named only to record its deliberate absence
 | Screen | Purpose | MVP status | Key interactions |
 |---|---|---|---|
 | **S-01 Sign in** | Authenticate; establish the permission set | **Core** (FR-59) | Sign in; sign out |
-| **S-02 Site Status** | *Is the site being watched properly, and is anything wrong?* | **Core** (FR-45, AC-P5) | Read state; open Alerts, Passport, Health; enter Annunciator mode |
-| **S-03 Live View** | Verify a scene and see which analytics actually run on it | **Core** (FR-7, NFR-16) | Select camera; toggle rule overlays; jump to Passport / Rules |
+| **S-02 Site Status** | *Is the site being watched properly, and is anything wrong?* | **Core** (FR-45, AC-P5) | Read state; open Alerts, Spec Sheet, Health; enter Annunciator mode |
+| **S-03 Live View** | Verify a scene and see which analytics actually run on it | **Core** (FR-7, NFR-16) | Select camera; toggle rule overlays; jump to Spec Sheet / Rules |
 | **S-03a Annunciator mode** | Unattended on-site display, no interaction required | **Embedded** in S-02/S-03 (AC-P5, N-8) | Glance; exit |
 | **S-04 Alerts** | The things worth a human's attention — and only those | **Core** (FR-27, FR-28) | Open; assess in one action; filter |
-| **S-05 Alert detail + assessment** | Decide real / not real / unsure in seconds | **Core** (FR-28 … FR-30) | Assess (one action, authenticated session — UX-12); request clip (wait stated); open/attach Case; offer/reconfirm suppression |
+| **S-05 Alert detail + assessment** | Decide real / not real / unsure in seconds | **Core** (FR-28 … FR-30) | Assess (one action, authenticated session — UX-12); request clip (wait stated); open/attach Case; offer/reverse suppression |
 | **S-06 Events** | The complete local record, queryable | **Core** (FR-32, FR-39) | Query by time/camera/zone/class/rule/assessment/outcome; select → Case |
-| **S-07 Event detail** | One observation, with hash, clock status and Passport verdict | **Core** (FR-33, FR-35) | Assess; attach to Case; export evidence |
+| **S-07 Event detail** | One observation, with hash, clock status and Spec Sheet verdict | **Core** (FR-33, FR-35) | Assess; attach to Case; export evidence |
 | **S-08 Cases** | Human-opened containers with outcomes | **Core** (FR-50) | Open; filter; record outcome |
 | **S-09 Case detail + outcome** | Bind events, evidence, assessment, outcome | **Core** (FR-50, W4) | Attach events; record outcome; build pack |
 | **S-10 Evidence pack export** | A pack that verifies with no IBVAP installed | **Core** (FR-33 … FR-37, AC-P8) | Build; export (attributed); verify; view custody log |
-| **S-11 Cameras** | Every source and its Passport state | **Core** (FR-1 … FR-7) | Add; open Passport; re-issue; view tested-device record |
-| **S-12 Commissioning** | Camera in, measured, Passported, ≤1 h, no survey | **Core** (FR-8, FR-47, NFR-10) | Connect (read-only); mark one reference distance; issue Passport |
-| **S-13 Camera Passport** | What this camera can and cannot support, day and night | **Core** (FR-8 … FR-13, D-6) | Read verdicts + reasons; re-issue; request override |
+| **S-11 Cameras** | Every source and its Spec Sheet state | **Core** (FR-1 … FR-7) | Add; open Spec Sheet; re-issue; view tested-device record |
+| **S-12 Commissioning** | Camera in, measured, Spec-Sheeted, ≤1 h, no survey | **Core** (FR-8, FR-47, NFR-10) | Connect (read-only); mark one reference distance; issue Spec Sheet |
+| **S-13 Camera Spec Sheet** | What this camera can and cannot support, day and night | **Core** (FR-8 … FR-13, D-6) | Read verdicts + reasons; re-issue; request override |
 | **S-14 Named-authority override** | Make overriding possible, costly and permanent in the record | **Core** (FR-11, FR-60) | Record authority; confirm; revoke — single Authority holder (UX-13) |
-| **S-15 Rules** | Every rule with its measured alert and nuisance rate | **Core** (FR-23, FR-49) | Create; enable/disable; open Measurement; reconfirm or let suppression expire (UX-14) |
+| **S-15 Rules** | Every rule with its measured alert and nuisance rate | **Core** (FR-23, FR-49) | Create; enable/disable; open Measurement; reverse an active suppression (UX-14) |
 | **S-16 Rule editor** | Author rules without code; state what each will and will not catch | **Core** (FR-23 … FR-26, AC-6.1) | Draw zone/line/direction/dwell; set class/confidence/track gates; time-scope; alerting vs log-only |
 | **S-17 Starter rule library** | A starting point, marked unvalidated | **MVP** (FR-25, AC-6.3) | Browse; use as basis |
 | **S-18 Plate reads** | ANPR log with per-read confidence and envelope marking | **MVP** at eligible nodes (FR-18, CAP-4) | Query; open Event; export dataset |
@@ -1327,7 +1386,7 @@ standalone surface; **Not in MVP** = named only to record its deliberate absence
 | **S-24 Audit log** | Every consequential action, attributable | **Core** (FR-59, NFR-14) | Query by actor/time/object/action; export |
 | **S-25 Authority records** | Who authorised, under what, until when | **Core** (FR-60) | Record; revoke; see what expiry switches off |
 | **S-26 Settings** | Retention, time integrity, environment classification, tested devices | **Core** (FR-6, FR-35, FR-38, AC-3b.3) | Configure retention per class; set time source; set environment classification (authority-controlled) |
-| **S-27 What IBVAP detects — and does not** | The honest limit, on the product surface | **Core** (NG-12, AC-P11, AC-P13) | Read; open per-capability limitation; open Passport; print |
+| **S-27 What IBVAP detects — and does not** | The honest limit, on the product surface | **Core** (NG-12, AC-P11, AC-P13) | Read; open per-capability limitation; open Spec Sheet; print |
 | *Night monitoring surface* | — | **Not in MVP — by decision** (D-12) | Night is a lens across S-13, S-16, S-21, S-02 — never a screen |
 | *Control room / video wall* | — | **Not in MVP** (PM-4, OQ-1) | — |
 | *Multi-site rollup* | — | **Not in MVP** (PM-3, D-13(a)) | — |
@@ -1368,12 +1427,12 @@ and is now the decision.
 *Affects:* [S-03a](#8-live-monitoring-experience) (§8), [S-04/S-05](#9-alert-experience)
 (§9), Journey J-C (§4).
 
-#### DQ-4 — Passport override authorisation — RESOLVED
+#### DQ-4 — Spec Sheet override authorisation — RESOLVED
 
-**Question:** Who, in permission terms, is allowed to authorise a Passport override —
+**Question:** Who, in permission terms, is allowed to authorise a Spec Sheet override —
 and must it be a different person from the one requesting it?
 
-**UX DECISION UX-13 — a Passport override may be authorised by a single, authorised
+**UX DECISION UX-13 — a Spec Sheet override may be authorised by a single, authorised
 Authority holder.** No two-person approval workflow is introduced. S-14 remains a
 single-session flow that records the **named authority, instrument, scope, expiry and
 reason**; produces an entry in the **audit trail** (S-24); and permanently marks every
@@ -1386,32 +1445,184 @@ unreachable at exactly the sites the MVP boundary is built to serve. The named-a
 record, its audit trail and the permanent `capability-overridden` stamp remain the
 control against misuse, per D-6.
 
-*Affects:* [S-14](#7-camera-passport-experience) (§7.2), [§3.3](#33-roles-as-configurable-permission-sets-product-model)
+*Affects:* [S-14](#7-camera-spec-sheet-experience) (§7.2), [§3.3](#33-roles-as-configurable-permission-sets-product-model)
 (Roles).
 
 #### DQ-6 — Suppression expiry — RESOLVED
 
 **Question:** Does a suppression expire?
 
-**UX DECISION UX-14 — suppression is time-bounded or requires periodic
-reconfirmation.** A suppression, once applied, is no longer indefinite: it carries an
-expiry point or a reconfirmation point. **The specific duration or reconfirmation
-schedule is not set here — it is treated as an unresolved product parameter, to be
-established through validation**, echoing NFR-4's caution against setting a number
-before it is measured. Suppression remains, unchanged: **per-camera-per-rule, visible,
-reversible, and always showing the count of what it suppressed** (FR-30). Reconfirming a
-suppression is itself a human action — **attributable and audited**, to the same
-standard applied to override, export and deletion. **When a suppression expires without
-reconfirmation, the underlying rule reactivates** and alerting resumes.
+**UX DECISION UX-14 (revised 2026-08-26, second revision) — suppression works like a
+notification snooze: the human applying it picks how long it lasts.** Applying a
+suppression means choosing its duration from a short preset — **1 hour / 1 day / 1
+week** — or **"until I turn it off"** (indefinite). If a duration was chosen, the
+suppression ends automatically when it elapses and the rule resumes alerting — this is
+not the product guessing a schedule, it is exactly what the operator asked for, once, at
+the moment they applied it. A suppression can also be **reversed early by a human at any
+time**, regardless of which duration was chosen. It remains, unchanged:
+**per-camera-per-rule, visible, and always showing the count and end time of what it
+suppressed** (FR-30). It is also **persistently visible on S-02 (site-wide count), S-15
+(per rule) and S-21 (full list with end time and cause)**, so a human can review and
+reverse one before its own end time arrives.
 
-*Rationale:* R3 names nuisance alarms making the system untrusted as a risk to the MVP
-itself, and the document flags an indefinite, unreviewed suppression as a slow route to
-the "silently self-muting system" T2 describes. A bounded suppression forces a periodic
-human re-check without making suppression harder to apply in the first place.
+*Rationale:* The first version of this decision invented a system-picked expiry schedule
+with no duration ever set — a placeholder either way, and a behaviour beyond what any
+frozen FR requires. The second version dropped timing entirely and relied on visibility
+alone, which is safe but loses the notification-style ergonomics users already know, and
+still leaves a wind-affected camera suppressed forever by default with nothing prompting
+a re-check. Putting the duration choice in the operator's hands, the way a phone's
+notification snooze already works, resolves both: no invented number (NFR-4), full
+FR-30 compliance, and a familiar interaction nobody has to learn.
 
 *Affects:* [§5.2](#52-alert-lifecycle) (Alert lifecycle diagram), [§5.4](#54-the-flows-non-negotiable-interaction-rules)
-(F-4), [S-05](#9-alert-experience) (§9), [S-15](#11-rule-and-zone-configuration) (§11),
+(F-4), [S-02](#8-live-monitoring-experience) (§8), [S-04 / S-05](#9-alert-experience) (§9),
+[S-15](#11-rule-and-zone-configuration) (§11), [S-21](#11-rule-and-zone-configuration) (§11),
 [§18.1](#181-the-specific-states-that-must-exist-and-their-words).
+
+#### DQ-11 — Camera orientation on the Cameras list — RESOLVED
+
+**Question:** Does a non-specialist commissioning or reviewing a site need any spatial
+reference for its cameras beyond a name/location label?
+
+**UX DECISION UX-15 — a single static, non-interactive site sketch, not a map.** S-11
+may carry one operator-supplied site image with camera markers placed by hand, for
+at-a-glance orientation only. No coordinates, no GPS, no interactive geospatial layer,
+no viewshed modelling.
+
+*Rationale:* [international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+(F15) found every documented platform above one site provides some spatial reference
+for its cameras, and the research literature itself treats this as a gap. MVP.md's
+single-site boundary (D-13(a)) makes a full COP unnecessary — that stays excluded
+(§1.4, PM-3) — while a plain image is not the same object and costs little.
+
+*Affects:* [S-11](#6-camera-management) (§6), [S-02](#8-live-monitoring-experience) (§8).
+
+#### DQ-12 — Operator-assigned impact grade — RESOLVED
+
+**Question:** Should any artefact carry an impact/severity grade, given the product
+already forbids a *computed* one (NG-2, UX-10)?
+
+**UX DECISION UX-16 — an optional, operator-assigned impact grade, kept visually and
+functionally distinct from any computed score.** A human may record an impact grade
+when assessing an Alert or recording a Case outcome. IBVAP never computes, suggests, or
+defaults this value, and it is always labelled as the assessor's own judgement, never
+as a system finding.
+
+*Rationale:* [international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+(F2, §6 module 3) found every well-documented border event object carries a grade
+allocated by a human on the reporting side, which a downstream C2 consumer may need to
+prioritise. This is a different object from the computed threat/risk score UX-10
+already, correctly, bans.
+
+*Affects:* [S-04](#9-alert-experience) (§9), [S-05](#9-alert-experience) (§9),
+[S-08 / S-09](#10-investigation-and-evidence-experience) (§10).
+
+#### DQ-13 — Does evidence bound to an open Case survive its class retention clock — RESOLVED
+
+**Question:** Can a Case's evidence be deleted by a per-class retention clock (S-26)
+while the Case is still open?
+
+**UX DECISION UX-17 — case-association preservation.** While an Event's evidence is
+bound to a Case that has not been closed, it is exempt from its class retention clock.
+The clock resumes, on the class's configured schedule, from the Case's **closure**
+(§10, S-09) — not from the evidence's original capture time. Evidence never attached to
+a Case, or detached from one, is unaffected and follows its class schedule as before.
+
+*Rationale:* [international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+(F6, §9 row 13) found real border-surveillance platforms preserve by case association
+and overwrite by default otherwise — the opposite of a design where an open Case's own
+evidence can silently expire out from under it, which is a foreseeable failure against
+J-D ("make this survive handover") and B4 (P0). FR-38 does not forbid this; it simply
+did not require it.
+
+*Affects:* [S-08 / S-09](#10-investigation-and-evidence-experience) (§10), [S-07](#10-investigation-and-evidence-experience)
+(§10), [S-26](#17-permissions-authority-and-audit-experience) (§17).
+
+**Classification/release-filter on egress — considered, deferred, not a UX decision.**
+The audit also asked whether the outbound event schema (S-22, FR-53) should carry a
+classification, ownership or release-filter field. It is deliberately **not added**:
+B8's data classification is itself UNKNOWN (OQ-10), and inventing a value set now would
+mean guessing a structure FR-53's own versioning would have to redo once OQ-10
+resolves. Logged in [docs/03-design/decisions.md](decisions.md).
+
+**UX-17, revised — completing the two-axis Case model.** A second research pass,
+[investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+(§6, R-12 through R-17), found the strongest convergent pattern across every
+case-management system it surveyed: an **administrative state** and a **recorded
+outcome**, kept as two independent, always-visible fields, never merged into one status.
+UX-17's closure/retention mechanic above is **completed, not replaced**, by this: the
+Case now also carries **open — unassigned**, **open — assigned** (with a plain owner
+field, empty by default, a person reference and never a role — S-23's prohibition on an
+assumed hierarchy stands), a **parked** state that is explicitly not closure, and a
+**reopened** state with a recorded trigger, which **re-suspends the retention clock
+UX-17 already established**. The outcome vocabulary (apprehension / seizure / nothing
+found / handed over / no action) is unchanged — the research recommends against
+importing the legally-freighted "cleared by arrest" / "unfounded" vocabulary
+law-enforcement case systems use, since NG-12 already forbids IBVAP asserting a legal
+classification. *Affects:* [S-08 / S-09](#10-investigation-and-evidence-experience) (§10, rewritten).
+
+#### DQ-14 — What does the Measurement screen actually show — RESOLVED
+
+**Question:** S-21 is named **Core**, required by B6 (P0) and by Exit Gates 3 and 4, but
+had no specification at all.
+
+**UX DECISION UX-18 — a rate view and a ranked-offender view, both split day/night, with
+no target number IBVAP has not measured.** S-21 separates a **rate view** (mean alerts
+per hour per camera+rule, worst hour, hours over a stated threshold, peak always shown
+beside average) from a **ranked-offender view** (the top-N noisiest camera+rule pairs and
+their share of all alerts). Both, and the cause histogram they carry, are split day and
+night throughout. The measurement window is stated on screen and no trend is drawn below
+it. A suppression panel shows every active suppression, its chosen end time, and its
+cause (UX-14). **No target or "acceptable rate" figure is ever shown** — only what was
+measured here.
+
+*Rationale:* [investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+(§4, R-1 through R-7) found ISA-18.2 — the real alarm-management standard this maps to —
+separates *performance* metrics from *diagnostic* metrics because they answer different
+questions asked at different moments; that ten to twenty alarms often cause 20–80% of
+total load, making a ranked list the single highest-value panel; that alarm rate alone
+(without peak) is explicitly not treated as an indicator by the standard itself; and that
+its target numbers are process-plant values for a continuously staffed console, which
+NFR-4's existing caution against setting numbers before measuring them already rules out
+for IBVAP.
+
+*Affects:* [S-21](#11-rule-and-zone-configuration) (§11, new), [S-15](#11-rule-and-zone-configuration)
+(§11).
+
+#### DQ-15 — How is a dismissal's cause captured without breaking the one-action assessment rule — RESOLVED
+
+**Question:** FR-49 requires a cause histogram behind the nuisance rate, but nothing in
+the alert-dismissal flow ever asks what the cause was, and F-2 requires assessment to
+stay one action — not a form.
+
+**UX DECISION UX-19 — the cause is captured on the suppression, not on the assessment,
+as one optional tap on a short preset list.** Applying the per-camera-per-rule
+suppression already offered after a `not real` assessment (FR-30) is
+where a cause is captured — never on the assessment action itself. It is one optional tap
+on a short preset list (e.g. wind, animal, shadow, glare, rain, other, don't know), never
+free text, never blocking. The list is site-extensible and shipped as an **unvalidated
+first attempt** — no external source found by the research names a scene-cause taxonomy
+for video, so whatever list IBVAP ships is a hypothesis to be revised from its own data
+(see Q-1 below).
+
+*Rationale:* [investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+(§5, R-8, R-9, R-11) found that alarm-management and SIEM practice converge on requiring
+a reason at the *consequential* act — shelving/suppression or case closure — never at
+first acknowledgement, and that every surveyed platform uses a short closed list with an
+explicit "undetermined," never free text, at that point. This is the same shape as F-2
+and UX-14 already impose on suppression; it costs nothing additional in interaction
+steps.
+
+*Affects:* [S-04 / S-05](#9-alert-experience) (§9), [S-15](#11-rule-and-zone-configuration)
+(§11), [S-26](#17-permissions-authority-and-audit-experience) (§17).
+
+#### DQ-16 — What does session, lockout and recovery behaviour actually look like — RESOLVED
+
+**Question:** S-01 is named **Core** (FR-59) and sits on the critical path of the
+product's fastest action (UX-12), but had no specification at all.
+
+Resolved by **UX-20**, recorded at [§17](#17-permissions-authority-and-audit-experience)
+(S-01) above.
 
 ### Still open — need a product decision
 
@@ -1421,9 +1632,11 @@ human re-check without making suppression harder to apply in the first place.
 | **DQ-2** | **Is there a physical annunciator at a post — a lamp, a buzzer, a siren — that IBVAP is expected to drive, or is the on-site display the only local annunciation?** | FR-31 requires configurable destinations "assuming none exists"; whether local annunciation is a *screen* or a *device* changes S-03a from a display mode into a hardware-adjacent configuration surface | S-03a designed as a **display mode only**; no physical annunciator is designed or implied |
 | **DQ-5** | **Is the `unsure` assessment terminal, or does it create an obligation — a re-queue, a hand-up, a timer?** | FR-29 names three outcomes but does not define `unsure`'s downstream behaviour; a re-queue implies a second reviewer, which implies a workflow OQ-3 has not established | `unsure` is **terminal and logged**, counted separately in measurement; no escalation is designed |
 | **DQ-7** | **What is the smallest display the product must remain fully usable on?** | UX-2 keeps the layout responsive, but "usable on a phone-sized screen" and "usable on a workstation" produce different information densities for S-05 and S-13 | Responsive, **workstation-first**; no minimum is committed until OQ-8 resolves |
-| **DQ-8** | **Should the Camera Passport be presentable as a signed, exportable document for procurement (U10), or only as an in-product surface?** | An exportable Passport becomes a quasi-certificate; **NG-18/NG-8 constrain what it may assert**, and the artefact would need its own prohibitions | Passport is **exportable/printable as an informational document**; **no certificate, signature or conformance framing is designed** |
+| **DQ-8** | **Should the Camera Spec Sheet be presentable as a signed, exportable document for procurement (U10), or only as an in-product surface?** | An exportable Spec Sheet becomes a quasi-certificate; **NG-18/NG-8 constrain what it may assert**, and the artefact would need its own prohibitions | Spec Sheet is **exportable/printable as an informational document**; **no certificate, signature or conformance framing is designed** |
 | **DQ-9** | **Does the product need a first-run / onboarding sequence, or does S-12 alone carry commissioning?** | AC-P10 is a timed test with a naive operator; onboarding either helps that number or becomes the thing that fails it | **No separate onboarding.** S-12 is the first-run path; validated by the AC-P10 timed test |
-| **DQ-10** | **When a Passport re-issue drops a capability that live rules depend on, do those rules auto-disable silently-but-visibly, or do they require human acknowledgement to stop?** | FR-12 raises the change and FR-11 forbids running an ineligible analytic — but the transition behaviour for **already-running** rules is not specified, and it is the moment P-1 and P-2 could collide | Rules **auto-disable immediately with a persistent, acknowledgeable notice**; events already produced retain their original stamps |
+| **DQ-10** | **When a Spec Sheet re-issue drops a capability that live rules depend on, do those rules auto-disable silently-but-visibly, or do they require human acknowledgement to stop?** | FR-12 raises the change and FR-11 forbids running an ineligible analytic — but the transition behaviour for **already-running** rules is not specified, and it is the moment P-1 and P-2 could collide | Rules **auto-disable immediately with a persistent, acknowledgeable notice**; events already produced retain their original stamps |
+| **DQ-17** | **Should a fourth assessment outcome — "real but not of interest" (benign positive), distinct from `not real` — be added?** | Changes FR-29's outcome vocabulary and therefore MVP scope; a nuisance-rate figure that conflates "real but expected" with "false positive" measures two different faults as one number | **Not added.** The three outcomes (real / not real / unsure) stand; recorded as an evidenced option, not a recommendation to adopt (investigative-case-management-platforms.md R-10) |
+| **DQ-18** | **Should IBVAP support bulk assessment of a correlated burst of alerts from one cause?** | F-1's one-event-per-firing rule doesn't cover a burst from a single cause; both SIEM platforms surveyed support editing all matching items at once | **Not added.** Assessment remains one alert at a time, as today; a burst is measured, not batch-actioned (investigative-case-management-platforms.md R-23) |
 
 ---
 
@@ -1437,17 +1650,19 @@ accepted in [decisions.md](../00-project/decisions.md).
 
 **Nothing in this document adds product scope.** Every capability, state, action and
 prohibition restates an item already present in those sources. The **UX DECISION**
-entries (UX-1 … UX-14) are *presentation* choices made at this stage; they are
-provisional and belong in a design-stage decisions log when one is created. **UX-12,
-UX-13 and UX-14 resolve DQ-3, DQ-4 and DQ-6 respectively** (see
-[Design Questions](#design-questions)); the remaining seven Design Questions are
-unchanged and still open. **This
+entries (UX-1 … UX-20) are *presentation* choices made at this stage; they are
+provisional and recorded, with rationale and date, in
+[docs/03-design/decisions.md](decisions.md) — the design-stage decisions log referenced
+below is that file. **UX-12, UX-13, UX-14, UX-15, UX-16, UX-17, UX-18, UX-19 and UX-20
+resolve DQ-3, DQ-4, DQ-6, DQ-11, DQ-12, DQ-13, DQ-14, DQ-15 and DQ-16 respectively** (see
+[Design Questions](#design-questions)); nine Design Questions remain still open (DQ-1,
+DQ-2, DQ-5, DQ-7, DQ-8, DQ-9, DQ-10, DQ-17, DQ-18). **This
 document does not modify [PRD.md](../02-product/PRD.md),
 [MVP.md](../02-product/MVP.md), or [decisions.md](../00-project/decisions.md).**
 
 **Open questions remain open.** OQ-1 … OQ-28 in
 [PRD §17](../02-product/PRD.md#17-open-questions) are unchanged by this document, and
-the ten Design Questions above are additional to them, not substitutes for them.
+the eighteen Design Questions above are additional to them, not substitutes for them.
 
 **Next:** visual UI design for the screens inventoried above, then
 [04-architecture](../04-architecture/). **No architecture and no technology stack is
