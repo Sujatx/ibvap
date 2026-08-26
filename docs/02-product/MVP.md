@@ -5,13 +5,13 @@
 **Status:** Frozen scope, derived from the approved PRD and the accepted decisions
 D-1 … D-14.
 
-**This document does not add anything.** It is a derivation, not an extension. Every
-statement below traces to [problem.md](../00-project/problem.md) (immutable), to
-[PRD.md](PRD.md), or to a decision accepted in
-[decisions.md](../00-project/decisions.md). No requirement, capability, priority,
-condition or acceptance criterion appears here that is not already present in one of
-those three. Where this document is shorter than the PRD, it is a selection; where it
-is differently arranged, it is a re-arrangement.
+This document is the frozen MVP scope — a derivation of the approved PRD and
+accepted decisions, not an extension of them. Every statement below traces to
+[problem.md](../00-project/problem.md) (immutable), to [PRD.md](PRD.md), or to
+a decision accepted in [decisions.md](../00-project/decisions.md). Where this
+document is shorter than the PRD, it is a selection; where it is more concrete,
+it is a re-arrangement — never a new requirement, capability, priority,
+condition or acceptance criterion.
 
 **Source of authority, in order:**
 
@@ -20,10 +20,9 @@ is differently arranged, it is a re-arrangement.
 2. [PRD.md](PRD.md) — approved product definition.
 3. [decisions.md](../00-project/decisions.md) — D-1 … D-14, all **accepted**.
 
-**What this document is not:** a UX design ([03-design](../03-design/)), a technical
-architecture ([04-architecture](../04-architecture/)), a stack selection, or an
-implementation plan. **No UI is designed here. No architecture is designed here. No
-code is written here.**
+UI design, technical architecture, stack selection and implementation belong
+to the later [03-design](../03-design/) and [04-architecture](../04-architecture/)
+stages, not to this document.
 
 **Label convention** is carried unchanged from [PRD.md §0.1](PRD.md#01-labels--and-the-one-distinction-that-matters-most)
 — **FACT**, **ASSUMPTION**, **HYPOTHESIS**, **UNKNOWN**, **DECISION**,

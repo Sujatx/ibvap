@@ -127,7 +127,7 @@ flowchart LR
 | PRD | ✓ Complete |
 | Product decisions D-1 – D-14 | ✓ Approved |
 | MVP scope | ✓ Frozen |
-| UX / Product Design | → Next |
+| UX / Product Design | → Proposed, pending approval |
 | Architecture | ○ Not started |
 | Engineering | ○ Not started |
 
@@ -164,6 +164,12 @@ flowchart LR
 | [PRD](docs/02-product/PRD.md) | Product Requirements Document |
 | [MVP](docs/02-product/MVP.md) | Frozen MVP scope |
 
+**Design**
+
+| Document | Description |
+|---|---|
+| [UX Definition](docs/03-design/UX.md) | Information architecture, screens, navigation, journeys and states for the frozen MVP |
+
 ## 9. Development CCTV environment
 
 This repository includes an existing home CCTV/DVR setup (`dvr.py`, `dvr.env`,
@@ -189,7 +195,8 @@ ibvap-surveillance/
 └── docs/
     ├── 00-project/           problem statement, vision, goals, decisions
     ├── 01-research/          domain, users, competitors, technology research
-    └── 02-product/           PRD, MVP scope freeze
+    ├── 02-product/           PRD, MVP scope freeze
+    └── 03-design/            UX definition
 ```
 
 ## 11. Development methodology

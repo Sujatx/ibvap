@@ -20,6 +20,30 @@ names is preserved in [§9](#9-sih-required-capabilities) and carried through to
 [technical-feasibility.md](../01-research/technology/technical-feasibility.md) ·
 [product-discovery.md](../01-research/users/product-discovery.md)
 
+## Contents
+
+0. [How to read this document](#0-how-to-read-this-document)
+1. [Product vision](#1-product-vision)
+2. [Problem statement](#2-problem-statement)
+3. [Target users](#3-target-users)
+4. [User needs / jobs](#4-user-needs--jobs)
+5. [Core user workflows](#5-core-user-workflows)
+6. [Product goals](#6-product-goals)
+7. [Functional requirements](#7-functional-requirements)
+8. [Non-functional requirements](#8-non-functional-requirements)
+9. [SIH-required capabilities](#9-sih-required-capabilities)
+10. [MVP scope](#10-mvp-scope)
+11. [Post-MVP scope](#11-post-mvp-scope)
+12. [Explicit non-goals](#12-explicit-non-goals)
+13. [Success metrics](#13-success-metrics)
+14. [Constraints](#14-constraints)
+15. [Assumptions](#15-assumptions)
+16. [Risks](#16-risks)
+17. [Open questions](#17-open-questions)
+18. [Acceptance criteria](#18-acceptance-criteria)
+19. [Product decisions requiring human approval](#19-product-decisions-requiring-human-approval)
+20. [Traceability — problem statement → this document](#20-traceability--problem-statement--this-document)
+
 ---
 
 ## 0. How to read this document

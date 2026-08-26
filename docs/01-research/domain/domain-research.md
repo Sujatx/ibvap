@@ -7,899 +7,821 @@
 surveillance is actually conducted today at Border Out Posts (BOPs), check
 posts, and border roads.
 
-> **This document does not decide what IBVAP will build.** It records how the
-> domain works, what is known, what is assumed, and what is still unknown.
-> Product scoping happens later in `docs/02-product/`, per
-> [CLAUDE.md](../../../CLAUDE.md).
+This document records how border CCTV surveillance actually works today, what
+is well-evidenced, what is inferred, and what remains unknown, to ground later
+product scoping in `docs/02-product/` (per [CLAUDE.md](../../../CLAUDE.md)).
+Statements are sourced inline as `[Sn]`, keyed to [§9 References](#9-references);
+where a claim rests on inference or on a source that could not be
+independently verified, that is said explicitly in the sentence. A number of
+primary government documents (PIB releases, MHA press PDFs, a DHS Privacy
+Impact Assessment, a Sandia report, GAO product pages) could not be fetched
+directly and are recorded from search-engine summaries instead, marked
+**[indirect]** at point of use — see [§6 Risks / Limitations](#6-risks--limitations).
+
+## Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Research Objective / Scope](#2-research-objective--scope)
+3. [Key Findings](#3-key-findings)
+4. [Detailed Findings](#4-detailed-findings)
+5. [Implications for IBVAP](#5-implications-for-ibvap)
+6. [Risks / Limitations](#6-risks--limitations)
+7. [Open Questions / Research Gaps](#7-open-questions--research-gaps)
+8. [Conclusions](#8-conclusions)
+9. [References](#9-references)
 
 ---
 
-## How to read this document
+## 1. Executive Summary
 
-Per [CLAUDE.md](../../../CLAUDE.md) §3.7, every substantive statement is
-labelled:
+Border CCTV in this domain sits inside a much larger, MHA-run sensor and
+surveillance programme (CIBMS) that also includes radar, laser barriers,
+thermal imaging, aerostats and unattended ground sensors, but the problem
+statement targets the plainer layer beneath that: standard IP cameras that
+today only record and require continuous human watching. Evidence from both
+Indian sources and a US analogue converges on the same three structural
+weaknesses in that model: sustained human attention degrades within 20–35
+minutes even though operators are expected to watch several cameras at once;
+sensor-based alerting historically produces very high false-alarm rates (90%
+in the US SBInet programme) with no documented Indian protocol for
+distinguishing a person from wildlife or wind-blown vegetation; and neither
+the Indian nor the US material shows evidence that anyone systematically
+measures whether the surveillance technology actually contributed to an
+outcome.
 
-| Label | Meaning |
-|---|---|
-| **FACT** | Verifiable and sourced. The source is cited as `[Sn]`. |
-| **ASSUMPTION** | Believed true but not verified against a source. |
-| **UNKNOWN** | Identified gap. Nobody on this project knows this yet. |
+The operating environment is harsh and resource-constrained: erratic or
+absent power and connectivity at posts, line-of-sight equipment degraded by
+fog/rain/vegetation, chronic shortages of technical skills and spare parts,
+and heavy reliance on vendors with limited oversight. Any software that
+processes video centrally is constrained by real bandwidth limits — per-camera
+uplinks in comparable constrained deployments run to a few hundred kilobits
+per second or less, and a single H.264 stream is already ~5 Mbps before
+multiple viewers multiply that load — making full-rate video backhaul to a
+central site for analysis look infeasible at scale on this kind of network.
+Evidentiary and legal constraints are real and specific: BSF has no policing
+power and must hand suspects/seizures to civil police within 24 hours, and
+electronic evidence including CCTV footage must satisfy a Section 63 BSA 2023
+certificate that includes a hash value.
 
-A statement labelled **FACT** is a fact *about what the cited source says*.
-Where a source is a vendor, a news outlet, or a think-tank interpretation
-rather than a primary government document, this is noted inline.
+The technology-performance evidence available (face recognition, ANPR) is
+consistent in warning that lab-grade accuracy figures do not transfer to
+uncontrolled, non-cooperative CCTV conditions — a caution directly relevant to
+capabilities the problem statement names. A UK certification scheme (i-LIDS)
+formalises a distinction — a system can be certified as the *sole* detector in
+a zone, or only as *support* to a human — that is likely to shape how border
+operators will actually trust and use any analytics IBVAP produces.
 
-### Source retrieval notes
-
-Some primary government sources could not be retrieved directly during this
-research pass and are recorded from search-engine summaries of their content
-rather than from the document text. These are marked **[indirect]** at the
-point of use and listed in [§9 Sources](#9-sources). This is a known weakness
-of this research pass — see [§8](#8-unknowns--questions-to-investigate-next),
-Q-19.
-
-Blocked on direct fetch (HTTP 403 / network refused) during this pass:
-PIB press releases (`pib.gov.in`), MHA press release PDFs (`mha.gov.in`),
-DHS Privacy Impact Assessment PDF (`dhs.gov`), Sandia SAND2014-17929
-(`osti.gov`), GAO product pages (`gao.gov`).
-
----
-
-## 1. Operational environment
-
-### 1.1 Where border surveillance happens
-
-**FACT** — Border security forces deploy CCTV cameras at Border Out Posts
-(BOPs), check posts, border roads, and other strategic locations for
-surveillance and monitoring. *(Source: the official problem statement itself,
-[problem.md](../../00-project/problem.md).)*
-
-**FACT** — A Border Out Post (BOP) is the permanent operational base of the
-Border Security Force (BSF) along a border. BOPs are described as
-self-contained defence outposts with a designated area of responsibility,
-equipped with infrastructure for accommodation, logistics and combat
-operations. `[S15]` *(news/analysis reporting on an MHA sanction)*
-
-**FACT** — In October 2023 the Government of India sanctioned construction of
-**509 composite BOPs** — 383 along the India–Bangladesh border and 126 along
-the India–Pakistan border. `[S15]` *(news reporting)*
-
-**FACT** — India's land border guarded by BSF on the Pakistan side spans
-**3,323 km**, comprising the 2,308 km Radcliffe Line (International Boundary),
-the 776 km Line of Control, and the 110 km Actual Ground Position Line.
-Approximately **145.876 km (~6.3%)** is unfenced riverine stretches. `[S2]`
-
-**FACT** — An Integrated Check Post (ICP) is a designated land port for
-cross-border movement of people and goods, operated by the Land Ports
-Authority of India (LPAI). As of the cited surveys India operated **9 ICPs**:
-Attari, Agartala, Petrapole, Raxaul, Jogbani, Moreh, Sutarkandi, Srimantapur,
-and Dera Baba Nanak (Kartarpur Corridor). `[S6][S7]`
-
-**FACT** — ICP security infrastructure includes CCTV cameras and observation
-towers manned by BSF personnel, alongside baggage/cargo scanners operated by
-Customs. `[S6][S7]`
-
-**ASSUMPTION** — "Check post" in the problem statement covers both the large
-LPAI-run ICPs and smaller force-run road/track check posts on approach roads.
-The problem statement does not disambiguate. *(Basis: the statement lists
-"BOPs, check posts, border roads" as a spectrum of locations, not as three
-formal categories.)*
-
-**UNKNOWN** — Whether the deploying force for IBVAP would be BSF specifically,
-or also ITBP (China border), SSB (Nepal/Bhutan), Assam Rifles (Myanmar), or
-state police. The problem statement says "border security forces" generically.
-
-### 1.2 What the terrain and conditions are like
-
-**FACT** — Border terrain in the CIBMS deployment areas includes vast *char*
-lands (river islands) and innumerable river channels; the 61 km stretch in
-Dhubri district, Assam, where the Brahmaputra enters Bangladesh, is described
-as making border guarding "a tough task especially during rainy season."
-`[S3][S21]` **[indirect for S3]**
-
-**FACT** — Riverine areas present specific difficulties: equipment must
-withstand flash floods and seasonal water-level changes, and concrete
-embankments are mandated to stabilise river channels before laser
-infrastructure can be installed. `[S2]`
-
-**FACT** — Most border surveillance equipment operates on **line-of-sight**
-principles, creating vulnerabilities during heavy rain, storms and dense fog.
-Dense vegetation and difficult topography further degrade coverage. `[S1][S2]`
-
-**FACT** — Border observation posts are reported to lack basic electricity and
-water connections; the Border Area Development Programme allocates roughly 41%
-of funding to infrastructure creation. `[S2]`
-
-**FACT** — Erratic power supply in border regions is identified as an
-infrastructure problem for electronic surveillance systems. `[S1]`
-
-**ASSUMPTION** — Fog is a seasonally dominant condition on the Punjab and
-Jammu plains in winter, and dust/haze in the western desert sectors. *(Basis:
-line-of-sight/fog degradation is repeatedly cited `[S1][S2]` but the sources
-do not quantify by sector or season.)*
-
-**UNKNOWN** — Actual measured environmental profile per sector: fog-days per
-year, ambient temperature range at camera housings, dust loading, humidity,
-lightning incidence, and their effect on installed camera image quality.
-
-### 1.3 What surveillance technology is already deployed
-
-**FACT** — The Comprehensive Integrated Border Management System (CIBMS) is
-the Ministry of Home Affairs programme to integrate manpower, sensors,
-networks, intelligence and command-and-control to improve situational
-awareness. `[S1][S2][S21]`
-
-**FACT** — CIBMS is described as having three main components: (1)
-surveillance technology — sensors, detectors, cameras, ground-based radar,
-micro-aerostats, lasers; (2) a dedicated communication network — fibre optic
-cable and satellite communication; (3) a **Command and Control Centre**, where
-data is aggregated so senior commanders receive a composite situational
-picture, analyse and classify the threat, and coordinate field response.
-`[S1]`
-
-**FACT** — Technologies documented in CIBMS-related deployments include:
-thermal imaging and Hand-Held Thermal Imagers (HHTIs), Night Vision Devices
-(NVDs) and Passive Night Vision Binoculars (PNVBs), Battlefield Surveillance
-Radars (BFSRs) with 360° coverage, laser barriers, CCTV cameras operating
-round-the-clock, Unattended Ground Sensors, fibre-optic communication, a 3-D
-GIS terrain layer, satellite imagery from ISRO and NTRO, UAVs and aerostat
-balloons with day/night vision, and underground monitoring sensors. `[S2]`
-
-**FACT** — **BOLD-QIT** (Border Electronically Dominated QRT Interception
-Technique) was undertaken by the BSF's Information and Technology Wing in
-January 2018 and inaugurated in March 2019, covering the Brahmaputra span in
-Dhubri with microwave communication, OFC cables, DMR communication, day and
-night surveillance cameras and an intrusion detection system. **These feeds go
-to BSF Control Rooms on the border and enable BSF Quick Reaction Teams (QRTs)
-to intercept illegal crossings.** `[S3][S21]` **[indirect for S3]**
-
-**FACT** — Two CIBMS "smart fencing" pilot projects in the Samba sector,
-Jammu — stretches of **5.3 km and 5.5 km** — were operationalised in September
-2018. Stage-I pilots (Jammu and Assam) are reported complete; Stage-II
-involves rollout of **153 km in 4 patches** along the Indo-Pakistan and
-Indo-Bangladesh borders. `[S3][S4]` **[indirect]**
-
-**FACT** — In 2025 the BSF is reported to have deployed around 5,000
-body-worn cameras, biometric recording devices and night-vision-enabled
-monitoring systems along the Bangladesh border. `[S5]` *(encyclopedic
-secondary source — treat as low-confidence)*
-
-**ASSUMPTION** — The CCTV cameras the problem statement refers to as "existing
-CCTV infrastructure" are predominantly standard IP cameras recorded to
-DVR/NVR appliances and viewed on a video wall or client software, rather than
-the specialised CIBMS sensor suite. *(Basis: the problem statement explicitly
-contrasts "standard IP-based CCTV cameras" against "dedicated FRS, ANPR, or
-smart-camera hardware". The CIBMS sensor grid described in `[S1][S2]` covers
-only pilot-scale km counts, whereas CCTV is described as being at BOPs, check
-posts and border roads generally.)*
-
-**UNKNOWN** — The actual installed base: how many cameras per BOP/check post,
-which makes/models, what resolution, what codec, whether PTZ or fixed, whether
-they are ONVIF-conformant, whether they are on an isolated LAN, and what
-DVR/NVR or VMS software (if any) sits in front of them.
-
-**UNKNOWN** — Whether "existing CCTV infrastructure" in the problem statement
-means CIBMS-era installations, older standalone installations, or both.
+Several facts that would materially change product scoping are not
+established by any source found in this pass and are treated as open
+questions rather than assumptions: the actual installed camera base (count,
+model, resolution, ONVIF conformance) at a representative BOP or check post,
+what "existing command and control systems" concretely are, what "suspicious
+activity" means operationally to a border operator, and the real operator
+staffing/shift pattern. These gaps are listed in priority order in
+[§7](#7-open-questions--research-gaps) and should be closed, where possible,
+before product scope is finalised.
 
 ---
 
-## 2. People / users involved
+## 2. Research Objective / Scope
 
-The problem statement names only "border security forces". The following roles
-are reconstructed from the sources and are labelled accordingly.
+The objective of this research pass was to establish, from independently
+verifiable sources wherever possible, how border CCTV surveillance is
+conducted today at BOPs, check posts, and border roads — the operational
+environment, the people involved, the current workflow from detection to
+resolution, the problems with the conventional approach, the events operators
+actually watch for, and the operational constraints (power, bandwidth,
+weather, maintenance, legal/evidentiary) that bound what any software
+solution could do on this infrastructure. It also builds a glossary of
+domain terminology and enumerates unresolved questions for later research
+passes (users, competitors, technology) and for product scoping.
 
-### 2.1 Roles identified in sources
-
-**FACT** — **BSF Control Room** operators exist at border level and receive
-sensor/camera feeds; the stated operational purpose is to enable QRTs to
-intercept. `[S3][S21]` **[indirect for S3]**
-
-**FACT** — **Quick Reaction Teams (QRTs)** are the field response element
-dispatched on detection; interception by QRT is the named outcome in BOLD-QIT.
-`[S3][S21]` **[indirect for S3]**
-
-**FACT** — **Senior commanders** at the Command and Control Centre receive a
-composite situational picture, analyse and classify the threat, and coordinate
-response. `[S1]`
-
-**FACT** — The BSF has approximately **290,000 active personnel** across
-**192 battalions**. `[S5]` *(encyclopedic secondary source)*
-
-**FACT** — In the US analogue, Border Patrol **agents** both monitor
-surveillance feeds and respond in the field, and record "asset assists" —
-instances where a technology contributed to an apprehension or seizure.
-`[S12]` **[indirect]**
-
-### 2.2 Roles inferred
-
-**ASSUMPTION** — A typical staffing chain for a camera-derived incident is:
-*camera → control-room operator (detects/notices) → post commander or duty
-officer (assesses/decides) → QRT (responds) → record-keeper (logs).* *(Basis:
-this is the shape implied by `[S1]` (analyse/classify/coordinate) and
-`[S3][S21]` (feeds → control room → QRT). The intermediate assessment role is
-not named explicitly in any retrieved source.)*
-
-**ASSUMPTION** — Control-room duty is a rotating shift assignment held by
-general-duty personnel, not by a dedicated professional CCTV-operator cadre.
-*(Basis: `[S1]` reports "lack of technical expertise for equipment operation
-and maintenance among BSF personnel" as a systemic deficiency, which is
-inconsistent with a specialist operator cadre.)*
-
-**ASSUMPTION** — Surveillance output has at least three distinct consumers
-with different needs: the **operator** (needs to not miss things, right now),
-the **commander** (needs an assessed picture to decide), and the
-**investigator/prosecutor** (needs retrievable, defensible evidence after the
-fact). *(Basis: `[S1]` for the first two; `[S22][S29]` for the third.)*
-
-**UNKNOWN** — How many operators are on duty per control room, how many
-cameras/screens each watches, shift length, rotation policy, and whether
-operators are trained or certified in monitoring specifically.
-
-**UNKNOWN** — Whether officers above battalion level (Sector, Frontier, Force
-HQ, MHA) consume live video, only summaries, or only post-incident reports.
-
-**UNKNOWN** — Whether civilian/contracted technicians maintain the CCTV
-systems, and whether they have access to feeds or recordings.
-
-**UNKNOWN** — Whether any non-force stakeholders (Customs, immigration,
-state police, intelligence agencies) consume the same camera feeds at ICPs.
+This document deliberately stops short of deciding what IBVAP should build,
+which capabilities to prioritise, what the interface should look like, or
+what models/runtimes/compute placement to use — those are later-stage
+questions under `docs/02-product/` and `docs/04-architecture/`, per
+[CLAUDE.md](../../../CLAUDE.md) §2.
 
 ---
 
-## 3. Current surveillance workflow
+## 3. Key Findings
 
-### 3.1 The baseline workflow the problem statement describes
+- **The baseline is recording plus continuous human watching.** Conventional
+  CCTV at these sites provides only video recording and live monitoring;
+  advanced functions (FRS, ANPR, intrusion detection, object tracking)
+  require specialised, costly, proprietary hardware today (problem statement).
+- **Human vigilance is a hard, measured limit.** Sustained-attention
+  performance measurably declines 20–35 minutes into a watching task, while
+  operators are typically expected to observe 3–30 camera scenes at once
+  `[S9][S10]`. The often-repeated "45% missed at 12 min / 95% at 22 min"
+  figure circulating in vendor material could not be traced to an identifiable
+  study and should be treated as unverified `[S30]`.
+- **False and nuisance alarms are the dominant historical failure mode of
+  sensor-based perimeter systems.** 90% of SBInet sensor alerts were false
+  alarms in the US `[S1]`; CIBMS analysis names false alarms and sensor
+  malfunction as a leading technical issue and does not define a protocol for
+  telling an infiltrator from wildlife or environmental noise `[S1][S2]`.
+- **Nobody appears to measure whether the technology worked.** US GAO found
+  Border Patrol did not use available data to determine surveillance
+  technologies' contribution to outcomes, and found data-quality problems in
+  self-reported "asset assist" records `[S12]`. No Indian-side source
+  confirms or denies the same gap exists there.
+- **Bandwidth and power are real, not theoretical, constraints.** CIBMS
+  literature does not specify backbone bandwidth and flags this as a gap
+  `[S2]`; comparable constrained edge deployments report per-camera uplinks of
+  a few hundred kbps or less `[S28]`; a single H.264 stream is already ~5 Mbps
+  and scales with viewer count `[S23]`. Power at border posts is erratic and
+  many posts lack basic electricity `[S1][S2]`.
+- **The evidentiary chain crosses organisational boundaries.** BSF cannot
+  register an FIR or investigate; it must hand suspects and seizures to local
+  police within 24 hours `[S22]`. Electronic evidence, including CCTV
+  footage, requires a Section 63 BSA 2023 certificate with a disclosed hash
+  value, signed by the device custodian and an expert `[S29]`.
+- **Recorded event volumes are substantial and rising in places.** 1,104
+  infiltration attempts were detected on the India–Bangladesh border in 2025
+  (up from 977 in 2024, the highest in nearly a decade) `[S16][S17]`; ₹461.07
+  crore of contraband was seized on the same border in 2024, also a 10-year
+  high `[S16]`; BSF reported seizing 200 Pakistani drones carrying 287 kg of
+  heroin and 174 weapons by October 2025 `[S18][S19]`.
+- **Lab-grade recognition accuracy does not transfer to field CCTV.** NIST's
+  face-recognition benchmarks use cooperative, well-lit, frontal, high-resolution
+  subjects, which production CCTV does not provide `[S26]`. India's ~210
+  million vehicles and 50+ number-plate formats sit well outside the
+  standardised-plate conditions under which ANPR vendors report accuracy
+  routinely exceeding 90% `[S27]`.
+- **Trust, not just accuracy, determines whether analytics reduce workload.**
+  The UK i-LIDS scheme certifies a video analytic either as a *primary (sole)*
+  detector or only as a *secondary (support)* measure `[S25]` — which of these
+  an operator believes an IBVAP feature to be will determine whether it
+  actually reduces the burden on a human watcher.
+- **Material unknowns block confident product scoping**: the actual installed
+  camera base and its specifications, what "existing command and control
+  systems" and "suspicious activity" concretely mean to the user, and real
+  operator staffing and shift patterns are not established by any source
+  found in this pass (see [§7](#7-open-questions--research-gaps)).
 
-**FACT** — Conventional CCTV systems primarily provide **video recording and
-live monitoring**, requiring **continuous human observation**. *(Source: the
-problem statement, [problem.md](../../00-project/problem.md).)*
+---
 
-This is the workflow IBVAP's domain begins from: a human watches, and a
-recorder records.
+## 4. Detailed Findings
 
-### 3.2 Detection → assessment → response
+### 4.1 Operational environment
 
-**FACT** — In the CIBMS design, field detection equipment feeds data through
-communication networks to centralised command posts, where commanders analyse
-the information and direct quick reaction teams deployed in the field. `[S1]`
+**Locations.** Border security forces deploy CCTV at BOPs, check posts,
+border roads and other strategic locations (problem statement). A Border Out
+Post is a permanent, self-contained defence outpost with a designated area of
+responsibility, accommodation, logistics and combat infrastructure `[S15]`; in
+October 2023 the Government of India sanctioned 509 new composite BOPs — 383
+on the India–Bangladesh border and 126 on the India–Pakistan border `[S15]`.
+The India–Pakistan land border guarded by BSF spans 3,323 km (2,308 km
+Radcliffe Line / International Boundary, 776 km Line of Control, 110 km
+Actual Ground Position Line), of which roughly 145.876 km (~6.3%) is unfenced
+riverine stretch `[S2]`. An Integrated Check Post (ICP) is a land port for
+cross-border people/goods movement operated by the Land Ports Authority of
+India; nine were reported operating (Attari, Agartala, Petrapole, Raxaul,
+Jogbani, Moreh, Sutarkandi, Srimantapur, Dera Baba Nanak/Kartarpur) with CCTV,
+observation towers and Customs-operated scanners `[S6][S7]`. The problem
+statement does not disambiguate whether "check post" covers only these large
+ICPs or also smaller force-run road checkpoints; it is read here as covering
+both, since it lists the term as part of a spectrum of locations rather than a
+formal category. Which force(s) beyond BSF (ITBP, SSB, Assam Rifles, state
+police) would deploy IBVAP is not stated in the problem statement and is
+unresolved.
 
-**FACT** — Laser barriers trigger **audible sirens** when an object breaches
-coverage. `[S2]`
+**Terrain and conditions.** Riverine char-land and channel terrain, such as
+the 61 km Brahmaputra stretch in Dhubri, Assam, is described as making border
+guarding especially difficult in the rainy season `[S3][S21]` **[indirect for
+S3]**; equipment there must withstand flash floods and seasonal water-level
+change, and concrete embankments are required before some infrastructure can
+be installed `[S2]`. Most surveillance equipment is line-of-sight and is
+degraded by heavy rain, storms, dense fog, vegetation and difficult topography
+`[S1][S2]`. Observation posts are reported to lack basic electricity and
+water; the Border Area Development Programme allocates roughly 41% of its
+funding to infrastructure creation, and erratic power supply is separately
+flagged as a surveillance-system problem `[S1][S2]`. Fog is plausibly a
+seasonally dominant condition on the Punjab/Jammu plains in winter and
+dust/haze in the western desert, but no source quantifies this by sector or
+season, and no source gives measured fog-days, temperature range, dust
+loading or humidity at camera housings.
 
-**FACT** — The cited analysis notes the CIBMS design does **not** define
-protocols for distinguishing infiltrators from wildlife or environmental
-factors that generate alerts. `[S2]`
+**Existing surveillance technology.** The Comprehensive Integrated Border
+Management System (CIBMS) is the MHA programme integrating manpower, sensors,
+networks, intelligence and command-and-control `[S1][S2][S21]`, built from
+three parts: surveillance technology (sensors, cameras, ground radar,
+micro-aerostats, lasers), a dedicated fibre/satellite communication network,
+and a Command and Control Centre where data is aggregated into a composite
+picture for commanders `[S1]`. Documented CIBMS-linked technologies include
+thermal imaging and hand-held thermal imagers, night-vision devices and
+passive night-vision binoculars, 360° battlefield surveillance radars, laser
+barriers, round-the-clock CCTV, unattended ground sensors, fibre-optic
+communication, a 3-D GIS terrain layer, ISRO/NTRO satellite imagery, UAVs and
+aerostats, and underground monitoring sensors `[S2]`. BOLD-QIT (Border
+Electronically Dominated QRT Interception Technique), begun January 2018 and
+inaugurated March 2019, covers the Dhubri riverine stretch with microwave,
+OFC and DMR communication, day/night cameras and an intrusion detection
+system, feeding BSF control rooms so Quick Reaction Teams can intercept
+`[S3][S21]` **[indirect for S3]**. Two CIBMS "smart fencing" pilots in Samba
+sector, Jammu (5.3 km and 5.5 km) were operationalised in September 2018;
+Stage-I pilots (Jammu, Assam) are reported complete and Stage-II envisages
+153 km across 4 patches `[S3][S4]` **[indirect]**. Separately, BSF is reported
+to have deployed around 5,000 body-worn cameras, biometric recorders and
+night-vision monitoring along the Bangladesh border by 2025, though this
+comes from a low-confidence encyclopedic source `[S5]`.
 
-**FACT** — In the US analogue, the operational sequence for border
-surveillance is described as **detect → track → identify/classify → resolve**.
-`[S14]` **[indirect]**
+The problem statement's "existing CCTV infrastructure" most plausibly refers
+to standard IP cameras recorded to DVR/NVR appliances rather than the
+specialised CIBMS sensor suite — the statement explicitly contrasts "standard
+IP-based CCTV cameras" against "dedicated FRS, ANPR, or smart-camera
+hardware," and the CIBMS grid described above covers only pilot-scale
+distances, whereas CCTV is described as present at BOPs, check posts and
+border roads generally. But the actual installed base — camera count per
+site, make/model, resolution, codec, PTZ vs. fixed, ONVIF conformance,
+network isolation, and what (if any) VMS sits in front of it — is not
+established by any source, nor is whether "existing CCTV" means CIBMS-era
+installations, older standalone ones, or a mix.
 
-**ASSUMPTION** — The practical Indian border workflow is: *sensor or operator
-detects something → operator or duty officer slews a camera / looks harder to
-**assess** whether it is a real threat → if real, a QRT is dispatched and
+### 4.2 People and roles
+
+The problem statement names only "border security forces" generically. BSF
+Control Rooms receive sensor/camera feeds so that Quick Reaction Teams can
+intercept `[S3][S21]` **[indirect for S3]**; senior commanders at the Command
+and Control Centre receive the composite picture, analyse/classify the threat
+and coordinate response `[S1]`. BSF has approximately 290,000 personnel across
+192 battalions `[S5]`. In the US analogue, Border Patrol agents both monitor
+feeds and respond in the field, and log "asset assists" where a technology
+contributed to an apprehension or seizure `[S12]` **[indirect]**.
+
+No source gives the intermediate assessment step by name; a plausible
+staffing chain — camera → control-room operator (detects) → post
+commander/duty officer (assesses) → QRT (responds) → record-keeper (logs) — is
+assembled from `[S1]` (analyse/classify/coordinate) and `[S3][S21]`
+(feeds → control room → QRT), not stated end-to-end anywhere. Control-room
+duty is plausibly a rotating general-duty shift rather than a specialist
+cadre, since `[S1]` separately reports "lack of technical expertise for
+equipment operation and maintenance among BSF personnel" as a systemic
+deficiency — a claim in tension with a dedicated professional operator corps.
+Surveillance output likely has at least three distinct consumers with
+different needs: an operator who must not miss things in real time, a
+commander who needs an assessed picture to decide, and an
+investigator/prosecutor who needs retrievable, defensible evidence afterward
+`[S1][S22][S29]`.
+
+Unresolved: how many operators per control room and how many
+cameras/screens each watches, shift length and rotation, whether operators
+are trained/certified for monitoring; whether officers above battalion level
+consume live video or only summaries/reports; whether civilian or contracted
+technicians maintain the systems and whether they can access feeds; and
+whether non-force stakeholders (Customs, immigration, state police,
+intelligence) consume the same ICP camera feeds.
+
+### 4.3 Current surveillance workflow
+
+Conventional CCTV today provides video recording and live monitoring only,
+requiring continuous human observation (problem statement) — the workflow
+IBVAP's domain begins from. In the CIBMS design, field detection equipment
+feeds data through the communication network to command posts, where
+commanders analyse it and direct QRTs `[S1]`; laser barriers specifically
+trigger audible sirens on breach `[S2]`, and CIBMS analysis notes the design
+does not define protocols for telling an infiltrator from wildlife or an
+environmental trigger `[S2]`. The US analogue names an operational sequence of
+detect → track → identify/classify → resolve `[S14]` **[indirect]**.
+
+A plausible Indian sequence, assembled from the sources above rather than
+stated end-to-end by any one of them, is: a sensor or operator detects
+something → an operator or duty officer slews a camera or looks harder to
+assess whether it is a real threat → if real, a QRT is dispatched and
 informed by radio → the outcome (apprehension, seizure, nothing found) is
-recorded → recorded video is retained and retrieved later if the incident
-becomes a case.* *(Basis: assembled from `[S1]`, `[S2]`, `[S3]`, `[S14]`. No
-retrieved source states the full Indian sequence end-to-end.)*
+recorded → the video is retained and retrieved later if the incident becomes
+a case. Detection and assessment appear to be genuinely separate functions —
+a sensor alarm is not itself an incident; a human must look at imagery to
+decide, which is arguably why CCTV exists alongside fences and other sensors
+at all: the camera is the assessment medium for alarms raised by other means
+(`[S1]`'s Command and Control Centre function is explicitly "analyse and
+classify," distinct from sensing). The Sandia perimeter-security literature
+that formalises this detection/assessment distinction (`[S11]`) could not be
+retrieved in this pass.
 
-**ASSUMPTION** — **Detection and assessment are separate functions.** A sensor
-alarm is not an incident; a human must look at imagery to decide. This is the
-core reason CCTV exists alongside fences and sensors: cameras are the
-*assessment* medium for alarms raised by other means. *(Basis: `[S1]`
-describes the Command and Control Centre's function as "analyse and classify
-the threat", which is assessment, distinct from the sensors' detection. The
-Sandia perimeter-security literature that formalises this distinction
-(`[S11]`) could not be retrieved in this pass — see Q-19.)*
+Not established by any source: what an operator is required to do when an
+alert fires (acknowledge/log/escalate/dispatch, and whether a written SOP
+exists); what channel carries an alert to the QRT beyond BOLD-QIT's mention of
+DMR radio `[S3]`; and whether any detection-to-interception response-time
+target exists.
 
-### 3.3 Alert handling
+**Event logging.** "Real-time alert generation and event logging" is named as
+a required capability in the problem statement — its presence as a stated
+requirement suggests it is currently absent or inadequate. Today's logging is
+plausibly manual, paper- or register-based, with video retrieval done ad hoc
+by scrubbing DVR timelines, though this is inference from the problem
+statement's own framing rather than a sourced claim. Whether any digital
+incident register exists today, what fields it captures, and whether it links
+to video are unknown.
 
-**UNKNOWN** — What an operator is *required* to do when an alert fires:
-acknowledge, log, escalate, dispatch? Is there a written SOP or Standing Order?
+**Investigation and evidence.** BSF has no policing power: it cannot register
+an FIR or investigate, may only conduct preliminary questioning, and must hand
+a suspect or seizure to local police within 24 hours `[S22]`. Its powers of
+arrest, search and seizure extend to a belt from the border reported as up to
+50 km in Assam, Punjab and West Bengal after a 2021 notification (previously
+15 km) and up to 80 km in Gujarat — the notification's extension is
+politically contested `[S22]`. Electronic records including CCTV footage are
+governed by Section 63 of the Bharatiya Sakshya Adhiniyam (BSA) 2023, in force
+from 1 July 2024 in place of Section 65B of the Indian Evidence Act 1872;
+admissibility of a copy requires a certificate — signed by the person in
+charge of the device and by an expert — that discloses the record's hash
+value `[S29]`. Together these make the evidence chain cross-organisational:
+the force detects and records, but the case is built by state police and
+tried in a civil court, so any exported video must survive handover to an
+organisation that did not produce it. Current export/handover practice
+(format, who signs, whether hashes are actually computed, turnaround time,
+and how often footage is used in prosecutions) and mandated or practised
+retention periods are both unknown.
 
-**UNKNOWN** — What communications channel carries the alert to the QRT (DMR
-radio is named in BOLD-QIT `[S3]`, but the alerting procedure is not).
+**Command and control integration.** The problem statement requires
+"integration with existing command and control systems," and `[S1]` confirms
+a Command and Control Centre is architecturally central to CIBMS — but `[S1]`
+also flags that centralised decision-making may delay urgent field responses,
+i.e. C2 integration is not a pure benefit. What the "existing command and
+control systems" concretely are (names, vendors, protocols, APIs, data
+models, network reachability from camera sites) and at what echelon they live
+(BOP/Company/Battalion/Sector/Frontier/Force HQ) are unknown.
 
-**UNKNOWN** — Response-time expectations. Is there a target time from
-detection to interception?
+### 4.4 Problems with conventional CCTV monitoring
 
-### 3.4 Event logging
+**Human attention.** Vigilance decrement — a measurable decline in
+sustained-attention task performance — generally sets in 20–35 minutes into
+the task `[S9]`, a peer-reviewed finding. CCTV monitoring is vigilance-intensive,
+with operators typically required to watch 3–30 camera scenes concurrently
+`[S9][S10]`, and system effectiveness is bounded by the operator's own
+detection ability `[S9]`. The widely repeated claim that an operator misses
+"up to 45% of screen activity after 12 minutes and up to 95% after 22
+minutes" appears throughout vendor/trade material `[S30]`, but the underlying
+study is not identifiable from any source repeating it, so the specific
+percentages should be treated as unverified — the defensible, peer-reviewed
+figure is the 20–35 minute decrement above. This is recorded because the
+45%/95% figure will likely surface in competitor material and hackathon
+pitches and the project should know it is soft. Separately, operator reliance
+on a semi-automated system is itself shaped by the system's stated
+confidence, its actual accuracy, and task complexity — adding automation
+changes operator behaviour, not just workload `[S10]`.
 
-**FACT** — "Real-time alert generation and **event logging**" is named as a
-required capability in the problem statement. Its presence as a *requirement*
-indicates it is currently either absent or inadequate.
+**False and nuisance alarms.** In the US SBInet programme, 90% of sensor
+alerts were false alarms, cited as a cautionary parallel for CIBMS `[S1]`.
+CIBMS analysis separately names false alarms and sensor malfunctions as a
+leading technical issue alongside line-of-sight constraints and unreliable
+transmission `[S1]`, and does not define protocols for distinguishing
+infiltrators from wildlife or environmental triggers `[S2]`. The dominant
+nuisance sources at Indian borders are plausibly livestock (including
+smuggled cattle themselves), wildlife, wind-blown vegetation, rain and
+insects on the lens, headlight/IR glare at night, and ordinary agricultural
+activity in the border belt — general perimeter-security knowledge plus
+`[S2]`'s explicit mention of wildlife, but not measured at these specific
+sites. An alerting system that is not trusted is plausibly worse than no
+alerting system at all, since it consumes attention while supplying false
+assurance — an inference from `[S10]`'s finding that system accuracy drives
+operator reliance.
 
-**ASSUMPTION** — Event logging today is largely manual and paper- or
-register-based at post level, with video retrieval done ad hoc by scrubbing
-DVR timelines. *(Basis: inference from the problem statement's framing of
-conventional CCTV as "recording and live monitoring" only. Not sourced.)*
+**Recording without intelligence.** Conventional CCTV provides only recording
+and live monitoring; advanced functions require specialised hardware and
+proprietary solutions, making large-scale deployment costly and difficult in
+remote areas (problem statement). CIBMS-specific problems documented include
+exorbitant equipment costs, unavailability of spare parts, high reliance on
+external vendors with minimal oversight, and lack of technical expertise for
+operation and maintenance among BSF personnel `[S1]`; BSF RFPs have reportedly
+let vendors "arrive at their own conclusions" rather than specifying technical
+requirements, suggesting limited in-house technical specification capacity
+`[S1]`.
 
-**UNKNOWN** — Whether any digital incident register exists today, what fields
-it captures, and whether it is linked to the video.
+**Unmeasured effectiveness.** GAO found that Border Patrol had not used
+available data to determine the contribution of surveillance technologies to
+security outcomes `[S12]` **[indirect]**, and found data-quality problems in
+self-reported "asset assist" records — one sector recorded roughly 500
+assists from Integrated Fixed Towers between June and December 2016 despite
+having no IFTs installed `[S12]` **[indirect]**. GAO separately found that
+planned testing of IFTs would establish mission contribution but not
+effectiveness and suitability under varying environmental conditions such as
+weather, contrary to DHS guidance `[S13]` **[indirect]**. The same measurement
+gap is plausible in Indian deployments given `[S1]`'s findings on weak vendor
+oversight and absent in-house technical capability, but no Indian source
+confirms or denies this either way. Whether any Indian force records which
+detections were technology-assisted, and whether any effectiveness baseline
+exists, is unknown.
 
-### 3.5 Investigation / evidence workflow
+### 4.5 Typical surveillance events
 
-**FACT** — The BSF does **not** have policing powers. After apprehending a
-suspect it cannot register an FIR or conduct an investigation; it may conduct
-only "preliminary questioning", and the seized consignment or suspect must be
-handed over to the local police **within 24 hours**. `[S22]` *(news/analysis
-reporting on the BSF Act 1968 and CrPC-derived powers)*
+**Illegal crossing / infiltration.** 1,104 infiltration attempts were
+detected on the India–Bangladesh border in 2025, up from 977 in 2024 —
+reportedly the highest annual figure in nearly a decade `[S16][S17]`; more
+than 2,550 Bangladeshi nationals were reported detained in 2025 attempting
+illegal entry `[S17]`. CIBMS is stated to improve BSF capability against
+illegal infiltration, contraband smuggling, human trafficking and
+cross-border terrorism `[S1][S21]`.
 
-**FACT** — BSF powers of arrest, search and seizure extend to a defined belt
-from the international border — reported as up to 50 km in Assam, Punjab and
-West Bengal following a 2021 notification (previously 15 km), and up to 80 km
-in Gujarat. `[S22]` *(the 15 km figure is what the cited article states as the
-previous regime; the notification change is politically contested)*
+**Smuggling — goods, livestock, narcotics.** BSF seized ₹461.07 crore of
+contraband on the India–Bangladesh border in 2024, reportedly the highest in
+10 years `[S16]`. The illegal India-to-Bangladesh cattle trade is estimated at
+roughly $500 million annually and long predates the border fence `[S20]`. On
+26 January 2025, BSF found three large underground bunkers used for narcotics
+smuggling, holding ₹1.4 crore of codeine-based cough syrup at Majhdia, about 2
+km from the border `[S16]`.
 
-**FACT** — In India, electronic records including CCTV footage are governed by
-**Section 63 of the Bharatiya Sakshya Adhiniyam (BSA), 2023**, in force from
-**1 July 2024**, replacing Section 65B of the Indian Evidence Act, 1872.
-Admissibility of a copy requires a certificate signed by the person in charge
-of the device **and** an expert, and the certificate must disclose the
-record's **hash value**. `[S29]` *(legal-commentary secondary sources; the
-statute text itself was not retrieved)*
+**Aerial incursion — drones.** BSF seized 245 drones from Pakistan in Punjab
+in 2024 (one report gives 294 for the year); by October 2025 the force
+reported seizing 200 Pakistani drones carrying 287 kg of heroin and 174
+weapons including AK-47s, grenades and explosives `[S18][S19]`. Punjab is
+described as the epicentre of drone-assisted narcotics trafficking, with
+almost all such incidents nationally occurring along its border `[S19]`.
+Drone incursion is geometrically an event class fixed ground CCTV is poorly
+positioned to catch (small, fast, typically above the camera's field of view
+and elevation) and is more plausibly handled by dedicated counter-UAS systems
+than the CCTV grid — not sourced, but relevant because the problem statement
+does not list drones among required capabilities.
 
-**ASSUMPTION** — This makes the border evidence chain cross-organisational:
-the force detects and records, but the *case* is built by state police and
-tried in a civil court, which means exported video must survive a handover to
-an organisation that did not produce it. *(Basis: combining `[S22]` and
-`[S29]`.)*
+**Tunnels and sub-surface crossing.** A 40-metre tunnel was uncovered in West
+Bengal on 17 July 2024 `[S16]`. Tunnel detection is plausibly out of reach of
+surface-camera video analytics except indirectly (spoil heaps, repeated
+visits to a fixed location, unexplained vehicle stops) — not sourced.
 
-**UNKNOWN** — Current practice for exporting and handing over CCTV footage:
-format, who signs, whether hashes are computed, how long retrieval takes,
-and how often footage is actually used in prosecutions.
+**Vehicle and person movement at check posts.** At ICPs, movement of people
+and cargo is the routine flow; security infrastructure includes CCTV,
+observation towers, baggage/cargo scanners, full-body truck scanners (the
+Attari truck scanner is reported non-operational) and handheld detection
+equipment `[S6][S7]`. Check-post events are plausibly dominated by routine,
+high-volume, legitimate traffic, while BOP/border-road events are dominated
+by rare, anomalous activity — an inference from an ICP's function as a
+trade/transit port `[S6]` versus a BOP as a defence outpost `[S15]`, not
+directly sourced, but if true these are operationally different problems: one
+is throughput and record-keeping, the other is needle-in-haystack detection.
 
-**UNKNOWN** — Video retention periods mandated or practised at BOPs and ICPs.
+**Night-time movement.** "Night-time movement detection" is a named required
+capability in the problem statement, and CIBMS deployments consistently pair
+day/night cameras `[S3][S21]` with NVDs, PNVBs and thermal imagers `[S2]`,
+treating night as a distinct operating regime. Infiltration and smuggling
+plausibly concentrate in darkness and poor-visibility conditions — exactly
+when conventional CCTV performs worst — though this is widely stated in
+security literature generally rather than quantified in any source found
+here.
 
-### 3.6 Command and control integration
+**Event classes implied by the problem statement.** The capabilities named in
+[problem.md](../../00-project/problem.md) imply these event classes: human
+presence/movement, vehicle presence/type, a detectable face, a readable
+number plate, crossing of a defined virtual line or region, "suspicious
+activity," and night-time movement. What "suspicious activity" means
+operationally to this user is undefined both in the statement and in every
+source reviewed.
 
-**FACT** — The problem statement requires "integration with existing command
-and control systems," and `[S1]` confirms a Command and Control Centre is
-architecturally central to CIBMS.
+### 4.6 Operational constraints
 
-**FACT** — `[S1]` flags that **centralised decision-making may delay urgent
-field responses** — i.e. C2 integration is not purely a benefit; routing
-decisions upward has an operational cost.
+**Power.** Erratic power supply in border regions is a documented
+infrastructure problem for electronic surveillance `[S1]`, and observation
+posts are reported to lack basic electricity and water with no comprehensive
+electrification plan documented `[S2]`. Actual power availability at a
+representative BOP — grid hours per day, generator capacity and fuel
+logistics, solar/battery provision, and the resulting budget for additional
+compute — is unknown.
 
-**UNKNOWN** — What the "existing command and control systems" concretely are:
-their names, vendors, protocols, APIs, data models, and whether they are
-network-reachable from where cameras sit.
+**Connectivity and bandwidth.** CIBMS uses a dedicated fibre-optic and
+satellite communication network `[S1]`; BOLD-QIT specifically used microwave,
+OFC and DMR `[S3][S21]`. Specific bandwidth requirements and backbone
+specifications are not stated in the CIBMS literature reviewed, and the gap
+is explicitly flagged, including the note that thermal and radar feeds need
+adequate capacity to reach command centres `[S2]`. In constrained
+deployments generally, per-camera uplink allocation can be "a few hundred
+kilobits per second or less" `[S28]`, and satellite links — while enabling
+remote deployment — are typically high-latency, low-bandwidth and expensive
+`[S25b]`. A single H.264 IP camera stream is on the order of 5 Mbps, and each
+additional client pulling that stream multiplies the load off the camera
+(3 clients × 5 Mbps = 15 Mbps) `[S23]`; H.265 delivers similar visual quality
+at roughly half the bitrate of H.264, halving storage and LAN bandwidth
+`[S23]`. Taken together, these figures suggest that any architecture
+requiring full-rate video to be shipped from a remote BOP to a central site
+for analysis is likely bandwidth-infeasible at scale on this kind of network
+— this is recorded here as a research finding bearing on later architecture
+work, not as a decision.
 
-**UNKNOWN** — At what echelon the C2 system lives (BOP, Company, Battalion,
-Sector, Frontier, Force HQ) and whether each echelon runs a different one.
+**Environment and weather.** Line-of-sight equipment is vulnerable to heavy
+rain, storms and dense fog, and adverse terrain/weather undermine system
+function generally `[S1][S2]`. Thermal imaging is often marketed as
+weather-immune, but fog and rain do severely limit thermal range because
+water-droplet scattering diminishes the infrared signal (higher droplet
+density causes more attenuation) — a claim from a manufacturer white paper
+that runs against the vendor's own commercial interest and matches known
+physics `[S24]`. Thermal cameras detect heat rather than motion, which makes
+them better at rejecting environmental noise such as shadows and moving
+foliage and unaffected by glare/backlighting `[S24]`. What proportion of
+existing border CCTV is thermal versus visible-light, and whether visible
+cameras have IR illuminators or true day/night sensors, is unknown.
+
+**Maintenance, spares and skills.** Equipment maintenance is identified as
+critical, with specialised technical training and spare-parts availability
+both flagged as undefined challenges, alongside high reliance on external
+vendors with minimal oversight `[S1][S2]`. One source proposes (as a
+recommendation, not an implemented fact) raising a technical battalion at
+Frontier level with company-strength detachments at Sector HQs to enable
+localised repair `[S2]`. Any software deployed at a BOP plausibly needs to
+survive long periods without an on-site engineer and fail in a way a
+non-specialist can recognise and report — an inference from `[S1]`'s skills
+finding.
+
+**Cost and scale.** The problem statement requires the solution to be
+cost-effective, scalable, and suitable across remote border locations and
+strategic installations, eliminating dependence on expensive dedicated
+surveillance hardware; exorbitant equipment cost is separately documented as
+a barrier `[S1]`. "Scalable" in this context most plausibly means scalable
+across many small, isolated sites — the scaling axis is site count, not user
+count — reading from the statement's own phrase "across remote border
+locations."
+
+**Legal, procedural and organisational.** BSF cannot register an FIR or
+investigate; suspects and seizures go to local police within 24 hours
+`[S22]`. Electronic evidence requires a Section 63 BSA certificate with a hash
+value, signed by the device custodian and an expert `[S29]`. Land acquisition
+has been a chronic obstacle to border infrastructure: roughly 24,000 acres
+belonging to about 6,000 families across 212 villages in six Punjab districts
+remained disputed since 1988, and an audit found abnormal delays in 66% of
+land acquisition cases, some extending nine years `[S2]`. Centralised
+decision-making is separately flagged as a risk of delaying urgent field
+responses `[S1]`. Unknown: the data classification, security accreditation
+and network policy that would apply to a platform handling live border video
+(e.g. whether internet or cloud touch is permissible at all, what
+certification is required), and the privacy/legal constraints on face
+recognition applied to civilians in the border belt, who are largely Indian
+residents going about agricultural life.
+
+**Technology performance constraints.** Face recognition accuracy degrades
+substantially between controlled enrolment conditions and production CCTV;
+angle, lighting and resolution are the primary degradation factors. NIST
+benchmarks use cooperative subjects, controlled lighting, frontal poses and
+high resolution, none of which production CCTV provides; NIST's FIVE
+programme specifically targets non-cooperative subjects and degraded video
+`[S26]` (the NIST programme descriptions are primary; specific accuracy-drop
+percentages come from vendor/industry commentary and should be treated as
+indicative only). India has roughly 210 million vehicles and over 50 number-plate
+formats; countries with standardised plates (Australia, Vietnam, Italy) see
+ANPR accuracy often exceeding 90% `[S27]` — an ANPR-vendor comparison that
+should be read as directional rather than precise. Documented ANPR failure
+modes include non-standardised formats, unusual fonts, plate condition,
+complex scenes, camera quality and mounting position, distortion, motion
+blur, contrast, reflections, processing/memory limits, and day/night
+conditions; fast-moving vehicles create motion blur and shorten capture time,
+and recognition falls sharply above the camera's processing limit `[S27]`.
+
+The UK's i-LIDS (Imagery Library for Intelligent Detection Systems), a CAST/CPNI
+benchmark, evaluates video analytics against security scenarios including
+sterile-zone monitoring (detecting persons in a restricted area); systems
+meeting its criteria may be certified as a primary (sole) detection system or
+only as a secondary (support) measure, with datasets of roughly 24 hours of
+footage per scenario across weather, time of day and scene density `[S25]`.
+This primary/secondary distinction is arguably the single most important
+framing in this research for how border operators will think about AI
+analytics: whether an operator believes a given analytic is the *only* thing
+watching, or merely a support to a human who is still watching, determines
+whether the system reduces workload at all — an interpretation drawn from
+`[S25]`'s certification categories, not stated as an operational implication
+by the source itself. Separately, ONVIF Profile S standardises live H.264
+streaming, audio, PTZ control, motion-detection events and basic metadata,
+and most Profile S cameras also expose a plain RTSP URL; ONVIF announced on 9
+October 2025 that it is ending Profile S support in favour of Profile T, and
+after 31 March 2027 manufacturers can no longer submit new products for
+Profile S conformance `[S23]`.
+
+### 4.7 Domain terminology
+
+Descriptive glossary of the domain — not IBVAP vocabulary.
+
+**Places and organisation**
+
+| Term | Meaning | Source |
+|---|---|---|
+| BOP — Border Out Post | Permanent operational base of the border force with a designated area of responsibility; self-contained, with accommodation, logistics and combat infrastructure | `[S15]` |
+| Composite BOP | Newer BOP design; 509 sanctioned in 2023 (383 Indo-Bangladesh, 126 Indo-Pakistan) | `[S15]` |
+| Check post | Manned control point for movement across or near the border | problem statement |
+| ICP — Integrated Check Post | LPAI-operated land port combining immigration, customs, cargo and security functions | `[S6][S7]` |
+| LPAI — Land Ports Authority of India | Statutory body operating ICPs | `[S6][S7]` |
+| BSF — Border Security Force | CAPF under MHA guarding the Indo-Pakistan and Indo-Bangladesh borders; ~290,000 personnel, 192 battalions | `[S5]` |
+| Frontier / Sector / Battalion / Company | Descending echelons of BSF command referenced in technical-battalion and C2 proposals | `[S2]` |
+| IB — International Boundary | The 2,308 km Radcliffe Line segment | `[S2]` |
+| LoC — Line of Control | 776 km | `[S2]` |
+| AGPL — Actual Ground Position Line | 110 km | `[S2]` |
+| Char land | River island/sandbar terrain, prominent in the Brahmaputra riverine border | `[S3][S21]` |
+
+**Systems and programmes**
+
+| Term | Meaning | Source |
+|---|---|---|
+| CIBMS | Comprehensive Integrated Border Management System — MHA programme integrating manpower, sensors, networks, intelligence and C2 | `[S1][S2]` |
+| BOLD-QIT | Border Electronically Dominated QRT Interception Technique — CIBMS implementation over 61 km of riverine border at Dhubri, Assam | `[S3][S21]` |
+| Smart fencing | Popular name for the CIBMS electronic surveillance grid used in place of, or alongside, physical fence | `[S3][S4]` |
+| Command and Control Centre | Hub where sensor data is aggregated into a composite situational picture for commanders to analyse, classify and coordinate response | `[S1]` |
+| Control Room | Border-level facility receiving camera and sensor feeds and cueing QRTs | `[S3][S21]` |
+
+**People and response**
+
+| Term | Meaning | Source |
+|---|---|---|
+| QRT — Quick Reaction Team | Field element dispatched to intercept on detection | `[S3][S21]` |
+| Standing patrol | Small static element (min. 1 NCO + 3 men in the cited doctrine) posted to observe and disrupt infiltration, watching over obstacles | `[S31]` (general fieldcraft source, not India-specific — low confidence) |
+| Anti-infiltration grid | Layered arrangement of patrols, ambushes and obstacles along likely infiltration routes | `[S31]` |
+| Asset assist (US term) | A recorded instance in which a technology contributed to an apprehension or seizure | `[S12]` |
+
+**Sensors and imaging**
+
+| Term | Meaning | Source |
+|---|---|---|
+| HHTI | Hand-Held Thermal Imager | `[S2]` |
+| NVD / PNVB | Night Vision Device / Passive Night Vision Binocular | `[S2]` |
+| BFSR | Battlefield Surveillance Radar, 360° coverage | `[S2]` |
+| UGS | Unattended Ground Sensor | `[S2]` |
+| Laser barrier / laser wall | Beam-break intrusion detection used on unfenced riverine gaps; triggers an audible siren | `[S2]` |
+| Aerostat / micro-aerostat | Tethered balloon carrying day/night sensors | `[S1][S2]` |
+| OFC / DMR / microwave | Optical Fibre Cable / Digital Mobile Radio / microwave link — the BOLD-QIT communications mix | `[S3][S21]` |
+
+**Surveillance-industry terms**
+
+| Term | Meaning | Source |
+|---|---|---|
+| ONVIF Profile S / Profile T | Interoperability profiles for IP video; S covers H.264 live streaming, PTZ, motion events, basic metadata; T is its successor | `[S23]` |
+| RTSP | Media-plane protocol carrying the actual video stream | `[S23]` |
+| NVR / DVR / VMS | Network or Digital Video Recorder / Video Management System — the recording and viewing layer | `[S23]` |
+| Sterile zone monitoring | i-LIDS scenario: detecting the presence of persons in a restricted area | `[S25]` |
+| Primary vs secondary detection system | i-LIDS certification categories: sole detection system, versus support to a human/other primary system | `[S25]` |
+| Vigilance decrement | Measurable decline in sustained-attention task performance over time, typically onset 20–35 min | `[S9]` |
+| Nuisance / false alarm | Alarm from a real but benign cause, versus alarm with no cause; the dominant failure mode of sensor-based perimeter systems | `[S1][S2]` |
+| Detect → track → identify/classify → resolve | The US border surveillance operational sequence | `[S14]` |
+
+**Legal and evidentiary**
+
+| Term | Meaning | Source |
+|---|---|---|
+| BSF Act, 1968 | Statute establishing the BSF and its powers | `[S22]` |
+| Section 63, BSA 2023 | Provision governing admissibility of electronic records (replacing s.65B IEA 1872 from 1 July 2024); requires a certificate with hash value | `[S29]` |
+| Chain of custody | Documented custody trail required to establish integrity of a digital record | `[S29]` |
 
 ---
 
-## 4. Problems with conventional CCTV monitoring
+## 5. Implications for IBVAP
 
-### 4.1 The human attention problem
+These are research findings that plausibly bound or shape later product and
+architecture decisions; they are not themselves decisions, per
+[CLAUDE.md](../../../CLAUDE.md) §2.
 
-**FACT** — Vigilance decrement — a measurable decrease in task performance
-over time — generally occurs **20 to 35 minutes** after engaging in a
-sustained-attention task. `[S9]` *(peer-reviewed ergonomics literature)*
-
-**FACT** — CCTV surveillance is vigilance-intensive; operators are typically
-required to observe **3 to 30 camera scenes concurrently** to detect potential
-incidents. `[S9][S10]`
-
-**FACT** — Operator performance directly determines system effectiveness: the
-system's value is bounded by the operator's ability to detect significant
-events. `[S9]`
-
-**ASSUMPTION / CONTESTED** — The widely repeated claim that an operator misses
-"up to 45% of screen activity after 12 minutes and up to 95% after 22 minutes"
-appears throughout industry material `[S30]`, but the sources repeating it are
-vendor and trade publications, and the underlying study is not identifiable
-from them. **Treat the specific percentages as unverified.** The
-peer-reviewed finding that is defensible is the 20–35 minute vigilance
-decrement above `[S9]`. *(Recorded here because this figure will certainly
-appear in competitor material and hackathon pitches, and the project should
-know it is soft.)*
-
-**FACT** — Operator reliance on a semi-automated system is itself affected by
-the system's stated confidence, actual accuracy, and task complexity —
-i.e. adding automation changes operator behaviour, not just workload. `[S10]`
-*(peer-reviewed)*
-
-### 4.2 The false / nuisance alarm problem
-
-**FACT** — In the US SBInet programme, **90 per cent of sensor alerts were
-false alarms**, cited as a cautionary parallel for CIBMS. `[S1]`
-
-**FACT** — CIBMS-related analysis reports **false alarms and sensor
-malfunctions** as a leading technical issue, alongside line-of-sight
-constraints and unreliable information transmission. `[S1]`
-
-**FACT** — The CIBMS design does not address protocols for distinguishing
-infiltrators from wildlife or environmental triggers. `[S2]`
-
-**ASSUMPTION** — The dominant nuisance-alarm sources at Indian borders are
-livestock (including smuggled cattle themselves), wildlife, vegetation motion
-in wind, rain and insects on the lens, headlight/IR glare at night, and
-civilian agricultural activity in the border belt. *(Basis: general perimeter
-security knowledge plus `[S2]`'s explicit mention of wildlife. Not measured
-for these sites.)*
-
-**ASSUMPTION** — An alerting system that is not trusted gets ignored or muted,
-which is worse than no alerting system, because it consumes attention and
-supplies false assurance. *(Basis: inference from `[S10]`'s finding that
-system accuracy drives operator reliance.)*
-
-### 4.3 The "recording is not intelligence" problem
-
-**FACT** — Conventional CCTV provides recording and live monitoring only; the
-advanced functions (FRS, ANPR, intrusion detection, object tracking) require
-specialised hardware and proprietary solutions, making large-scale deployment
-costly and difficult particularly in remote border areas. *(Source: the
-problem statement.)*
-
-**FACT** — Exorbitant equipment costs, unavailability of spare parts, and high
-reliance on external vendors with minimal oversight are documented CIBMS
-problems. `[S1]`
-
-**FACT** — Lack of technical expertise for equipment operation and maintenance
-among BSF personnel is a documented deficiency. `[S1]`
-
-**FACT** — BSF requests for proposals have allowed vendors to "arrive at their
-own conclusions" rather than specifying technical requirements, indicating
-insufficient in-house technical specification capability. `[S1]`
-
-### 4.4 The "was it useful?" problem
-
-**FACT** — GAO found that Border Patrol had **not used available data to
-determine the contribution of surveillance technologies** to border security
-outcomes. `[S12]` **[indirect]**
-
-**FACT** — GAO found data-quality problems in agent-reported "asset assist"
-data: stations in the Rio Grande Valley sector recorded assists from Integrated
-Fixed Towers in about **500 instances from June through December 2016** —
-a sector that **has no IFTs**. `[S12]` **[indirect]**
-
-**FACT** — GAO found that planned IFT testing would determine mission
-contribution but **not effectiveness and suitability under varying
-environmental conditions such as weather**, contrary to DHS guidance. `[S13]`
-**[indirect]**
-
-**ASSUMPTION** — The same measurement gap is likely present in Indian
-deployments: whether a camera or analytic contributed to an interception is
-not systematically captured, so effectiveness cannot be evaluated. *(Basis:
-`[S1]`'s finding of weak vendor oversight and absent in-house technical
-capability suggests weak outcome measurement, but no Indian source was found
-either way.)*
-
-**UNKNOWN** — Whether any Indian force records which detections were
-technology-assisted, and whether any effectiveness baseline exists.
+- The distinction between conventional CCTV (recording + monitoring) and the
+  named advanced capabilities (FRS, ANPR, intrusion detection, tracking,
+  suspicious-activity detection, event logging, C2 integration) maps directly
+  onto the gap the problem statement identifies — any product scoping should
+  trace features back to this specific gap rather than the wider CIBMS sensor
+  suite.
+- The vigilance-decrement and false-alarm evidence together suggest that
+  operator *trust* in an alert, not just its raw accuracy, will determine
+  whether analytics reduce workload — the i-LIDS primary/secondary framing
+  (`[S25]`) is a useful lens for scoping how confidently any feature can be
+  positioned.
+- Bandwidth and power evidence suggests that architectures requiring
+  full-rate central video streaming are unlikely to be viable at the scale
+  and remoteness implied by "across remote border locations" — this bears
+  directly on later architecture decisions about where compute sits.
+- The Section 63 BSA hash-certificate requirement and the 24-hour handover
+  rule imply that any exported evidence artefact needs to support a
+  hash-verifiable chain of custody usable by an organisation (police) that
+  did not produce the recording.
+- Lab-vs-field accuracy gaps in face recognition and ANPR mean that any
+  claims made about these capabilities should be qualified against
+  uncontrolled CCTV conditions rather than benchmark conditions.
+- The "suspicious activity" capability named in the problem statement is
+  currently undefined by any source and cannot be scoped meaningfully until
+  it is operationalised (see Q-3 below).
 
 ---
 
-## 5. Typical surveillance events
+## 6. Risks / Limitations
 
-This section catalogues what actually happens at these borders — the events an
-operator is watching for. Frequency and scale figures are given where sourced.
-
-### 5.1 Illegal crossing / infiltration
-
-**FACT** — Indian security forces detected **1,104 infiltration attempts**
-along the India–Bangladesh border in 2025, up from **977 in 2024** — reported
-as the highest annual figure in nearly a decade. `[S16][S17]` *(news)*
-
-**FACT** — More than **2,550 Bangladeshi nationals** were reported detained in
-2025 attempting to enter India illegally. `[S17]` *(news)*
-
-**FACT** — CIBMS is stated to improve BSF capability against illegal
-infiltration, smuggling of contraband, human trafficking, and cross-border
-terrorism. `[S1][S21]`
-
-### 5.2 Smuggling — goods, livestock, narcotics
-
-**FACT** — BSF seized contraband worth **₹461.07 crore** on the
-India–Bangladesh border in 2024, reported as the highest in 10 years. `[S16]`
-*(news)*
-
-**FACT** — The cattle trade from India to Bangladesh is reported to be worth
-approximately **$500 million annually**; it is illegal under Indian law and
-long predates the border fence. `[S20]` *(think-tank/academic)*
-
-**FACT** — On 26 January 2025, BSF found three large underground bunkers used
-for narcotics smuggling on the India–Bangladesh border, holding ₹1.4 crore
-worth of codeine-based cough syrup at Majhdia, ~2 km from the border. `[S16]`
-*(news)*
-
-### 5.3 Aerial incursion — drones
-
-**FACT** — BSF seized **245 drones** from Pakistan in Punjab in 2024 (another
-report gives 294 for the year). By October 2025 the force reported seizing
-**200 Pakistani drones** carrying 287 kg of heroin, 174 weapons including
-AK-47s, hand grenades and explosives. `[S18][S19]` *(state news agency and
-think-tank)*
-
-**FACT** — Punjab is described as the epicentre of drone-assisted narcotics
-trafficking, with almost all such incidents in the country occurring along its
-border. `[S19]`
-
-**ASSUMPTION** — Drone incursion is an event class that fixed ground CCTV is
-poorly positioned to catch (small, fast, above the camera's typical field of
-view and elevation), and is likely handled by dedicated counter-UAS systems
-rather than by the CCTV grid. *(Basis: geometry; not sourced. Relevant because
-the problem statement does not list drones among required capabilities.)*
-
-### 5.4 Tunnels and sub-surface crossing
-
-**FACT** — On 17 July 2024 a 40-metre tunnel was uncovered in West Bengal.
-`[S16]` *(news)*
-
-**ASSUMPTION** — Tunnel detection is out of reach of video analytics on
-surface cameras except indirectly (spoil heaps, repeated visits to a fixed
-location, unexplained vehicle stops). *(Not sourced.)*
-
-### 5.5 Vehicle and person movement at check posts
-
-**FACT** — At ICPs, movement of people and cargo is the routine flow; security
-infrastructure includes CCTV cameras, observation towers, baggage scanners,
-full-body truck scanners (the Attari truck scanner is reported non-operational)
-and handheld detection equipment. `[S6][S7]` *(think-tank field survey and
-press reporting)*
-
-**ASSUMPTION** — Check-post events are dominated by *routine, high-volume,
-legitimate* traffic, whereas BOP/border-road events are dominated by *rare,
-anomalous* activity. These are operationally different problems: one is
-throughput and record-keeping, the other is needle-in-haystack detection.
-*(Basis: inference from the function of an ICP as a trade/transit port `[S6]`
-versus a BOP as a defence outpost `[S15]`. Not directly sourced.)*
-
-### 5.6 Night-time movement
-
-**FACT** — "Night-time movement detection" is named as a required capability
-in the problem statement, and CIBMS deployments consistently pair "day and
-night surveillance cameras" `[S3][S21]` with NVDs, PNVBs and thermal imagers
-`[S2]`, indicating night is treated as a distinct operating regime.
-
-**ASSUMPTION** — Infiltration and smuggling attempts concentrate in darkness
-and in poor-visibility conditions (fog, rain), i.e. exactly when conventional
-CCTV performs worst. *(Widely stated in the security literature but not
-quantified in any source retrieved here.)*
-
-### 5.7 Event classes named by the problem statement itself
-
-For completeness, the capabilities named in
-[problem.md](../../00-project/problem.md) imply these event classes:
-human presence/movement, vehicle presence/type, a detectable face, a readable
-number plate, a crossing of a defined virtual line or region, "suspicious
-activity", and night-time movement. **UNKNOWN** — what "suspicious activity"
-means operationally to this user; it is undefined in the statement and
-undefined in every retrieved source.
+- Several primary government sources could not be fetched directly during
+  this pass (HTTP 403 or connection refused) and are instead recorded from
+  search-engine summaries: PIB press releases (`pib.gov.in`), MHA press
+  release PDFs (`mha.gov.in`), a DHS Privacy Impact Assessment PDF
+  (`dhs.gov`), Sandia SAND2014-17929 (`osti.gov`), and GAO product pages
+  (`gao.gov`). These are marked **[indirect]** throughout §4 and should be
+  retrieved and re-verified before being relied upon for firm conclusions
+  (see Q-19).
+- Some facts rest on single sources of uncertain reliability: the 5,000
+  body-worn-camera figure and the BSF personnel count come from an
+  encyclopedic secondary source `[S5]`; the drone-seizure figures come from a
+  state news agency and a think-tank `[S18][S19]`; the standing-patrol/
+  anti-infiltration-grid doctrine (`[S31]`) is not India-BSF-specific.
+  Several thermal-imaging and ANPR claims come from vendor white papers
+  (`[S24][S27]`) that, while directionally credible, carry a commercial
+  interest.
+- The widely circulated "45% at 12 min / 95% at 22 min" operator-attention
+  statistic could not be traced to a verifiable source and is flagged as
+  unverified rather than treated as fact — it should not be relied upon in
+  later stages without independent verification (see Q-20).
+- A number of connecting inferences in this document (the staffing chain,
+  the practical Indian detect-assess-respond sequence, the check-post-vs-BOP
+  event-profile distinction, the drone/CCTV geometry mismatch, the tunnel
+  detection reasoning) are plausible constructions from adjacent sourced
+  facts rather than statements made directly by any source. They are worded
+  as inference in §4 rather than as established fact, and should be validated
+  before being treated as settled in product scoping.
+- No Indian-language or force-internal doctrine document on CCTV monitoring
+  at BOPs was located in this pass; conclusions about Indian practice
+  necessarily lean on secondary/think-tank analysis and a US analogue.
 
 ---
 
-## 6. Operational constraints
-
-### 6.1 Power
-
-**FACT** — Erratic power supply in border regions is a documented
-infrastructure problem for electronic surveillance. `[S1]`
-
-**FACT** — Border observation posts are reported to lack basic electricity and
-water connections; no comprehensive electrification plan is documented in the
-cited materials. `[S2]`
-
-**UNKNOWN** — Actual power availability at a representative BOP: grid hours
-per day, generator capacity and fuel logistics, solar/battery provision, and
-the resulting power budget available to any additional computing hardware.
-
-### 6.2 Connectivity and bandwidth
-
-**FACT** — CIBMS uses a dedicated communication network including fibre optic
-cable and satellite communication. `[S1]` BOLD-QIT specifically used microwave
-communication, OFC cables and DMR communication. `[S3][S21]`
-
-**FACT** — Specific bandwidth requirements and communication backbone
-specifications are **not stated** in the reviewed CIBMS literature; the
-analysis explicitly flags this gap, noting that thermal imaging and radar feeds
-require adequate capacity to reach command centres. `[S2]`
-
-**FACT** — In constrained deployments, per-camera uplink allocations can be
-"a few hundred kilobits per second or less", which conflicts with streaming
-all video centrally for analysis. `[S28]` *(peer-reviewed/arXiv systems
-research)*
-
-**FACT** — Satellite links, while they enable remote deployment, are typically
-high-latency, low-bandwidth and expensive, making it difficult to offload data
-or receive updates efficiently. `[S25b]` *(vendor/industry source)*
-
-**FACT** — A single H.264 IP camera stream in the cited discussion is on the
-order of **5 Mbps**, and each additional client pulling the stream multiplies
-that load off the camera (3 clients × 5 Mbps = 15 Mbps). `[S23]` *(industry
-discussion)*
-
-**FACT** — H.265 delivers roughly the same visual quality as H.264 at about
-half the bitrate, halving both storage and LAN bandwidth. `[S23]`
-
-**ASSUMPTION** — Any architecture that requires shipping full-rate video from
-a remote BOP to a central site for analysis is bandwidth-infeasible at scale
-on this network. *(Basis: `[S2]`'s unspecified backbone + `[S28]`'s
-constrained-uplink finding + `[S23]`'s per-stream figures. This is an
-architectural implication and is recorded here as a **research finding, not a
-decision** — architecture decisions belong in `docs/04-architecture/`.)*
-
-### 6.3 Environment and weather
-
-**FACT** — Line-of-sight equipment is vulnerable to heavy rain, storms and
-dense fog. `[S1][S2]` Adverse terrain and weather undermine system function.
-`[S1]`
-
-**FACT** — Thermal imaging is often marketed as weather-immune, but fog and
-rain **do** severely limit thermal range, because scattering in water droplets
-diminishes the infrared signal — a higher droplet density causes more
-attenuation. `[S24]` *(manufacturer white paper — note the source is a vendor,
-but the claim is against the vendor's own interest and matches physics)*
-
-**FACT** — Thermal cameras detect heat rather than motion, which makes them
-better at rejecting environmental noise such as shadows and moving foliage,
-and unaffected by glare and backlighting. `[S24]` *(vendor)*
-
-**UNKNOWN** — What proportion of existing border CCTV is thermal versus
-visible-light, and whether visible cameras have IR illuminators, true
-day/night sensors, or neither.
-
-### 6.4 Maintenance, spares and skills
-
-**FACT** — Equipment maintenance is identified as critical, with specialised
-technical training and spare-parts availability both undefined challenges.
-`[S1][S2]`
-
-**FACT** — There is high reliance on external vendors with minimal oversight.
-`[S1]`
-
-**FACT** — A proposal exists to raise a **technical battalion** at Frontier
-level with company-strength detachments at Sector HQs to enable localised
-repair and reduce servicing turnaround. `[S2]` *(a recommendation in the
-source, not an implemented fact)*
-
-**ASSUMPTION** — Any software deployed at a BOP must survive long periods
-without an on-site engineer and must fail in a way a non-specialist can
-recognise and report. *(Basis: inference from `[S1]`'s skills finding.)*
-
-### 6.5 Cost and scale
-
-**FACT** — The problem statement requires the solution to be cost-effective,
-scalable, and suitable for deployment across remote border locations and
-strategic installations, and to eliminate dependence on expensive dedicated
-surveillance hardware.
-
-**FACT** — Exorbitant equipment cost is a documented barrier. `[S1]`
-
-**ASSUMPTION** — "Scalable" here means *scalable across many small, isolated
-sites*, not *scalable to a large central cluster*. The scaling axis is site
-count, not user count. *(Basis: the statement's own phrase "across remote
-border locations".)*
-
-### 6.6 Legal, procedural and organisational constraints
-
-**FACT** — BSF cannot register an FIR or investigate; suspects and seizures
-must be handed to local police within 24 hours. `[S22]`
-
-**FACT** — Electronic evidence in India requires a Section 63 BSA certificate
-including a hash value, signed by the person in charge of the device and an
-expert. `[S29]`
-
-**FACT** — Land acquisition has been a chronic obstacle to border
-infrastructure: ~24,000 acres belonging to ~6,000 families across 212 villages
-in six Punjab districts remained in dispute since 1988; an audit found abnormal
-delays in **66% of land acquisition cases**, some extending nine years. `[S2]`
-
-**FACT** — Centralised decision-making is flagged as a risk of potentially
-delaying urgent field responses. `[S1]`
-
-**UNKNOWN** — Data classification, security accreditation, and network
-policy that would apply to a software platform handling live border video
-(e.g. whether it may touch the internet at all, whether cloud is permissible,
-what certification is required).
-
-**UNKNOWN** — Privacy/legal constraints on face recognition applied to
-civilians in the border belt, who are largely Indian residents going about
-agricultural life.
-
-### 6.7 Technology performance constraints relevant to the named capabilities
-
-Recorded here because they bound what any software can achieve on this
-hardware — these are domain constraints, not design choices.
-
-**FACT** — Face recognition accuracy degrades substantially between controlled
-enrolment conditions and production CCTV; angle, lighting and resolution are
-the primary degradation factors. NIST benchmarks use cooperative subjects,
-controlled lighting, frontal poses and high resolution, while production CCTV
-provides none of these. NIST's FIVE programme specifically covers
-non-cooperative subjects and degraded video. `[S26]` *(the NIST programme
-descriptions are primary; the specific accuracy-drop percentages come from a
-vendor/industry commentary and should be treated as indicative only)*
-
-**FACT** — India has roughly **210 million vehicles** and **over 50 different
-types of number plate**; countries with standardised plates (Australia,
-Vietnam, Italy) see ANPR accuracy often exceeding 90%. `[S27]` *(ANPR vendor —
-treat the comparison as directional)*
-
-**FACT** — Documented ANPR failure modes include non-standardised formats,
-fancy fonts, plate condition, complex scenes, camera quality and mounting
-position, distortion, motion blur, contrast, reflections, processing/memory
-limits, and day/night conditions. Fast-moving vehicles create motion blur and
-shorten capture time; recognition falls sharply above the camera's processing
-limit. `[S27]`
-
-**FACT** — **i-LIDS** (Imagery Library for Intelligent Detection Systems) is a
-UK government benchmark developed by CAST with CPNI for evaluating video
-analytics against security scenarios including **sterile zone monitoring**
-(detecting persons in a restricted area). Systems meeting the criteria may be
-certified as a **primary (sole)** detection system or only as a **secondary
-(support)** measure. Datasets contain ~24 hours of footage per scenario,
-filmed across all weather conditions, times of day and scene densities.
-`[S25]`
-
-**ASSUMPTION** — The primary/secondary distinction in `[S25]` is the most
-important framing in this whole document for how border operators are likely
-to think about AI analytics: an analytic is either trusted to be the *only*
-thing watching, or it is a *support* to a human who is still watching. Which
-of these an operator believes determines whether the system reduces workload
-at all. *(Interpretation; the source states the certification categories but
-not this operational implication.)*
-
-**FACT** — ONVIF Profile S standardises live H.264 streaming, audio, PTZ
-control, motion-detection events and basic metadata; most Profile S cameras
-also expose a plain RTSP URL. ONVIF announced on **9 October 2025** that it is
-ending support for Profile S in favour of Profile T; after **31 March 2027**
-manufacturers can no longer submit new products for Profile S conformance.
-`[S23]`
-
----
-
-## 7. Existing terminology
-
-Terms used in the domain, with the source that establishes each. This glossary
-is descriptive of the domain — it is not IBVAP vocabulary.
-
-### 7.1 Places and organisation
-
-| Term | Meaning | Source |
-|---|---|---|
-| **BOP** — Border Out Post | Permanent operational base of the border force with a designated area of responsibility; self-contained, with accommodation, logistics and combat infrastructure | `[S15]` |
-| **Composite BOP** | Newer BOP design; 509 sanctioned in 2023 (383 Indo-Bangladesh, 126 Indo-Pakistan) | `[S15]` |
-| **Check post** | Manned control point for movement across or near the border | problem statement |
-| **ICP** — Integrated Check Post | LPAI-operated land port combining immigration, customs, cargo and security functions | `[S6][S7]` |
-| **LPAI** — Land Ports Authority of India | Statutory body operating ICPs | `[S6][S7]` |
-| **BSF** — Border Security Force | CAPF under MHA guarding the Indo-Pakistan and Indo-Bangladesh borders; ~290,000 personnel, 192 battalions | `[S5]` |
-| **Frontier / Sector / Battalion / Company** | Descending echelons of BSF command referenced in technical-battalion and C2 proposals | `[S2]` |
-| **IB** — International Boundary | The 2,308 km Radcliffe Line segment | `[S2]` |
-| **LoC** — Line of Control | 776 km | `[S2]` |
-| **AGPL** — Actual Ground Position Line | 110 km | `[S2]` |
-| **Char land** | River island/sandbar terrain, prominent in the Brahmaputra riverine border | `[S3][S21]` |
-
-### 7.2 Systems and programmes
-
-| Term | Meaning | Source |
-|---|---|---|
-| **CIBMS** | Comprehensive Integrated Border Management System — MHA programme integrating manpower, sensors, networks, intelligence and C2 | `[S1][S2]` |
-| **BOLD-QIT** | Border Electronically Dominated QRT Interception Technique — CIBMS implementation over 61 km of riverine border at Dhubri, Assam | `[S3][S21]` |
-| **Smart fencing** | Popular name for the CIBMS electronic surveillance grid used in place of, or alongside, physical fence | `[S3][S4]` |
-| **Command and Control Centre** | Hub where sensor data is aggregated into a composite situational picture for commanders to analyse, classify and coordinate response | `[S1]` |
-| **Control Room** | Border-level facility receiving camera and sensor feeds and cueing QRTs | `[S3][S21]` |
-
-### 7.3 People and response
-
-| Term | Meaning | Source |
-|---|---|---|
-| **QRT** — Quick Reaction Team | Field element dispatched to intercept on detection | `[S3][S21]` |
-| **Standing patrol** | Small static element (min. 1 NCO + 3 men in the cited doctrine) posted to observe and disrupt infiltration, watching over obstacles | `[S31]` *(general fieldcraft source, not India-specific — low confidence)* |
-| **Anti-infiltration grid** | Layered arrangement of patrols, ambushes and obstacles along likely infiltration routes | `[S31]` *(news/analysis)* |
-| **Asset assist** *(US term)* | A recorded instance in which a technology contributed to an apprehension or seizure | `[S12]` |
-
-### 7.4 Sensors and imaging
-
-| Term | Meaning | Source |
-|---|---|---|
-| **HHTI** | Hand-Held Thermal Imager | `[S2]` |
-| **NVD / PNVB** | Night Vision Device / Passive Night Vision Binocular | `[S2]` |
-| **BFSR** | Battlefield Surveillance Radar, 360° coverage | `[S2]` |
-| **UGS** | Unattended Ground Sensor | `[S2]` |
-| **Laser barrier / laser wall** | Beam-break intrusion detection used on unfenced riverine gaps; triggers an audible siren | `[S2]` |
-| **Aerostat / micro-aerostat** | Tethered balloon carrying day/night sensors | `[S1][S2]` |
-| **OFC / DMR / microwave** | Optical Fibre Cable / Digital Mobile Radio / microwave link — the BOLD-QIT communications mix | `[S3][S21]` |
-
-### 7.5 Surveillance-industry terms
-
-| Term | Meaning | Source |
-|---|---|---|
-| **ONVIF Profile S / Profile T** | Interoperability profiles for IP video; S covers H.264 live streaming, PTZ, motion events, basic metadata; T is its successor | `[S23]` |
-| **RTSP** | Media-plane protocol carrying the actual video stream | `[S23]` |
-| **NVR / DVR / VMS** | Network or Digital Video Recorder / Video Management System — the recording and viewing layer | `[S23]` |
-| **Sterile zone monitoring** | i-LIDS scenario: detecting the presence of persons in a restricted area | `[S25]` |
-| **Primary vs secondary detection system** | i-LIDS certification categories: sole detection system, versus support to a human/other primary system | `[S25]` |
-| **Vigilance decrement** | Measurable decline in sustained-attention task performance over time, typically onset 20–35 min | `[S9]` |
-| **Nuisance / false alarm** | Alarm from a real but benign cause, versus alarm with no cause; the dominant failure mode of sensor-based perimeter systems | `[S1][S2]` |
-| **Detect → track → identify/classify → resolve** | The US border surveillance operational sequence | `[S14]` |
-
-### 7.6 Legal and evidentiary
-
-| Term | Meaning | Source |
-|---|---|---|
-| **BSF Act, 1968** | Statute establishing the BSF and its powers | `[S22]` |
-| **Section 63, BSA 2023** | Provision governing admissibility of electronic records (replacing s.65B IEA 1872 from 1 July 2024); requires a certificate with hash value | `[S29]` |
-| **Chain of custody** | Documented custody trail required to establish integrity of a digital record | `[S29]` |
-
----
-
-## 8. Unknowns / questions to investigate next
+## 7. Open Questions / Research Gaps
 
 Ordered by how much the answer would change subsequent stages. None of these
 are answered by the sources reviewed in this pass.
 
-### Highest priority — block product scoping
+**Highest priority — block product scoping**
 
-- **Q-1** What is the actual installed camera base at a representative BOP and
-  check post? Count, model, resolution, codec, PTZ vs fixed, thermal vs
-  visible, ONVIF conformance, age. *(§1.3)*
+- **Q-1** What is the actual installed camera base at a representative BOP
+  and check post? Count, model, resolution, codec, PTZ vs fixed, thermal vs
+  visible, ONVIF conformance, age. *(§4.1)*
 - **Q-2** What recording/VMS layer exists today, and is it reachable over a
-  network from a place where compute could sit? *(§1.3)*
-- **Q-3** What does "suspicious activity" mean to a border operator, stated as
-  observable behaviour? The problem statement names the capability but no
-  source defines it. *(§5.7)*
+  network from a place where compute could sit? *(§4.1)*
+- **Q-3** What does "suspicious activity" mean to a border operator, stated
+  as observable behaviour? The problem statement names the capability but no
+  source defines it. *(§4.5)*
 - **Q-4** What are the "existing command and control systems" by name, with
-  their interfaces? *(§3.6)*
+  their interfaces? *(§4.3)*
 - **Q-5** How many operators watch how many cameras, on what shift pattern,
-  and what are they told to do when they see something? *(§2.2, §3.3)*
+  and what are they told to do when they see something? *(§4.2, §4.3)*
 
-### High priority — shape the problem
+**High priority — shape the problem**
 
-- **Q-6** What is the real nuisance-alarm profile at these sites: what actually
-  triggers false alerts, and how often? *(§4.2)*
-- **Q-7** What is the power budget available at a BOP for additional compute?
-  *(§6.1)*
-- **Q-8** What is the actual available bandwidth from BOP to the next echelon,
-  and is it symmetric, metered, or shared with voice/radio? *(§6.2)*
+- **Q-6** What is the real nuisance-alarm profile at these sites: what
+  actually triggers false alerts, and how often? *(§4.4)*
+- **Q-7** What is the power budget available at a BOP for additional
+  compute? *(§4.6)*
+- **Q-8** What is the actual available bandwidth from BOP to the next
+  echelon, and is it symmetric, metered, or shared with voice/radio? *(§4.6)*
 - **Q-9** What retention period is required or practised for border CCTV?
-  *(§3.5)*
+  *(§4.3)*
 - **Q-10** What is the current procedure for exporting footage for a case
   handed to local police, and does it currently satisfy Section 63 BSA?
-  *(§3.5)*
+  *(§4.3)*
 - **Q-11** Is there a written SOP/Standing Order for alarm assessment and
-  escalation that could be read? *(§3.3)*
+  escalation that could be read? *(§4.3)*
 - **Q-12** What response-time target, if any, exists from detection to
-  interception? *(§3.3)*
+  interception? *(§4.3)*
 
-### Medium priority — validate assumptions in this document
+**Medium priority — validate assumptions in this document**
 
 - **Q-13** Is the control-room role a rotating general duty or a specialist
-  cadre? (Tests the assumption in §2.2.)
+  cadre? (Tests §4.2.)
 - **Q-14** Do check posts and BOPs really have different event profiles
-  (throughput vs. anomaly)? (Tests §5.5.)
-- **Q-15** What proportion of border CCTV is thermal? (Tests §6.3.)
+  (throughput vs. anomaly)? (Tests §4.5.)
+- **Q-15** What proportion of border CCTV is thermal? (Tests §4.6.)
 - **Q-16** What are the measured environmental conditions per sector — fog
-  days, temperature range, dust? (§1.2)
-- **Q-17** Which forces beyond BSF are in scope? (§1.1)
-- **Q-18** What security accreditation, data classification and network policy
-  would apply to a video analytics platform on this network? (§6.6)
+  days, temperature range, dust? (§4.1)
+- **Q-17** Which forces beyond BSF are in scope? (§4.1)
+- **Q-18** What security accreditation, data classification and network
+  policy would apply to a video analytics platform on this network? (§4.6)
 
-### Research-process gaps
+**Research-process gaps**
 
 - **Q-19** Retrieve the primary sources that this pass could not fetch
-  directly: MHA Annual Report border-management chapter, PIB releases on CIBMS
-  and BOLD-QIT, the Sandia perimeter-security reference (SAND2014-17929) for
-  formal Pd/NAR/FAR definitions, DHS PIA for Border Surveillance Systems, and
-  the GAO reports GAO-18-119 / GAO-14-368 in full. Several §3–§6 claims
-  currently rest on search-engine summaries rather than document text.
+  directly: MHA Annual Report border-management chapter, PIB releases on
+  CIBMS and BOLD-QIT, the Sandia perimeter-security reference
+  (SAND2014-17929) for formal Pd/NAR/FAR definitions, the DHS PIA for Border
+  Surveillance Systems, and the GAO reports GAO-18-119 / GAO-14-368 in full.
+  Several §4.3–§4.6 claims currently rest on search-engine summaries rather
+  than document text.
 - **Q-20** Find the primary study behind the "45% at 12 min / 95% at 22 min"
-  operator-attention claim, or establish that it does not exist. (§4.1)
+  operator-attention claim, or establish that it does not exist. (§4.4)
 - **Q-21** Locate any published Indian-language or force-internal doctrine on
   CCTV monitoring at BOPs. None was found in this pass.
 
-### Deliberately deferred (not this stage)
-
-The following are **not** domain questions and belong to later stages, per
-[CLAUDE.md](../../../CLAUDE.md) §2. They are listed only so they are not
-mistaken for gaps in this document: what IBVAP should build, which
-capabilities to prioritise, what the interface should look like, what models
-or runtimes to use, and where compute should sit.
+The following are deliberately **not** domain questions and belong to later
+stages, per [CLAUDE.md](../../../CLAUDE.md) §2: what IBVAP should build,
+which capabilities to prioritise, what the interface should look like, what
+models or runtimes to use, and where compute should sit.
 
 ---
 
-## 9. Sources
+## 8. Conclusions
+
+Border CCTV in this domain is the plain, unintelligent layer sitting beneath
+a much better-resourced sensor programme (CIBMS): it records and requires a
+human to watch it, in an environment where human vigilance is known to
+degrade quickly, where sensor-based alerting has historically produced very
+high false-alarm rates, and where nobody appears to systematically measure
+whether the technology helps. The physical and organisational environment —
+erratic power, constrained and unspecified bandwidth, harsh weather, thin
+technical staffing, a strict 24-hour handover to civil police, and a specific
+statutory evidence-certification requirement — imposes real constraints that
+any software solution will need to respect rather than design around.
+Documented event volumes (infiltration attempts, contraband seizures, drone
+incursions) show the underlying problem is active and, in some categories,
+worsening year over year. At the same time, this pass leaves open several
+facts that materially affect what a workable product would look like —
+particularly the real installed camera base, the identity and interfaces of
+"existing command and control systems," and what "suspicious activity" means
+operationally — and these should be prioritised for closure (§7) before
+product scope in `docs/02-product/` is finalised.
+
+---
+
+## 9. References
+
 
 Reliability key: **P** = primary/official, **A** = academic or peer-reviewed,
 **T** = think-tank / policy analysis, **N** = news, **V** = vendor or trade
@@ -937,15 +859,5 @@ Reliability key: **P** = primary/official, **A** = academic or peer-reviewed,
 | S27 | Plate Recognizer — *ANPR for India*; with ANPR survey literature (PMC8123416) on failure modes | V + A | https://platerecognizer.com/anpr-for-india/ |
 | S28 | *Scaling Video Analytics on Constrained Edge Nodes* (arXiv 1905.13536) | A | https://arxiv.org/pdf/1905.13536 |
 | S29 | Legal commentary on Section 63, Bharatiya Sakshya Adhiniyam 2023 (replacing s.65B IEA) — certificate, expert signature, hash value | N/T | https://blog.ipleaders.in/electronic-evidence-under-the-bsa-2023/ |
-| S30 | Trade/vendor material repeating the "45% at 12 min / 95% at 22 min" operator-attention figure — **recorded as unverified**, see §4.1 | V | https://www.fortixai.com/blog/ai-detects-what-humans-miss-and-it-never-sleeps |
-| S31 | Kashmir Reader / Cadet Direct — anti-infiltration grid and standing patrol doctrine; **not India-BSF-specific for the fieldcraft definitions** | N | https://kashmirreader.com/2024/10/27/anti-infiltration-grid-very-strong-along-loc-bsf/ |
-
----
-
-## Document status
-
-**Complete for Phase 1 — Domain Research.** No product, design, architecture,
-or technology decisions are made or implied by this document. Assumptions
-recorded here require validation before they are relied on in
-`docs/02-product/`; unknowns in [§8](#8-unknowns--questions-to-investigate-next)
-are the input to the next research passes (users, competitors, technology).
+| S30 | Trade/vendor material repeating the "45% at 12 min / 95% at 22 min" operator-attention figure — recorded as unverified, see §4.4 | V | https://www.fortixai.com/blog/ai-detects-what-humans-miss-and-it-never-sleeps |
+| S31 | Kashmir Reader / Cadet Direct — anti-infiltration grid and standing patrol doctrine; not India-BSF-specific for the fieldcraft definitions | N | https://kashmirreader.com/2024/10/27/anti-infiltration-grid-very-strong-along-loc-bsf/ |

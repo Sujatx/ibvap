@@ -4,24 +4,22 @@
 **Date:** 2026-08-25
 **Status:** Proposed. Nothing here is approved product scope; scope is frozen elsewhere.
 
-**This document designs the experience of the frozen MVP. It adds no capability.**
-Every screen, state, action and prohibition below traces to
-[problem.md](../00-project/problem.md) (immutable), to [PRD.md](../02-product/PRD.md),
-to [MVP.md](../02-product/MVP.md) (frozen), or to a decision accepted in
-[decisions.md](../00-project/decisions.md) (D-1 … D-14). Where this document is
-narrower than the MVP it is a selection; where it is more concrete it is a
-*presentation* of an already-frozen requirement, never a new one.
+This document designs the experience of the frozen MVP — the product's
+information architecture, screens, navigation, journeys, states and
+interaction rules: what the user sees, what they can do, and what the product
+must never say to them. It adds no capability. Every screen, state, action and
+prohibition below traces to [problem.md](../00-project/problem.md) (immutable),
+to [PRD.md](../02-product/PRD.md), to [MVP.md](../02-product/MVP.md) (frozen),
+or to a decision accepted in [decisions.md](../00-project/decisions.md)
+(D-1 … D-14). Where this document is narrower than the MVP it is a selection;
+where it is more concrete it is a *presentation* of an already-frozen
+requirement, never a new one.
 
-**What this document is:** the definition of the product's information architecture,
-screens, navigation, journeys, states and interaction rules — *what the user sees,
-what they can do, and what the product must never say to them.*
-
-**What this document is not:** a visual design, a component library, a style guide, a
-system architecture ([04-architecture](../04-architecture/)), a frontend technology
-choice, or an implementation plan. **No stack is chosen here. No architecture is
-designed here. No code is written here.** No layout, grid, colour, type scale, icon
-set or motion behaviour is specified here — those belong to the visual UI stage that
-follows this one.
+Visual design, component libraries, style guides, system architecture
+([04-architecture](../04-architecture/)), frontend technology choice, and
+implementation belong to the stages that follow this one — no stack,
+architecture, layout, grid, colour, type scale, icon set or motion behaviour
+is specified here.
 
 ---
 
