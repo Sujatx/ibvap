@@ -53,12 +53,19 @@ relevant feature or decision.
    `backups/`, `requirements.txt`). These belong to the developer's home CCTV
    setup used for development and testing. Do not modify, replace, refactor, or
    delete them.
-7. Clearly distinguish, in every research/product/design/architecture document:
-   - **FACT** — verifiable, sourced information.
-   - **ASSUMPTION** — believed true but unverified.
-   - **HYPOTHESIS** — a proposed explanation or approach to be tested/validated.
-   - **DECISION** — a choice made, with rationale and date, recorded in
-     `docs/00-project/decisions.md` or the relevant stage's own decisions log.
+7. In every research/product/design/architecture document, make clear which
+   claims are verifiable/sourced fact, which are unverified assumptions, and
+   which are hypotheses still to be tested — through plain, naturally hedged
+   wording (e.g. "is inferred from...", "not independently verified",
+   "plausibly"), not repeated inline labels or a legend. A **DECISION** is
+   different: it is a choice actually made, and must be recorded explicitly
+   with rationale and date in `docs/00-project/decisions.md` or the relevant
+   stage's own decisions log.
+8. Any document of more than a few sections opens with a short, positive
+   statement of what it is and records — not a paragraph or blockquote of
+   what it is not or does not do — followed by a `## Contents` list linking
+   to its top-level headings. State a genuine scope boundary once, in plain
+   prose, where it matters; don't restate it as a standalone disclaimer.
 
 ## 4. Scope
 
