@@ -1,7 +1,7 @@
 # IBVAP — UX Definition
 
 **Stage:** 03 — Design (UX, before visual UI)
-**Date:** 2026-08-26 (rewritten, five-screen scope — see [D-15](../00-project/decisions.md))
+**Date:** 2026-08-26 (rewritten, five-screen scope — see [ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md))
 **Status:** Proposed. Nothing here is approved product scope.
 
 This is what a person at a border post actually sees. IBVAP takes the video
@@ -162,7 +162,7 @@ apart from what didn't.**
 
 ## 8. What isn't here, and why
 
-Per [D-15](../00-project/decisions.md), these are cut from this build
+Per [ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md), these are cut from this build
 entirely — not simplified, not merged elsewhere:
 
 - **Case management and evidence export.** No case object, no chain-of-custody
@@ -191,11 +191,17 @@ wrong ideas.
 **Stage:** 03 — Design (UX). **Status: proposed, not approved.**
 
 **Derived from:** [problem.md](../00-project/problem.md) (immutable) and
-[D-15](../00-project/decisions.md), which narrowed the wider scope
-[MVP.md](../02-product/MVP.md) and [PRD.md](../02-product/PRD.md) still
-describe. Those two documents have not yet been trimmed to match this
-document — that is outstanding work, not an inconsistency to design around.
+[ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md). [PRD.md](../02-product/PRD.md)
+§6 now matches this document's five-screen scope (merged with the former
+`MVP.md` per [ADR 0028](../adr/0028-mvp-md-merged-into-prd-md.md)).
 
 **Nothing in this document exceeds `problem.md`.** Every screen, action and
 line traces to a named SIH capability. Where it says less than a capability
 could support, that's the five-screen decision (D-15), not an oversight.
+
+**Format caveat (D-16):** this document's per-screen "Shows / You do / Never
+shows" structure is a content spec, not a real UX/UI artifact. It has no
+layout and no verified, exhaustive screen flow — real work on either belongs
+in Figma, connected to this project but not yet authorized. Treat this
+document as what a screen must say and do, not as what it looks like or a
+checked map of every navigation path.

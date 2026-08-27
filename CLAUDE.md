@@ -63,9 +63,13 @@ added or their status changes.
    which are hypotheses still to be tested — through plain, naturally hedged
    wording (e.g. "is inferred from...", "not independently verified",
    "plausibly"), not repeated inline labels or a legend. A **DECISION** is
-   different: it is a choice actually made, and must be recorded explicitly
-   with rationale and date in `docs/00-project/decisions.md` or the relevant
-   stage's own decisions log.
+   different: it is a choice actually made, and must be recorded as its own
+   file in [docs/adr/](docs/adr/README.md), one file per decision, numbered
+   sequentially, in the standard ADR (Nygard/MADR) format — `Status`,
+   `Context`, `Decision`, `Consequences`. Never appended to a running log,
+   never split by which stage was active when the decision was made; a
+   change of mind is a new numbered file that supersedes the old one, not an
+   edit to it.
 8. Any document of more than a few sections opens with a short, positive
    statement of what it is and records — not a paragraph or blockquote of
    what it is not or does not do — followed by a `## Contents` list linking

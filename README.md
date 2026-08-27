@@ -82,7 +82,7 @@ detection would have appeared — not hidden.
 
 ## 5. MVP
 
-Per **[D-15](docs/00-project/decisions.md)**, the MVP is deliberately five
+Per **[ADR 0016](docs/adr/0016-mvp-ui-cut-to-five-screens.md)**, the MVP is deliberately five
 screens — exactly what the problem statement names, built as a finished
 product, nothing built around it:
 
@@ -98,8 +98,8 @@ Case management, evidence chain-of-custody export, watchlist face-matching,
 and the audit/authority/roles/measurement/health governance layer are cut
 entirely for this MVP — not simplified, not hidden inside another screen.
 They're real needs for a permanently deployed force, not what a five-screen
-demo needs to show; see [D-15](docs/00-project/decisions.md) for the full
-reasoning and [MVP.md](docs/02-product/MVP.md) for what's kept.
+demo needs to show; see [ADR 0016](docs/adr/0016-mvp-ui-cut-to-five-screens.md) for the full
+reasoning and [PRD.md §6](docs/02-product/PRD.md) for what's kept.
 
 The MVP is developed and validated against the development CCTV rig in this
 repository (see [§9](#9-development-cctv-environment)) — that rig is not
@@ -124,8 +124,8 @@ flowchart LR
 | Research | ✓ Complete |
 | Product Discovery | ✓ Complete |
 | PRD | ✓ Complete |
-| Product decisions D-1 – D-15 | ✓ Approved |
-| MVP scope | ✓ Frozen — five screens (D-15) |
+| Decisions (ADR 0001 – 0029) | ✓ Accepted |
+| MVP scope | ✓ Frozen — five screens (ADR 0016) |
 | UX / Product Design | → Proposed, pending approval |
 | Architecture | ○ Not started |
 | Engineering | ○ Not started |
@@ -141,9 +141,8 @@ flowchart LR
 | Document | Description |
 |---|---|
 | [Problem Statement](docs/00-project/problem.md) | Official, immutable SIH problem statement |
-| [Vision](docs/00-project/vision.md) | Vision statement derived from the problem statement |
-| [Goals](docs/00-project/goals.md) | Required capabilities and outcomes per the problem statement |
-| [Decisions](docs/00-project/decisions.md) | Project-level decisions log (D-1 – D-15) |
+| [Vision and Scope](docs/00-project/vision-and-scope.md) | Vision statement plus required capabilities, outcomes and constraints, per the problem statement |
+| [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0029) |
 
 **Research**
 
@@ -160,8 +159,7 @@ flowchart LR
 
 | Document | Description |
 |---|---|
-| [PRD](docs/02-product/PRD.md) | Product Requirements Document (§10 MVP scope superseded by D-15 — see MVP.md) |
-| [MVP](docs/02-product/MVP.md) | Frozen MVP scope — five screens, per D-15 |
+| [PRD](docs/02-product/PRD.md) | Product Requirements Document, including MVP scope (§6) — five screens, frozen per D-15 |
 
 **Design**
 
@@ -192,10 +190,11 @@ ibvap-surveillance/
 ├── requirements.txt          dvr.py dependencies
 ├── backups/                  original DVR encoder config
 └── docs/
-    ├── 00-project/           problem statement, vision, goals, decisions
+    ├── 00-project/           problem statement, vision, goals
     ├── 01-research/          domain, users, competitors, technology research
-    ├── 02-product/           PRD, MVP scope freeze
-    └── 03-design/            UX definition
+    ├── 02-product/           PRD, incl. frozen MVP scope
+    ├── 03-design/            UX definition
+    └── adr/                  decision records, one file per decision
 ```
 
 ## 11. Development methodology

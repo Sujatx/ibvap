@@ -5,7 +5,7 @@
 | **Status** | Approved |
 | **Date** | 2026-08-26 |
 | **Owner** | IBVAP project |
-| **Current build scope** | [MVP.md](MVP.md) — five screens, per [D-15](../00-project/decisions.md) |
+| **Current build scope** | [§6](#6-current-build-mvp-scope) — five screens, per [ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md) |
 | **Primary requirement** | [problem.md](../00-project/problem.md) — the official SIH problem statement, PS 26187, immutable |
 | **Source research** | [domain-research.md](../01-research/domain/domain-research.md) · [ssb-operational-context.md](../01-research/domain/ssb-operational-context.md) · [ssb-operational-workflow.md](../01-research/domain/ssb-operational-workflow.md) · [competitive-landscape.md](../01-research/competitors/competitive-landscape.md) · [technical-feasibility.md](../01-research/technology/technical-feasibility.md) · [product-discovery.md](../01-research/users/product-discovery.md) |
 
@@ -21,10 +21,11 @@ specific to this force or this market said plainly where it applies.
 3. [Goals, non-goals and success criteria](#3-goals-non-goals-and-success-criteria)
 4. [Users](#4-users)
 5. [Requirements](#5-requirements)
-6. [Roadmap](#6-roadmap)
-7. [Risks and mitigations](#7-risks-and-mitigations)
-8. [Open questions](#8-open-questions)
-9. [References](#9-references)
+6. [Current build (MVP scope)](#6-current-build-mvp-scope)
+7. [Roadmap beyond this MVP](#7-roadmap-beyond-this-mvp)
+8. [Risks and mitigations](#8-risks-and-mitigations)
+9. [Open questions](#9-open-questions)
+10. [References](#10-references)
 
 ---
 
@@ -46,9 +47,9 @@ into real-time alerts a human can assess in seconds. It does not replace the
 existing recorder, does not require new hardware, and does not claim
 capability a camera's optics cannot deliver.
 
-The current build ([MVP.md](MVP.md)) is five screens — Sign in, Live View,
-Rules, Alerts & Events, Integration — covering exactly what the problem
-statement names, nothing more.
+The current build ([§6](#6-current-build-mvp-scope)) is five screens — Sign
+in, Live View, Rules, Alerts & Events, Integration — covering exactly what
+the problem statement names, nothing more.
 
 ---
 
@@ -182,7 +183,7 @@ whether or not that role exists, rather than assuming either answer.
 | **Human detection and tracking** | Detection and single-camera tracking, gated on a minimum analysed frame rate | Tracking needs roughly 3+ analysed frames per second; below that, identity association collapses and the rule is disabled with a stated reason |
 | **Vehicle detection and classification** | Coarse type only — car, truck, bus, motorcycle, bicycle | Make, model and colour are out of scope; colour is unavailable at night on IR-illuminated footage regardless |
 | **Face detection** | Detection — presence and location, not identity | Overhead, wide-angle cameras installed for area overview mostly see the tops of heads; where a camera can't support it, the product says so rather than silently returning nothing |
-| **Facial recognition** *(Expected Solution)* | Not in the current build ([D-15](../00-project/decisions.md)) | Matching a detected face against a watchlist needs a legal-authority workflow — recorded legal basis, authority record, bounded gallery, retention rules — that a five-screen demo build doesn't carry. See §6 |
+| **Facial recognition** *(Expected Solution)* | Not in the current build ([ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md)) | Matching a detected face against a watchlist needs a legal-authority workflow — recorded legal basis, authority record, bounded gallery, retention rules — that a five-screen demo build doesn't carry. See §6 |
 | **ANPR** | Plate reads, logged with per-read confidence, on lane- or gate-aimed cameras only | Needs far higher pixel density than a wide-area border-road camera delivers; excluded there on physics, not effort |
 | **Virtual fence intrusion detection** | Operator-drawn lines and zones, gated on object class, confidence and minimum track length | On the validation border specifically, crossing is a treaty right, so the same mechanism is reframed as an attention zone (report who/what/when) alongside the standard intrusion framing, which stays available unchanged for closed borders |
 | **Suspicious activity detection** | Operator-authored composite rules over the reliable primitives above | "Suspicious" has no agreed definition anywhere in the problem statement or the research; a human defines it as a rule, since learned anomaly models measurably fail to transfer between scenes |
@@ -203,24 +204,87 @@ whether or not that role exists, rather than assuming either answer.
 | No licence-driven degradation | Nothing expires, disables or degrades because a licence or update server is unreachable |
 | Isolated-network deployable | No outbound internet dependency required |
 | Attributable actions | Every consequential action is tied to a person and a time |
+| Rig-measured constraints | A camera labelled "1080p" may deliver as few as 960 real horizontal pixels (anamorphic encoding); firmware may report a setting as accepted while silently discarding it; recorder bandwidth is shared and finite — measured on the development CCTV rig, not assumed ([ADR 0015](../adr/0015-mvp-validated-against-development-cctv-rig.md)) |
 
 ---
 
-## 6. Roadmap
+## 6. Current build (MVP scope)
 
-### Current build
+Five screens — Sign in, Live View, Rules, Alerts & Events, Integration —
+covering exactly what the problem statement names, nothing more. Per
+[ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md), this narrows a broader 27-screen design;
+the full reasoning for the cut lives there. **Status: frozen.**
 
-Five screens, exactly the problem statement — see [MVP.md](MVP.md) for the
-full scope and [decisions.md](../00-project/decisions.md) (D-15) for why the
-build was cut to this from a broader 27-screen design. Case management,
-evidence-pack export, face-recognition matching, and an audit/authority/roles
-governance layer are cut entirely for this build, not simplified.
+### 6.1 Capability → screen mapping
 
-### Candidates for after this MVP
+| SIH capability | Implementation | Screen |
+|---|---|---|
+| Human detection and tracking | Box + label overlay | Live View |
+| Vehicle detection and classification | Box + label overlay | Live View |
+| Face detection | Box overlay. Detection only — no gallery matching (§6.3) | Live View |
+| Automatic Number Plate Recognition | Plate text overlay, logged | Live View, Alerts & Events |
+| Virtual fence intrusion detection | Line/zone rule | Rules |
+| Suspicious activity detection | Zone + class/dwell rule, operator-authored | Rules |
+| Night-time movement detection | Continuous detection after dark; day/night state indicator | Live View |
+| Real-time alert generation and event logging | Rule firing → Event (always). Alerting rule → Event + Alert | Alerts & Events |
+| Integration with command-and-control systems *(Expected Solution)* | Documented outbound event feed | Integration |
+
+### 6.2 End-to-end workflow
+
+| Step | Action | Screen |
+|---|---|---|
+| 1 | Camera added via its existing stream address. No reconfiguration of camera or recorder. | Live View |
+| 2 | Detection runs on the live stream: boxes, labels, plate text. | Live View |
+| 3 | A rule is defined against the camera: line/zone, class, condition, alert-or-log-only. | Rules |
+| 4 | Rule fires → one Event is written. Alerting rule → an Alert is also raised. | — |
+| 5 | Alert reviewed; assessed real / not real / unsure in one action. | Alerts & Events |
+| 6 | Not-real assessment may mute that camera+rule combination for a set duration (1h / 1d / 1w / indefinite) or be reversed early. | Alerts & Events |
+| 7 | Event feed delivered to an external destination. | Integration |
+
+### 6.3 Cut from this build
+
+Excluded per **D-15**. Not simplified into another screen — removed. Not
+named in `problem.md`.
+
+| Excluded | Reason |
+|---|---|
+| Case management, evidence-pack export, chain-of-custody records | Not named in `problem.md`. The event log remains the record of what happened; export/custody tooling is downstream work |
+| Face-recognition matching against a watchlist | Requires a legal-authority workflow not built in this MVP. Detection (§6.1) is unaffected |
+| Camera-capability certification screen, override workflow, re-issue cycle | Requirement retained (§5.2) as an inline state on Live View, not as a separate screen |
+| Audit log, authority records, people & roles management | Governance tooling for a permanent deployment, not a demo requirement |
+| Measurement dashboard, system-health dashboard | Same |
+
+If IBVAP is developed past this MVP, these are the first items to revisit —
+deferred, not disproven.
+
+### 6.4 Acceptance criteria
+
+| # | Criterion |
+|---|---|
+| **AC-1** | Two cameras ingest unmodified, including at least one analog channel behind the existing DVR. |
+| **AC-2** | Each of the eight named capabilities fires at least once, correctly, on a camera that supports it. |
+| **AC-3** | At least one capability is refused, inline, with a plain-language reason, on a camera that cannot support it. |
+| **AC-4** | A rule (line or zone) is authored, fires, and produces exactly one Event, plus one Alert if the rule is alerting. |
+| **AC-5** | An alert is assessed in one action; a not-real assessment offers a mute, and the mute suppresses the next repeat. |
+| **AC-6** | The event feed reaches a real external destination via Integration. |
+| **AC-7** | Detection, logging and alerting continue with no screen open. |
+
+### 6.5 Known limitations
+
+| Limitation | Detail |
+|---|---|
+| Detection accuracy | Depends on camera resolution, mounting angle and distance. Measured and stated, not corrected. |
+| Night-time detection | IR-illuminated, effectively monochrome. No colour-dependent claim is made after dark. |
+| "Suspicious activity" | No agreed definition exists in `problem.md` or the research corpus. Defined per-deployment by a human as a rule, not inferred by the product. |
+| Command-and-control integration | No adapter to a named system ships. Integration publishes a documented event feed; the receiving system is out of scope. |
+
+---
+
+## 7. Roadmap beyond this MVP
 
 | Item | Unblocked by |
 |---|---|
-| Face-recognition matching against a watchlist, for a real deployment | A recorded legal basis, an authority-record mechanism, and a bounded, authorized gallery all being configured — the original gate design is preserved in [decisions.md](../00-project/decisions.md) (D-7) |
+| Face-recognition matching against a watchlist, for a real deployment | A recorded legal basis, an authority-record mechanism, and a bounded, authorized gallery all being configured — the original gate design is preserved in [ADR 0008](../adr/0008-face-detection-unconditional-gated-recognition.md) |
 | Case management and evidence-pack export | Product decision to reintroduce it — deferred, not disproven |
 | A reference adapter to a named C2 system | Knowing what that system actually is — currently unestablished |
 | Multi-site aggregation to a higher echelon | Confirming whether live monitoring exists above post level at all |
@@ -232,7 +296,7 @@ governance layer are cut entirely for this build, not simplified.
 
 ---
 
-## 7. Risks and mitigations
+## 8. Risks and mitigations
 
 | Risk | Mitigation |
 |---|---|
@@ -249,7 +313,7 @@ governance layer are cut entirely for this build, not simplified.
 
 ---
 
-## 8. Open questions
+## 9. Open questions
 
 Genuinely unresolved items that would change scope if answered. None of
 these is silently assumed elsewhere in this document.
@@ -268,11 +332,10 @@ these is silently assumed elsewhere in this document.
 
 ---
 
-## 9. References
+## 10. References
 
 - [problem.md](../00-project/problem.md) — the official SIH problem statement (immutable)
-- [decisions.md](../00-project/decisions.md) — project decision log, D-1 … D-15
-- [MVP.md](MVP.md) — current, frozen build scope
+- [docs/adr/](../adr/README.md) — decision records, one file per decision (ADR 0001 … 0029)
 - [UX.md](../03-design/UX.md) — screens and states for the current build
 - [domain-research.md](../01-research/domain/domain-research.md)
 - [ssb-operational-context.md](../01-research/domain/ssb-operational-context.md)

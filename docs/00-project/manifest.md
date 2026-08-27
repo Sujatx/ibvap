@@ -9,12 +9,11 @@ content — just where to look.
 - [01-research](#01-research)
 - [02-product](#02-product)
 - [03-design](#03-design)
+- [adr](#adr)
 
 ## 00-project
 - [problem.md](problem.md) — official SIH problem statement, verbatim, immutable.
-- [vision.md](vision.md) — vision statement, derived only from problem.md.
-- [goals.md](goals.md) — required capabilities named in problem.md, unscoped.
-- [decisions.md](decisions.md) — project-level DECISION log (D-1…D-14 live here).
+- [vision-and-scope.md](vision-and-scope.md) — vision statement plus required capabilities/outcomes/constraints, derived only from problem.md, unscoped. **Merged 2026-08-27** from the former separate `vision.md` and `goals.md` (which restated the same seven outcomes twice).
 
 ## 01-research
 - [domain/domain-research.md](../01-research/domain/domain-research.md) — generic border-CCTV surveillance domain (BSF/CIBMS-weighted).
@@ -27,9 +26,10 @@ content — just where to look.
 - [users/product-discovery.md](../01-research/users/product-discovery.md) — synthesis of all above into users, needs, jobs-to-be-done. Complete, feeds 02-product.
 
 ## 02-product
-- [PRD.md](../02-product/PRD.md) — **Rewritten 2026-08-26** to the Atlassian/Confluence PRD structure (exec summary, background, goals/non-goals/success criteria, users, requirements, roadmap, risks, open questions, references). ~350 lines, down from 1519. The FACT/ASSUMPTION/HYPOTHESIS/UNKNOWN/DECISION/PRODUCT-MODEL label system and bracket scope-tags are removed entirely, including from plain prose — uncertainty now lives only in Risks and Open Questions, stated plainly.
-- [MVP.md](../02-product/MVP.md) — **Rewritten 2026-08-26** to the five-screen scope per D-15: the 8 SIH capabilities mapped to Live View / Rules / Alerts & Events / Integration, the end-to-end loop, what's explicitly cut (Case, evidence export, recognition matching, audit/authority/roles, measurement/health dashboards), and demo acceptance criteria. ~230 lines, down from 1822. Frozen, current build scope.
+- [PRD.md](../02-product/PRD.md) — Atlassian/Confluence PRD structure (exec summary, background, goals/non-goals/success criteria, users, requirements, current build/MVP scope, roadmap, risks, open questions, references). **Merged 2026-08-27 (D-16)** with the former `MVP.md` (now §6: capability mapping, workflow, out-of-scope, acceptance criteria, known limitations — one document, not two kept in sync by hand). No FACT/ASSUMPTION/HYPOTHESIS/UNKNOWN/DECISION labels or bracket scope-tags anywhere, including in prose — uncertainty lives only in Risks and Open Questions.
 
 ## 03-design
-- [UX.md](../03-design/UX.md) — **Rewritten 2026-08-26 to five screens** (Sign in, Live View, Rules, Alerts & Events, Integration), per [D-15](decisions.md). Detection classes (human/vehicle/face/plate/night) are overlays and filters within Live View and Alerts & Events, not separate screens. Case management, evidence export, recognition-matching, and the audit/authority/roles/measurement/health screens are cut entirely (§8 of UX.md), not merged. **Proposed**, not approved. The prior 27-screen version (with UX-1…UX-20 decisions) is preserved in git history and in [decisions.md](../03-design/decisions.md) below.
-- [decisions.md](../03-design/decisions.md) — design-stage decisions log for the prior 27-screen UX.md (UX-1…UX-20). Superseded in scope by [D-15](../00-project/decisions.md) but kept as the historical record — not rewritten.
+- [UX.md](../03-design/UX.md) — **Rewritten 2026-08-26 to five screens** (Sign in, Live View, Rules, Alerts & Events, Integration), per [ADR 0016](../adr/0016-mvp-ui-cut-to-five-screens.md). Detection classes (human/vehicle/face/plate/night) are overlays and filters within Live View and Alerts & Events, not separate screens. Case management, evidence export, recognition-matching, and the audit/authority/roles/measurement/health screens are cut entirely (§8 of UX.md), not merged. **Proposed**, not approved. Its per-screen content format is a house convention, not a real UX/wireframe artifact — see the format caveat in UX.md §9.
+
+## adr
+- [README.md](../adr/README.md) — index of all 29 Architecture Decision Records, one file per decision, Nygard/MADR format. Supersedes the former `docs/00-project/decisions.md` and `docs/03-design/decisions.md` (see [ADR 0029](../adr/0029-decision-log-restructured-as-one-adr-per-file.md)). New decisions of any kind go here, never into a running log.

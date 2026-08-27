@@ -5,7 +5,7 @@
 [ssb-operational-workflow.md](../domain/ssb-operational-workflow.md))
 **Status:** Complete for this pass — a research synthesis, not a decision.
 **Inputs:** [problem.md](../../00-project/problem.md),
-[vision.md](../../00-project/vision.md), [goals.md](../../00-project/goals.md),
+[vision-and-scope.md](../../00-project/vision-and-scope.md),
 [domain-research.md](../domain/domain-research.md),
 [ssb-operational-context.md](../domain/ssb-operational-context.md),
 [ssb-operational-workflow.md](../domain/ssb-operational-workflow.md),
@@ -444,7 +444,7 @@ in `docs/02-product/`, per [CLAUDE.md](../../../CLAUDE.md) §2.
 ### 5.1 The eight named capabilities
 
 Required by the immutable problem statement
-([problem.md](../../00-project/problem.md), [goals.md](../../00-project/goals.md)).
+([problem.md](../../00-project/problem.md), [vision-and-scope.md](../../00-project/vision-and-scope.md)).
 Recorded here with feasibility and operational fit, because requirement,
 feasibility and usefulness are three different questions.
 
@@ -464,7 +464,7 @@ feasibility and usefulness are three different questions.
 §3, §11; [ssb-operational-context.md](../domain/ssb-operational-context.md)
 §2.3, §12.1; [domain-research.md](../domain/domain-research.md) §5.7, §6.7.)*
 
-**The seven required outcomes** (from [goals.md](../../00-project/goals.md)),
+**The seven required outcomes** (from [vision-and-scope.md](../../00-project/vision-and-scope.md)),
 with the research finding bearing on each:
 
 | Outcome | Bearing finding |
@@ -479,7 +479,7 @@ with the research finding bearing on each:
 
 **The three constraints.** Must ingest live streams from standard IP-based
 CCTV; must not require dedicated FRS/ANPR/smart-camera hardware; must use
-AI/ML/CV/video analytics ([goals.md](../../00-project/goals.md)). The named
+AI/ML/CV/video analytics ([vision-and-scope.md](../../00-project/vision-and-scope.md)). The named
 department has already procured a "CCTV Surveillance Setup with Automatic
 Face Recognition System with Auto Number Plate Recognition" (MHA reply to Lok
 Sabha USQ 488, 3 February 2026)
@@ -656,7 +656,7 @@ specific changes.
 
 Each traced to the finding that produced it. These are proposed, not
 adopted — adoption is a `docs/02-product/` decision recorded in
-`docs/00-project/decisions.md`.
+[docs/adr/](../../adr/README.md).
 
 | # | Principle | Traces to |
 |---|---|---|
@@ -837,8 +837,7 @@ recorded.
 
 - [docs/00-project/problem.md](../../00-project/problem.md) — the immutable
   SIH problem statement
-- [docs/00-project/vision.md](../../00-project/vision.md)
-- [docs/00-project/goals.md](../../00-project/goals.md)
+- [docs/00-project/vision-and-scope.md](../../00-project/vision-and-scope.md)
 - [docs/01-research/domain/domain-research.md](../domain/domain-research.md)
   — cited inline as `[S-]`
 - [docs/01-research/domain/ssb-operational-context.md](../domain/ssb-operational-context.md)
