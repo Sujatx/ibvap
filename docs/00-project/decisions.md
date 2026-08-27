@@ -367,3 +367,52 @@ is preserved, not modified — IBVAP consumes it, it does not replace it.
 validation estate", Decision D-14.
 
 **Status:** accepted
+
+---
+
+## 2026-08-26 — D-15: MVP UI cut to five screens — exactly the problem statement, nothing built around it
+
+**DECISION:** The MVP interface is five screens: **Sign in, Live View, Rules,
+Alerts & Events, Integration.** Every named SIH capability (human/vehicle/face
+detection, ANPR, virtual fence, suspicious activity, night-time movement,
+real-time alerting and event logging, C2 integration) is satisfied inside
+these five — detection classes are overlays and filters on Live View and
+Alerts & Events, not screens of their own.
+
+**Cut entirely from the MVP build** — not merged, not simplified, removed:
+**Case management and evidence-pack export** (`S-08/09/10`), **watchlist /
+gallery face-recognition matching** (`S-19` and the four-condition legal-gate
+workflow), **Camera Spec Sheet as its own screen** (`S-13/14` — the underlying
+honesty behaviour survives as a one-line inline state on Live View: a class
+that can't be trusted on a camera simply doesn't draw, with a reason, no
+separate gate screen or override ceremony), **audit log, authority records,
+people & roles as management screens** (`S-23/24/25`), **measurement and
+system-health dashboards** (`S-20/21`), **starter rule library, annunciator
+display mode, the "what IBVAP does not detect" screen** (`S-17`, `S-03a`,
+`S-27`).
+
+This narrows what **D-4** (artefact-modelled workflows — Case is no longer a
+built artefact), **D-6** (refuse via a dedicated Spec Sheet gate — the refusal
+now lives inline, not as its own screen or override workflow), **D-7**
+(controlled gated recognition ships in MVP — recognition *matching* does not;
+detection still does), and **D-9** (support-posture layer, which assumed the
+fuller governance surface) had each committed to. It does not reverse the
+underlying honesty or non-goal principles those decisions established (no
+overclaiming, no invented threat scores, no dispatch/tasking) — those survive
+as cross-cutting rules inside the five screens, not as screens of their own.
+
+**Rationale:** Built and reviewed against the frozen `MVP.md`/`UX.md` scope
+(27 screens, 22 of them tagged "Core" — a label that had stopped
+discriminating), the call made was: **build exactly what the problem
+statement names, as a finished product, and nothing else.** Case management,
+evidence chain-of-custody, and the legal/authority governance apparatus are
+real needs for an actually-deployed force, but they are not named in
+`problem.md` and are not what a demo build should carry. If IBVAP moves past
+MVP, they are the first candidates to come back — deferred, not disproven.
+
+**Reference:** [docs/03-design/UX.md](../03-design/UX.md) (rewritten to five
+screens following this decision); [docs/02-product/MVP.md](../02-product/MVP.md)
+and [PRD.md](../02-product/PRD.md) still describe the wider, pre-D-15 scope
+and need a trim pass to match — flagged, not yet done.
+
+**Status:** accepted

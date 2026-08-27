@@ -49,10 +49,9 @@ capability the camera cannot support is **refused, not silently degraded** —
 IBVAP does not claim what it cannot measure.
 
 Firings are turned into logged **Events**, a subset of which become **Alerts**
-routed to a human for assessment. Assessed events can be gathered into a
-**Case** with an exportable evidence pack, and events can also be emitted
-outward over a documented, generic event contract for integration with an
-external command-and-control system.
+routed to a human for a one-tap real / not real / unsure assessment. Events
+can also be emitted outward over a documented, generic event contract for
+integration with an external command-and-control system.
 
 IBVAP does not replace an existing VMS or recorder, does not act as the sole
 basis for a decision, and does not claim to detect contraband, currency, or
@@ -62,42 +61,45 @@ that its analytics primitives actually produce.
 ## 4. Core capabilities
 
 All eight capabilities named by the problem statement are addressed. Each
-ships at a declared maturity, gated by the per-camera Camera Spec Sheet verdict
-— none is delivered as an unqualified, universal claim.
+ships at a declared maturity, gated per camera against what that camera can
+actually measure — none is delivered as an unqualified, universal claim.
 
 | Capability | MVP grade | Key condition |
 |---|---|---|
 | Human detection and tracking | Support | Single-camera tracking only; needs ≥3 analysed fps |
 | Vehicle detection and classification | Support | Coarse type only (car/truck/bus/motorcycle/bicycle) — no make/model/colour |
 | Face detection | Support, conditional | Ships unconditionally; many overview-mounted cameras will be marked not eligible |
-| Facial recognition | Gated, conditional, watchlist-only | Demonstrable in a controlled dev/test environment; technically blocked on a real deployment unless a legal basis, authority record, bounded gallery, and retention rules are all configured |
+| Facial recognition (matching against a watchlist) | Not in MVP | Detection ships; matching a detected face against a gallery is cut (D-15) — it needs a legal-authority workflow this build doesn't carry |
 | Automatic Number Plate Recognition (ANPR) | Conditional | Lane-/gate-aimed cameras only, within a stated speed and mounting-angle envelope |
-| Virtual fence intrusion detection | Support | Rule engine over zones/lines/direction/dwell; measured nuisance rate published per camera |
+| Virtual fence intrusion detection | Support | Rule engine over zones/lines/direction/dwell |
 | Suspicious activity detection | Support, rule-based only | Operator-authored composite rules over reliable primitives; no learned anomaly model in MVP |
-| Night-time movement detection | Support | Separate night eligibility verdict per camera; day-vs-night gap measured and disclosed, not assumed |
-| Real-time alerts and event logging | Primary-candidate | The product's spine: append-only hash-chained event log, payload-progressive alerts |
+| Night-time movement detection | Support | Detection continues after dark; a day/night state on the live view, not a separate mode |
+| Real-time alerts and event logging | Primary-candidate | The product's spine: a rule firing always writes an Event; an alerting rule also raises an Alert |
 
-No capability here is presented as working on every camera. Eligibility is
-measured per camera by the Camera Spec Sheet, and a capability is refused on a
-camera that cannot support it.
+No capability here is presented as working on every camera. If a specific
+camera can't reliably support a class, that's stated inline, right where the
+detection would have appeared — not hidden.
 
 ## 5. MVP
 
-The MVP is one deployment site, complete end-to-end: a single site's existing
-cameras, unmodified, running the full loop from ingest to an outbound event —
-locally and unattended, with no remote control room required.
+Per **[D-15](docs/00-project/decisions.md)**, the MVP is deliberately five
+screens — exactly what the problem statement names, built as a finished
+product, nothing built around it:
 
-- **Camera Spec Sheet** — measures each camera and issues an eligibility verdict
-  per analytic, with the reason in plain language.
-- **Analytics primitives** — person, vehicle, face, and plate detection on
-  eligible cameras only.
-- **Rules → Event → Alert → Assessment → Case** — every firing is logged; a
-  subset alert a human; a human assesses and can open a case with an
-  exportable evidence pack.
-- **Site resilience** — local operation continues for ≥72 hours with no
-  uplink; no licence or capability expires because a server is unreachable.
-- **Egress** — a published, versioned event schema plus a generic outbound
-  mechanism, demonstrated against at least one real external consumer.
+| Screen | Answers |
+|---|---|
+| **Sign in** | Who's using this right now? |
+| **Live View** *(home)* | What is the camera seeing, right now? — human/vehicle/face/plate detection, night-time movement |
+| **Rules** | What should this camera watch for? — virtual fence, suspicious activity |
+| **Alerts & Events** | What happened, and what needs me? — real-time alerting, event logging |
+| **Integration** | How does this reach our other systems? |
+
+Case management, evidence chain-of-custody export, watchlist face-matching,
+and the audit/authority/roles/measurement/health governance layer are cut
+entirely for this MVP — not simplified, not hidden inside another screen.
+They're real needs for a permanently deployed force, not what a five-screen
+demo needs to show; see [D-15](docs/00-project/decisions.md) for the full
+reasoning and [MVP.md](docs/02-product/MVP.md) for what's kept.
 
 The MVP is developed and validated against the development CCTV rig in this
 repository (see [§9](#9-development-cctv-environment)) — that rig is not
@@ -107,15 +109,12 @@ claimed to represent any real border camera estate.
 
 ```mermaid
 flowchart LR
-    A[Existing CCTV / DVR] --> B[Video Ingestion]
-    B --> C[Camera Spec Sheet]
-    C --> D[AI Analytics]
-    D --> E[Rules]
-    E --> F[Event]
-    F --> G[Alert]
-    G --> H[Assessment]
-    H --> I[Case / Evidence]
-    I --> J[External Integration]
+    A[Existing CCTV / DVR] --> B[Live View — AI detection]
+    B --> C[Rules]
+    C --> D[Event]
+    D --> E[Alert]
+    E --> F[Assessment]
+    F --> G[Integration]
 ```
 
 ## 7. Project status
@@ -125,8 +124,8 @@ flowchart LR
 | Research | ✓ Complete |
 | Product Discovery | ✓ Complete |
 | PRD | ✓ Complete |
-| Product decisions D-1 – D-14 | ✓ Approved |
-| MVP scope | ✓ Frozen |
+| Product decisions D-1 – D-15 | ✓ Approved |
+| MVP scope | ✓ Frozen — five screens (D-15) |
 | UX / Product Design | → Proposed, pending approval |
 | Architecture | ○ Not started |
 | Engineering | ○ Not started |
@@ -144,7 +143,7 @@ flowchart LR
 | [Problem Statement](docs/00-project/problem.md) | Official, immutable SIH problem statement |
 | [Vision](docs/00-project/vision.md) | Vision statement derived from the problem statement |
 | [Goals](docs/00-project/goals.md) | Required capabilities and outcomes per the problem statement |
-| [Decisions](docs/00-project/decisions.md) | Project-level decisions log (D-1 – D-14) |
+| [Decisions](docs/00-project/decisions.md) | Project-level decisions log (D-1 – D-15) |
 
 **Research**
 
@@ -161,14 +160,14 @@ flowchart LR
 
 | Document | Description |
 |---|---|
-| [PRD](docs/02-product/PRD.md) | Product Requirements Document |
-| [MVP](docs/02-product/MVP.md) | Frozen MVP scope |
+| [PRD](docs/02-product/PRD.md) | Product Requirements Document (§10 MVP scope superseded by D-15 — see MVP.md) |
+| [MVP](docs/02-product/MVP.md) | Frozen MVP scope — five screens, per D-15 |
 
 **Design**
 
 | Document | Description |
 |---|---|
-| [UX Definition](docs/03-design/UX.md) | Information architecture, screens, navigation, journeys and states for the frozen MVP |
+| [UX Definition](docs/03-design/UX.md) | Five screens, their states, and what they must never say — for the frozen five-screen MVP |
 
 ## 9. Development CCTV environment
 

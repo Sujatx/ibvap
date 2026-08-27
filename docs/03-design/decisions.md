@@ -6,6 +6,15 @@ stay in [docs/00-project/decisions.md](../00-project/decisions.md); this file is
 decisions made within the design stage itself, referenced from
 [UX.md](UX.md) by their UX-n number.
 
+**Superseded in scope by [D-15](../00-project/decisions.md)** (2026-08-26): every
+entry below (UX-15 … UX-20) was made against the prior 27-screen `UX.md`. The
+screens, fields and workflows they decide (Cameras site sketch, Case two-axis
+state model, S-21 Measurement, dismissal-cause capture on suppression, S-01
+lockout/recovery) belong to screens cut from the current five-screen build. Kept
+as the historical record, not rewritten — the current `UX.md` carries forward
+only what each entry's rationale still supports at five-screen scope (e.g. the
+UX-14 suppression-duration pattern, which survives in [UX.md](UX.md) S-04).
+
 Use this format per entry:
 
 ```
