@@ -1,0 +1,48 @@
+name: Task
+description: A piece of work to be picked up and built
+title: "[Task] "
+labels: ["type:task"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What needs doing
+    validations:
+      required: true
+  - type: textarea
+    id: trace
+    attributes:
+      label: Traces to
+      description: The PRD clause or ADR this comes from, if product-facing. No invented requirements — CLAUDE.md rule 2.
+      placeholder: "PRD §6.2 step 3, AC-4"
+    validations:
+      required: false
+  - type: input
+    id: related
+    attributes:
+      label: Related issue
+      description: A related task or bug, if any.
+      placeholder: "#12"
+    validations:
+      required: false
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      placeholder: |
+        - [ ] ...
+    validations:
+      required: true
+  - type: dropdown
+    id: screen
+    attributes:
+      label: Screen
+      options:
+        - Sign in
+        - Live View
+        - Rules
+        - Alerts & Events
+        - Integration
+        - Not screen-specific
+    validations:
+      required: false

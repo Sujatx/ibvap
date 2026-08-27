@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Product / design change
+    url: https://github.com/Sujatx/ibvap/blob/main/README.md
+    about: Product requirements live in Notion, design lives in Figma — not here. See the README for links.

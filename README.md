@@ -18,9 +18,14 @@ an intelligent surveillance network — **without requiring dedicated FRS, ANPR,
 or smart-camera hardware** — by running real-time video analytics on top of
 the cameras a border force already owns.
 
-This repository currently holds completed **research** and **product
-definition** work, plus the development CCTV rig used to validate it against
-real hardware. Engineering has not started.
+Research and product definition are complete, live in
+[Notion](https://app.notion.com/p/3c986dda46e28132a92fef10b9d75132?pvs=204),
+and design work is underway in
+[Figma](https://www.figma.com/files/team/1549054683813925758/project/645637828?fuid=1549054681745812988).
+This repository holds the code, architecture, and decision records —
+[§8](#8-where-to-find-things) links out to everything else. Engineering has
+not started; only the development CCTV rig used to validate constraints
+against real hardware is here so far.
 
 ## 2. Problem
 
@@ -69,7 +74,7 @@ actually measure — none is delivered as an unqualified, universal claim.
 | Human detection and tracking | Support | Single-camera tracking only; needs ≥3 analysed fps |
 | Vehicle detection and classification | Support | Coarse type only (car/truck/bus/motorcycle/bicycle) — no make/model/colour |
 | Face detection | Support, conditional | Ships unconditionally; many overview-mounted cameras will be marked not eligible |
-| Facial recognition (matching against a watchlist) | Not in MVP | Detection ships; matching a detected face against a gallery is cut (D-15) — it needs a legal-authority workflow this build doesn't carry |
+| Facial recognition (matching against a watchlist) | Not in MVP | Detection ships; matching a detected face against a gallery is cut ([ADR 0016](docs/adr/0016-mvp-ui-cut-to-five-screens.md)) — it needs a legal-authority workflow this build doesn't carry |
 | Automatic Number Plate Recognition (ANPR) | Conditional | Lane-/gate-aimed cameras only, within a stated speed and mounting-angle envelope |
 | Virtual fence intrusion detection | Support | Rule engine over zones/lines/direction/dwell |
 | Suspicious activity detection | Support, rule-based only | Operator-authored composite rules over reliable primitives; no learned anomaly model in MVP |
@@ -99,7 +104,9 @@ and the audit/authority/roles/measurement/health governance layer are cut
 entirely for this MVP — not simplified, not hidden inside another screen.
 They're real needs for a permanently deployed force, not what a five-screen
 demo needs to show; see [ADR 0016](docs/adr/0016-mvp-ui-cut-to-five-screens.md) for the full
-reasoning and [PRD.md §6](docs/02-product/PRD.md) for what's kept.
+reasoning and the
+[PRD](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §6
+for what's kept.
 
 The MVP is developed and validated against the development CCTV rig in this
 repository (see [§9](#9-development-cctv-environment)) — that rig is not
@@ -119,53 +126,50 @@ flowchart LR
 
 ## 7. Project status
 
-| Stage | Status |
+| Home | Item | Status |
+|---|---|---|
+| Notion | Research (domain, users, competitors, technology) | ✓ Complete |
+| Notion | Vision & Scope | ✓ Complete |
+| Notion | PRD | ✓ Complete |
+| Repo | Decisions (ADR 0001 – 0029) | ✓ Accepted |
+| Repo | MVP scope | ✓ Frozen — five screens (ADR 0016) |
+| Figma | Screen flow (FigJam) + wireframes | ✓ Drafted, pending review |
+| Figma | UI kit / hi-fi | ○ Not started |
+| Repo | [RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) — ingest & analytics pipeline | → Draft, pending review |
+| Repo | Architecture | → Skeleton in place ([docs/architecture/](docs/architecture/README.md)), decisions not made |
+| Repo | Engineering | ○ Not started |
+
+## 8. Where to find things
+
+Four homes, one artifact each — see [CLAUDE.md](CLAUDE.md) §2 for the rule
+and [CONTRIBUTING.md](CONTRIBUTING.md) for how work moves through the repo.
+
+**Notion** — [IBVAP workspace](https://app.notion.com/p/3c986dda46e28132a92fef10b9d75132?pvs=204)
+
+| Page | Holds |
 |---|---|
-| Research | ✓ Complete |
-| Product Discovery | ✓ Complete |
-| PRD | ✓ Complete |
-| Decisions (ADR 0001 – 0029) | ✓ Accepted |
-| MVP scope | ✓ Frozen — five screens (ADR 0016) |
-| UX / Product Design | → Proposed, pending approval |
-| Architecture | ○ Not started |
-| Engineering | ○ Not started |
+| [Vision & Scope](https://app.notion.com/p/3c986dda46e281269e61cedb44f3eb3e?pvs=204) | Vision statement plus required capabilities, outcomes and constraints |
+| [PRD](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) | Product Requirements Document, including MVP scope (§6) — five screens, frozen per ADR 0016 |
+| [Research](https://app.notion.com/p/3c986dda46e281b1af56fe54bfbe813d?pvs=204) | Domain, [SSB operational context](https://app.notion.com/p/3c986dda46e281e89fe8feeebf5f04b8?pvs=204), [SSB operational workflow](https://app.notion.com/p/3c986dda46e28150bff0ecde90f66bc5?pvs=204), [product discovery](https://app.notion.com/p/3c986dda46e281308010e0a5e861a5b4?pvs=204), [competitive landscape](https://app.notion.com/p/3c986dda46e281f39b15d3fb7ee4db82?pvs=204), [international border-surveillance platforms](https://app.notion.com/p/3c986dda46e281bbbd54c6b5c8061a3f?pvs=204), [investigative case-management platforms](https://app.notion.com/p/3c986dda46e281a88c75e6b2d7bf373e?pvs=204), [technical feasibility](https://app.notion.com/p/3c986dda46e281a7a1c3d87623970822?pvs=204) |
 
-## 8. Documentation
+**Figma** — [project](https://www.figma.com/files/team/1549054683813925758/project/645637828?fuid=1549054681745812988)
 
-| | Document |
+| File | Holds |
 |---|---|
-| Project instructions | [CLAUDE.md](CLAUDE.md) |
+| [IBVAP — Screen Flow](https://www.figma.com/board/IyOcjBnBVh3ID2uxmrxRdT/IBVAP-%E2%80%94-Screen-Flow?t=crzSM6HZroTo7LFV-6) | FigJam board — the full screen flow |
+| [IBVAP — Product Design](https://www.figma.com/design/ZDrrYveQkuzTFD9VufbQZO/IBVAP-%E2%80%94-Product-Design?m=auto&t=crzSM6HZroTo7LFV-6) | Wireframes, UI kit, hi-fi (empty for now) |
 
-**Project**
+**This repo**
 
 | Document | Description |
 |---|---|
-| [Problem Statement](docs/00-project/problem.md) | Official, immutable SIH problem statement |
-| [Vision and Scope](docs/00-project/vision-and-scope.md) | Vision statement plus required capabilities, outcomes and constraints, per the problem statement |
+| [Problem Statement](docs/problem-statement.md) | Official, immutable SIH problem statement |
 | [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0029) |
+| [Architecture](docs/architecture/README.md) | arc42 system architecture description |
+| [RFCs](docs/rfcs/README.md) | Design docs for non-trivial implementations, reviewed before code |
+| [Contributing](CONTRIBUTING.md) | Branching, PRs, Definition of Ready/Done |
 
-**Research**
-
-| Document | Description |
-|---|---|
-| [Domain Research](docs/01-research/domain/domain-research.md) | Border-surveillance domain research |
-| [SSB Operational Context](docs/01-research/domain/ssb-operational-context.md) | SSB-specific operational context |
-| [SSB Operational Workflow](docs/01-research/domain/ssb-operational-workflow.md) | SSB-specific workflow research |
-| [Product Discovery](docs/01-research/users/product-discovery.md) | User and needs research |
-| [Competitive Landscape](docs/01-research/competitors/competitive-landscape.md) | Competitor and market research |
-| [Technical Feasibility](docs/01-research/technology/technical-feasibility.md) | Technical feasibility research |
-
-**Product**
-
-| Document | Description |
-|---|---|
-| [PRD](docs/02-product/PRD.md) | Product Requirements Document, including MVP scope (§6) — five screens, frozen per D-15 |
-
-**Design**
-
-| Document | Description |
-|---|---|
-| [UX Definition](docs/03-design/UX.md) | Five screens, their states, and what they must never say — for the frozen five-screen MVP |
+**GitHub Issues** — [Sujatx/ibvap](https://github.com/Sujatx/ibvap/issues) — tasks and bugs.
 
 ## 9. Development CCTV environment
 
@@ -184,38 +188,30 @@ version control and are not documented here.
 ```
 ibvap-surveillance/
 ├── CLAUDE.md                 project & workflow rules
+├── CONTRIBUTING.md           branching, PRs, Definition of Ready/Done
 ├── README.md
 ├── dvr.py                    development CCTV/DVR access (preserved, not IBVAP)
 ├── dvr.env                   development CCTV credentials (gitignored)
 ├── requirements.txt          dvr.py dependencies
 ├── backups/                  original DVR encoder config
+├── .github/                  issue templates, PR template, CI
 └── docs/
-    ├── 00-project/           problem statement, vision, goals
-    ├── 01-research/          domain, users, competitors, technology research
-    ├── 02-product/           PRD, incl. frozen MVP scope
-    ├── 03-design/            UX definition
-    └── adr/                  decision records, one file per decision
+    ├── problem-statement.md  official, immutable SIH problem statement
+    ├── adr/                  decision records, one file per decision
+    ├── architecture/         arc42 system architecture description
+    └── rfcs/                 design docs, reviewed before non-trivial code
 ```
+
+Product/discovery docs and design files are not in this repo — see
+[§8](#8-where-to-find-things).
 
 ## 11. Development methodology
 
-```
-Research → Product → Design → Architecture → Engineering → Testing → Demo
-```
+Discovery and delivery run continuously and in parallel — see
+[CLAUDE.md](CLAUDE.md) §2 for the four-homes rule that replaces a
+stage-gated waterfall.
 
-Each stage lives in its own `docs/` folder and is not mixed with another. A
-stage does not begin before the stage(s) before it are complete for the
-relevant feature or decision.
-
-## 12. Scope
-
-The SIH problem statement and Sashastra Seema Bal (SSB) research define the
-**initial validation context** for SIH 2026 — they do not define the product's
-market boundary. **IBVAP is not India-specific.** Requirements throughout the
-documentation are distinguished as SIH/SSB-specific, border-security-specific,
-globally applicable, or market-specific.
-
-## 13. Disclaimer
+## 12. Disclaimer
 
 IBVAP is a Smart India Hackathon 2026 development project. It is not a
 production deployment, and it is not an official SSB or Government of India
