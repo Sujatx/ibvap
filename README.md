@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/assets/logo-Dark.svg" alt="IBVAP" width="64" />
+
 # IBVAP
 
 ### Intelligent Border Video Analytics Platform
@@ -131,10 +133,11 @@ flowchart LR
 | Notion | Research (domain, users, competitors, technology) | ✓ Complete |
 | Notion | Vision & Scope | ✓ Complete |
 | Notion | PRD | ✓ Complete |
-| Repo | Decisions (ADR 0001 – 0029) | ✓ Accepted |
+| Repo | Decisions (ADR 0001 – 0031) | ✓ Accepted |
 | Repo | MVP scope | ✓ Frozen — five screens (ADR 0016) |
 | Figma | Screen flow (FigJam) + wireframes | ✓ Drafted, pending review |
-| Figma | UI kit / hi-fi | ○ Not started |
+| Figma | UI kit — tokens, type ramp, components | ✓ Built ([ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md) palette, [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md) control grammar) |
+| Figma | Hi-fi screens | ○ Not started |
 | Repo | [RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) — ingest & analytics pipeline | → Draft, pending review |
 | Repo | Architecture | → Skeleton in place ([docs/architecture/](docs/architecture/README.md)), decisions not made |
 | Repo | Engineering | ○ Not started |
@@ -164,7 +167,7 @@ and [CONTRIBUTING.md](CONTRIBUTING.md) for how work moves through the repo.
 | Document | Description |
 |---|---|
 | [Problem Statement](docs/problem-statement.md) | Official, immutable SIH problem statement |
-| [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0029) |
+| [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0031) |
 | [Architecture](docs/architecture/README.md) | arc42 system architecture description |
 | [RFCs](docs/rfcs/README.md) | Design docs for non-trivial implementations, reviewed before code |
 | [Contributing](CONTRIBUTING.md) | Branching, PRs, Definition of Ready/Done |
@@ -199,6 +202,7 @@ ibvap-surveillance/
     ├── problem-statement.md  official, immutable SIH problem statement
     ├── adr/                  decision records, one file per decision
     ├── architecture/         arc42 system architecture description
+    ├── assets/               logo and other README assets
     └── rfcs/                 design docs, reviewed before non-trivial code
 ```
 

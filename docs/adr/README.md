@@ -44,3 +44,5 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0027](0027-suppression-works-like-notification-snooze.md) | Suppression works like a notification snooze | Accepted | 2026-08-26 |
 | [0028](0028-mvp-md-merged-into-prd-md.md) | MVP.md merged into PRD.md | Accepted | 2026-08-27 |
 | [0029](0029-decision-log-restructured-as-one-adr-per-file.md) | Decision log restructured as one ADR per file | Accepted | 2026-08-27 |
+| [0030](0030-dark-console-palette-no-severity-colour.md) | Dark console palette — colour marks category and attention, never severity | Accepted | 2026-08-29 |
+| [0031](0031-component-grammar-chip-states-fact-segmented-control-chooses.md) | Component grammar — a chip states a fact, a segmented control makes a choice | Accepted | 2026-08-29 |

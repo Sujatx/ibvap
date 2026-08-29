@@ -83,10 +83,37 @@ Design and architecture/engineering-design work is not finished. Do not
 write implementation-ready GitHub issues (the task-level part of step 5)
 until this list clears — check it back in on return.
 
-- **Figma UI kit not built.** The design file has only `01 Wireframes` — no
-  `02 UI Kit` page exists: no variables, no components, no type system, no
-  foundations doc. **Includes picking a real colour palette** — nothing
-  beyond "dark-first, Night default" has been decided.
+**Next up, in this order:**
+
+1. **Review the 5 wireframes first, and settle layout there.** Anything
+   structural — what regions exist, what sits beside what, what gets the
+   most space, what belongs on this screen rather than another — is nearly
+   free to change in greyscale and expensive once a screen is built from
+   components. If a layout feels wrong, that doubt belongs here, not in
+   hi-fi. Only density, weight and where the eye lands genuinely need real
+   type to judge; everything answerable in greyscale gets answered in
+   greyscale.
+2. **Then draw S-01 Sign in, then S-02 Live View** at full fidelity on the
+   empty `03 Hi-fi` page, assembled from `02 UI Kit` components —
+   `01 Wireframes` stays as it is. S-01 comes first because it is the way
+   in and it is small, and because it is the one screen with no AppBar and
+   no NavRail, so it needs checking on its own rather than inheriting the
+   shell. S-02 comes second and carries the real weight: it is the densest
+   screen and exercises most of the kit, so it is where a wrong visual
+   direction actually shows up.
+3. **Stop after those two.** Three more screens drawn on a direction nobody
+   has looked at is the expensive mistake.
+
+- **Figma UI kit built; no screen drawn at full fidelity yet.** `02 UI Kit`
+  carries three variable collections (`primitive`, `theme` with Night and Day
+  modes, `dimension`), nine text styles on Inter and JetBrains Mono, close to
+  forty components, and foundations boards covering the palette, type,
+  spacing and detection overlays. The palette is settled in
+  [ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md) and
+  the control grammar in
+  [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md);
+  the component set is complete for the five MVP screens. The `03 Hi-fi`
+  page is empty.
 - **Wireframes haven't been reviewed.** Review the 5 screens on
   `01 Wireframes` before treating them as locked.
 - **[RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) is
