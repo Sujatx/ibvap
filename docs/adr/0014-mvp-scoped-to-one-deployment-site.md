@@ -27,4 +27,4 @@ core operation does not require a remote control room.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md) §6.
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §6.

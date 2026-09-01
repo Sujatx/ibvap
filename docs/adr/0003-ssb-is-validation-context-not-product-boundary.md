@@ -19,4 +19,4 @@ SSB-specific and India-specific requirements are marked `[SIH/SSB]` /
 ## Consequences
 
 Any requirement true only for SSB or for India must be stated as such,
-not folded into a general claim. See [PRD.md](../02-product/PRD.md).
+not folded into a general claim. See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204).

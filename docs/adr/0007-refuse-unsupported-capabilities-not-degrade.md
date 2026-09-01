@@ -19,7 +19,7 @@ the resulting events.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md). The dedicated certification-screen
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204). The dedicated certification-screen
 presentation of this refusal was cut by
 [0016](0016-mvp-ui-cut-to-five-screens.md); the refusal itself now surfaces
 inline on the Live View screen instead.

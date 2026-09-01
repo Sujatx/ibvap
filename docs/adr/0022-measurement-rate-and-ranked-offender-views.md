@@ -5,7 +5,7 @@
 
 ## Context
 
-[investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+[investigative-case-management-platforms.md](https://app.notion.com/p/3c986dda46e281a88c75e6b2d7bf373e?pvs=204)
 found the real alarm-management standard this maps to (ISA-18.2) separates
 performance metrics from diagnostic metrics because they answer different
 questions for different readers; that a ranked top-N list is the

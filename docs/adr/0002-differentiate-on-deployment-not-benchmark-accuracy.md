@@ -8,7 +8,7 @@
 All eight required capabilities are commodity — accuracy claimed in the
 abstract is not a defensible sole differentiator against vendors with
 decades of tuning. The four best-evidenced pain points (PP2, PP3, PP4, PP7)
-in [product-discovery.md](../01-research/users/product-discovery.md) §4.1,
+in [product-discovery.md](https://app.notion.com/p/3c986dda46e281308010e0a5e861a5b4?pvs=204) §4.1,
 §9 are all conditions of deployment, not of raw detection accuracy.
 
 ## Decision
@@ -26,4 +26,4 @@ what it can and cannot do, at what measured accuracy.
 ## Consequences
 
 No accuracy claim ships without a stated measurement condition. See
-[PRD.md](../02-product/PRD.md).
+[PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204).

@@ -27,4 +27,4 @@ product surface is named "night analytic."
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md) §5.1.
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §5.1.

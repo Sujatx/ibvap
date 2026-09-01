@@ -25,4 +25,4 @@ and nothing in the MVP assumes one is not.
 
 The product is built to be correct under both answers to the unresolved
 monitoring-workflow question rather than betting on one. See
-[PRD.md](../02-product/PRD.md).
+[PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204).

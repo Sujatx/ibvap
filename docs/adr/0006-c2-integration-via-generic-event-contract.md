@@ -29,4 +29,4 @@ today.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md) §5, §7 (Integration screen).
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §5, §7 (Integration screen).

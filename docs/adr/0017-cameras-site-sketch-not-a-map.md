@@ -5,7 +5,7 @@
 
 ## Context
 
-[international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+[international-border-surveillance-platforms.md](https://app.notion.com/p/3c986dda46e281bbbd54c6b5c8061a3f?pvs=204)
 found every documented platform above one site provides some spatial
 reference for its cameras. The MVP's single-site boundary
 ([0014](0014-mvp-scoped-to-one-deployment-site.md)(a)) rules out a full

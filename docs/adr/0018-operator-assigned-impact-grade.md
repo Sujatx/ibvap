@@ -5,7 +5,7 @@
 
 ## Context
 
-[international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+[international-border-surveillance-platforms.md](https://app.notion.com/p/3c986dda46e281bbbd54c6b5c8061a3f?pvs=204)
 found every well-documented border event object carries a grade allocated
 by a human on the reporting side, which a downstream C2 consumer may need
 to prioritise. This is a different object from a computed threat/risk

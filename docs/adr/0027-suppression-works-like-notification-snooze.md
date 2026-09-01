@@ -26,4 +26,4 @@ reversible.
 ## Consequences
 
 This is the suppression behaviour implemented in the current build — see
-[UX.md](../03-design/UX.md) S-04 (Alerts & Events).
+[UX.md](https://www.figma.com/design/ZDrrYveQkuzTFD9VufbQZO/IBVAP-%E2%80%94-Product-Design?m=auto&t=crzSM6HZroTo7LFV-6) S-04 (Alerts & Events).

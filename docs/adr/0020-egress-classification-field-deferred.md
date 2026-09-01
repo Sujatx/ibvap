@@ -20,4 +20,4 @@ outbound event schema in the current build.
 ## Consequences
 
 Revisit once the deployment's data-classification policy is known. See
-[PRD.md](../02-product/PRD.md) §9 (open questions), Integration screen.
+[PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §9 (open questions), Integration screen.

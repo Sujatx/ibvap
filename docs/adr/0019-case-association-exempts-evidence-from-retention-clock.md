@@ -5,7 +5,7 @@
 
 ## Context
 
-[international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+[international-border-surveillance-platforms.md](https://app.notion.com/p/3c986dda46e281bbbd54c6b5c8061a3f?pvs=204)
 found real border-surveillance platforms preserve evidence by case
 association and overwrite by default otherwise — the opposite of a design
 where an open Case's own evidence can expire out from under it.

@@ -5,7 +5,7 @@
 
 ## Context
 
-[investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+[investigative-case-management-platforms.md](https://app.notion.com/p/3c986dda46e281a88c75e6b2d7bf373e?pvs=204)
 found alarm-management and SIEM practice converge on capturing a reason at
 the consequential act (shelving, suppression, closure), never at first
 acknowledgement, using a short closed list with an explicit "undetermined."
@@ -24,5 +24,5 @@ never free text, never blocking.
 ## Consequences
 
 Applies to the mute flow on the current build's Alerts & Events screen —
-see [UX.md](../03-design/UX.md) S-04. The preset list itself remains
+see [UX.md](https://www.figma.com/design/ZDrrYveQkuzTFD9VufbQZO/IBVAP-%E2%80%94-Product-Design?m=auto&t=crzSM6HZroTo7LFV-6) S-04. The preset list itself remains
 unvalidated pending real deployment feedback.

@@ -28,4 +28,4 @@ remains unmeasured.
 
 Rig-measured constraints (anamorphic encoding, firmware settings silently
 discarded, shared/finite recorder bandwidth) are carried as a
-cross-cutting requirement in [PRD.md](../02-product/PRD.md) §5.2.
+cross-cutting requirement in [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §5.2.

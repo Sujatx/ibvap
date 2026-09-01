@@ -26,7 +26,7 @@ workflow.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md). Case as a built artefact was later cut
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204). Case as a built artefact was later cut
 from the current build by [0016](0016-mvp-ui-cut-to-five-screens.md) — the
 artefact/state modelling principle survives for Event and Alert, which are
 still in scope.

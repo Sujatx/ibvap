@@ -184,6 +184,7 @@ and [CONTRIBUTING.md](CONTRIBUTING.md) for how work moves through the repo.
 | [Architecture](docs/architecture/README.md) | arc42 system architecture description |
 | [RFCs](docs/rfcs/README.md) | Design docs for non-trivial implementations, reviewed before code |
 | [Contributing](CONTRIBUTING.md) | Branching, PRs, Definition of Ready/Done |
+| [License](LICENSE) | AGPL-3.0 — see [ADR 0032](docs/adr/0032-inference-runtime-decode-path-and-detector-licence.md) for why |
 
 **GitHub Issues** — [Sujatx/ibvap](https://github.com/Sujatx/ibvap/issues) — tasks and bugs.
 
@@ -205,6 +206,7 @@ version control and are not documented here.
 ibvap-surveillance/
 ├── CLAUDE.md                 project & workflow rules
 ├── CONTRIBUTING.md           branching, PRs, Definition of Ready/Done
+├── LICENSE                   AGPL-3.0 (ADR 0032)
 ├── README.md
 ├── ROADMAP.md                phased SDLC execution roadmap
 ├── dvr.py                    development CCTV/DVR access (preserved, not IBVAP)

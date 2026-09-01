@@ -67,7 +67,8 @@ that friction to reach the throughput this workload asks for.
 
 **A YOLO-family detector, exported to ONNX via Ultralytics, and the repository
 is licensed AGPL-3.0 as a result.** This is the licence choice made
-deliberately rather than inherited by accident. IBVAP is already a public
+deliberately rather than inherited by accident — recorded in
+[LICENSE](../../LICENSE) at the repository root. IBVAP is already a public
 hackathon repository and states plainly that it is not a production
 deployment, so copyleft costs it nothing today.
 

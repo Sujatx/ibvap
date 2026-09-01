@@ -5,7 +5,7 @@
 
 ## Context
 
-[investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+[investigative-case-management-platforms.md](https://app.notion.com/p/3c986dda46e281a88c75e6b2d7bf373e?pvs=204)
 found this two-axis separation is the single strongest convergent pattern
 across every case-management system surveyed. IBVAP already had half of it
 (closure separate from outcome, from [0019](0019-case-association-exempts-evidence-from-retention-clock.md));

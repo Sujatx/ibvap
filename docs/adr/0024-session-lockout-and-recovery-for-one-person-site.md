@@ -5,7 +5,7 @@
 
 ## Context
 
-[investigative-case-management-platforms.md](../01-research/competitors/investigative-case-management-platforms.md)
+[investigative-case-management-platforms.md](https://app.notion.com/p/3c986dda46e281a88c75e6b2d7bf373e?pvs=204)
 found the governing standards (NIST SP 800-63B, CJIS Security Policy)
 genuinely disagree on timeout numbers by design, that the standard lockout
 mechanism assumes an administrator a single-operator post doesn't have,
@@ -27,4 +27,4 @@ distinct sentences.
 
 ## Consequences
 
-See [UX.md](../03-design/UX.md) S-01 (Sign in).
+See [UX.md](https://www.figma.com/design/ZDrrYveQkuzTFD9VufbQZO/IBVAP-%E2%80%94-Product-Design?m=auto&t=crzSM6HZroTo7LFV-6) S-01 (Sign in).

@@ -16,7 +16,7 @@ MVP scope as a section of it, not a parallel file kept in sync by hand.
 
 `docs/02-product/MVP.md` is deleted; its content (capability mapping,
 workflow, out-of-scope list, acceptance criteria, known limitations) now
-lives as §6 of [PRD.md](../02-product/PRD.md), "Current build (MVP
+lives as §6 of [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204), "Current build (MVP
 scope)." No content was dropped — this is a merge, not a cut.
 
 ## Consequences

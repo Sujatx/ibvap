@@ -105,8 +105,10 @@ graph TD
   - Every API endpoint and WebSocket message has an exact JSON example and TypeScript/Pydantic type definition.
 
 > [!NOTE]
-> **Milestone: Prepare Presentation Deck (PPT)**  
-> Following Phase 3, assemble the hackathon presentation deck using the team's PPT template, incorporating the Hi-Fi UI screens from Phase 2 and the finalized architecture diagrams from Phase 3.
+> **Milestone: Presentation & Team Preparation**  
+> Following Phase 3, two deliverables need to be prepared:
+> 1. **Presentation Deck (PPT)** — Assemble the hackathon PPT using the team's template, incorporating Hi-Fi UI screens from Phase 2 and finalized architecture diagrams from Phase 3.
+> 2. **Project Documentation** — Write a detailed project document covering the system overview, capabilities, tech stack, and architecture, so teammates can use it to prepare for and present confidently in the internal hackathon round.
 
 ---
 

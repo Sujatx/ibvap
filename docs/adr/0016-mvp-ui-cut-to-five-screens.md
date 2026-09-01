@@ -49,7 +49,7 @@ five screens, not as screens of their own.
 
 ## Consequences
 
-[UX.md](../03-design/UX.md) rewritten to five screens.
-[PRD.md](../02-product/PRD.md) §6 rewritten to match, and later merged with
+[UX.md](https://www.figma.com/design/ZDrrYveQkuzTFD9VufbQZO/IBVAP-%E2%80%94-Product-Design?m=auto&t=crzSM6HZroTo7LFV-6) rewritten to five screens.
+[PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §6 rewritten to match, and later merged with
 the standalone `MVP.md` this decision originally produced (see
 [0028](0028-mvp-md-merged-into-prd-md.md)).

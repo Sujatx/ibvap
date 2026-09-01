@@ -6,7 +6,7 @@
 ## Context
 
 A gap audit against
-[international-border-surveillance-platforms.md](../01-research/competitors/international-border-surveillance-platforms.md)
+[international-border-surveillance-platforms.md](https://app.notion.com/p/3c986dda46e281bbbd54c6b5c8061a3f?pvs=204)
 found that the original design ("suppression is time-bounded or requires
 periodic reconfirmation") introduced a system behaviour — a rule
 reactivating on a clock — that no frozen requirement required, and never

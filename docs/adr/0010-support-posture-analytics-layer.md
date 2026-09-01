@@ -24,7 +24,7 @@ for every capability, not as the primary detection system.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md). The fuller governance surface this
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204). The fuller governance surface this
 decision originally assumed (audit/authority/roles tooling) was cut from
 the current build by [0016](0016-mvp-ui-cut-to-five-screens.md); the
 support-posture principle itself is unaffected.

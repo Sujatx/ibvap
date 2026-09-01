@@ -31,7 +31,7 @@ population-scale face recognition ships at any point.
 
 ## Consequences
 
-See [PRD.md](../02-product/PRD.md) §5.1. Matching against a gallery was
+See [PRD.md](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204) §5.1. Matching against a gallery was
 subsequently cut from the current five-screen build by
 [0016](0016-mvp-ui-cut-to-five-screens.md) — detection ships, matching does
 not, because the legal-authority workflow this decision requires isn't

@@ -14,7 +14,7 @@ product decisions.
 Adopt the workflow Research → Product → Design → Architecture → Engineering
 → Testing → Demo, with a corresponding `docs/` folder per stage, and treat
 the official SIH problem statement (Problem Statement ID 26187), recorded
-in [problem.md](../00-project/problem.md), as immutable. No tech stack,
+in [problem.md](../problem-statement.md), as immutable. No tech stack,
 architecture, or product features are chosen at this stage.
 
 ## Consequences
