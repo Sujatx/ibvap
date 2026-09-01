@@ -126,21 +126,33 @@ flowchart LR
     F --> G[Integration]
 ```
 
-## 7. Project status
+## 7. Project status & development roadmap
+
+The project follows a phased SDLC execution plan documented in [ROADMAP](ROADMAP.md).
+
+```mermaid
+graph TD
+    P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADR 0032)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
+    P2 --> P3["Phase 3: System Design & RFCs<br/><b>RFCs 0001–0005 & Architecture §4–7</b>"]
+    P3 --> PPT["Milestone: Presentation Deck<br/><b>Assemble Hackathon PPT with UI & Architecture</b>"]
+    P3 --> P4["Phase 4: Work Breakdown Structure<br/><b>GitHub Task Issues with Mock Contracts</b>"]
+    P4 --> P5["Phase 5: Parallel Implementation<br/><b>CV, Backend, Frontend, and C2 Tracks</b>"]
+```
 
 | Home | Item | Status |
 |---|---|---|
-| Notion | Research (domain, users, competitors, technology) | ✓ Complete |
-| Notion | Vision & Scope | ✓ Complete |
-| Notion | PRD | ✓ Complete |
-| Repo | Decisions (ADR 0001 – 0031) | ✓ Accepted |
-| Repo | MVP scope | ✓ Frozen — five screens (ADR 0016) |
-| Figma | Screen flow (FigJam) + wireframes | ✓ Drafted, pending review |
-| Figma | UI kit — tokens, type ramp, components | ✓ Built ([ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md) palette, [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md) control grammar) |
-| Figma | Hi-fi screens | ○ Not started |
-| Repo | [RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) — ingest & analytics pipeline | → Draft, pending review |
-| Repo | Architecture | → Skeleton in place ([docs/architecture/](docs/architecture/README.md)), decisions not made |
-| Repo | Engineering | ○ Not started |
+| Notion | Research (domain, users, competitors, technology) | Complete |
+| Notion | Vision & Scope | Complete |
+| Notion | PRD | Complete |
+| Repo | Decisions (ADR 0001 – 0031) | Accepted |
+| Repo | MVP scope | Frozen — five screens (ADR 0016) |
+| Figma | Screen flow (FigJam) + wireframes | In Progress — Drafted, pending review |
+| Figma | UI kit — tokens, type ramp, components | Built (ADR 0030 palette, ADR 0031 control grammar) |
+| Figma | Hi-fi screens | Not started |
+| Repo | Tech stack selection (ADR 0032) | Next up |
+| Repo | [RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) — ingest & analytics pipeline | Draft, pending review |
+| Repo | Architecture | Skeleton in place ([docs/architecture/](docs/architecture/README.md)), decisions pending RFCs |
+| Repo | Engineering | Not started |
 
 ## 8. Where to find things
 
@@ -166,6 +178,7 @@ and [CONTRIBUTING.md](CONTRIBUTING.md) for how work moves through the repo.
 
 | Document | Description |
 |---|---|
+| [Roadmap](roadmap.md) | Phased SDLC roadmap and execution plan |
 | [Problem Statement](docs/problem-statement.md) | Official, immutable SIH problem statement |
 | [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0031) |
 | [Architecture](docs/architecture/README.md) | arc42 system architecture description |
@@ -193,6 +206,7 @@ ibvap-surveillance/
 ├── CLAUDE.md                 project & workflow rules
 ├── CONTRIBUTING.md           branching, PRs, Definition of Ready/Done
 ├── README.md
+├── ROADMAP.md                phased SDLC execution roadmap
 ├── dvr.py                    development CCTV/DVR access (preserved, not IBVAP)
 ├── dvr.env                   development CCTV credentials (gitignored)
 ├── requirements.txt          dvr.py dependencies

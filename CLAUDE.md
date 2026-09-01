@@ -74,8 +74,7 @@ proposes a non-trivial implementation not yet decided, reviewed before code.
    to its top-level headings. State a genuine scope boundary once, in plain
    prose, where it matters; don't restate it as a standalone disclaimer.
 9. Every code change traces to a GitHub issue. Branch names are
-   `<type>/<issue#>-<slug>` (e.g. `feat/42-live-view-detection-overlay`); PRs
-   stay under ~400 lines changed. See [CONTRIBUTING.md](CONTRIBUTING.md).
+   `<type>/<issue#>-<slug>` (e.g. `feat/42-live-view-detection-overlay`);  See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 4. Open before engineering starts
 
@@ -83,6 +82,8 @@ Design and architecture/engineering-design work is not finished. Do not
 write implementation-ready GitHub issues (the task-level part of step 5)
 until this list clears — check it back in on return.
 
+
+## Depricated - Read [Roadmap](ROADMAP.md) for new order.
 **Next up, in this order:**
 
 1. **Review the 5 wireframes first, and settle layout there.** Anything

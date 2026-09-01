@@ -44,7 +44,7 @@ Every branch traces to a GitHub issue. If there isn't one yet, open it first.
 
 ## Pull requests
 
-- Keep PRs under ~400 lines changed. Split larger work into a stack rather
+- Split larger work into a stack rather
   than opening one large PR.
 - Link the issue it closes (`Closes #NNNN`).
 - Fill in the PR template — it asks for the same information reviewers
@@ -58,8 +58,6 @@ A task is ready to pick up when:
 - It traces to a specific PRD clause or ADR (not invented — see
   [CLAUDE.md](CLAUDE.md) rule 2).
 - Acceptance criteria are written on the issue.
-- It's sized — if it doesn't fit in one PR under ~400 lines, it's split into
-  a task list of smaller issues first.
 - Any capability it depends on (a rule engine, an ingest pipeline) either
   exists or has an accepted RFC.
 
