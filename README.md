@@ -132,7 +132,7 @@ The project follows a phased SDLC execution plan documented in [ROADMAP](ROADMAP
 
 ```mermaid
 graph TD
-    P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADR 0032)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
+    P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADRs 0032–0035)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
     P2 --> P3["Phase 3: System Design & RFCs<br/><b>RFCs 0001–0005 & Architecture §4–7</b>"]
     P3 --> PPT["Milestone: Presentation Deck<br/><b>Assemble Hackathon PPT with UI & Architecture</b>"]
     P3 --> P4["Phase 4: Work Breakdown Structure<br/><b>GitHub Task Issues with Mock Contracts</b>"]
@@ -144,14 +144,14 @@ graph TD
 | Notion | Research (domain, users, competitors, technology) | Complete |
 | Notion | Vision & Scope | Complete |
 | Notion | PRD | Complete |
-| Repo | Decisions (ADR 0001 – 0031) | Accepted |
+| Repo | Decisions (ADR 0001 – 0035) | Accepted |
 | Repo | MVP scope | Frozen — five screens (ADR 0016) |
 | Figma | Screen flow (FigJam) + wireframes | In Progress — Drafted, pending review |
 | Figma | UI kit — tokens, type ramp, components | Built (ADR 0030 palette, ADR 0031 control grammar) |
 | Figma | Hi-fi screens | Not started |
-| Repo | Tech stack selection (ADR 0032) | Next up |
-| Repo | [RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md) — ingest & analytics pipeline | Draft, pending review |
-| Repo | Architecture | Skeleton in place ([docs/architecture/](docs/architecture/README.md)), decisions pending RFCs |
+| Repo | Tech stack (ADR 0032 – 0035) | Phase 1 complete — runtime, backend, event store, console |
+| Repo | [RFCs](docs/rfcs/README.md) — ingest, rules, event store, API, egress | Phase 3 — none written yet |
+| Repo | Architecture | Skeleton in place ([docs/architecture/](docs/architecture/README.md)), §4–7 pending RFCs |
 | Repo | Engineering | Not started |
 
 ## 8. Where to find things
@@ -178,9 +178,9 @@ and [CONTRIBUTING.md](CONTRIBUTING.md) for how work moves through the repo.
 
 | Document | Description |
 |---|---|
-| [Roadmap](roadmap.md) | Phased SDLC roadmap and execution plan |
+| [Roadmap](ROADMAP.md) | Phased SDLC roadmap and execution plan |
 | [Problem Statement](docs/problem-statement.md) | Official, immutable SIH problem statement |
-| [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0031) |
+| [Decisions](docs/adr/README.md) | Architecture Decision Records, one file per decision (ADR 0001 – 0035) |
 | [Architecture](docs/architecture/README.md) | arc42 system architecture description |
 | [RFCs](docs/rfcs/README.md) | Design docs for non-trivial implementations, reviewed before code |
 | [Contributing](CONTRIBUTING.md) | Branching, PRs, Definition of Ready/Done |

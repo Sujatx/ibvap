@@ -1,14 +1,14 @@
 # C4 — Level 2: Container
 
-**Status: proposed, not decided.** This is the container split proposed in
-[RFC 0001](../../rfcs/0001-video-ingest-and-analytics-pipeline.md) (Draft),
-shown here to make the proposal concrete — it becomes authoritative only if
-that RFC is accepted, and this diagram must be updated to match if the
-proposal changes during review.
+**Status: proposed, not decided.** This is the container split the project
+currently expects, shown here to make it concrete. It becomes authoritative
+only once the [RFCs](../../rfcs/README.md) covering ingest, rules, the event
+store, the API and egress are accepted, and must be updated to match if any
+of them lands differently.
 
 ```mermaid
 C4Container
-  title IBVAP — Container view (proposed, RFC 0001)
+  title IBVAP — Container view (proposed)
 
   Person(operator, "Post operator")
   System_Ext(cctv, "Existing CCTV / recorder")
@@ -37,10 +37,12 @@ C4Container
 
 ## Open questions this view does not answer
 
-- Edge vs. central placement of the inference container — see RFC 0001.
+- Edge vs. central placement of the inference container.
 - Whether ingest and inference are one process or two, given decode is the
   binding compute cost, not inference itself (technical-feasibility research
   §3.3).
-- Storage engine for the event store.
 - Whether the egress publisher is push (webhook) or pull (MQTT subscriber),
   or both.
+
+The storage engine is no longer open — see
+[ADR 0034](../../adr/0034-local-event-store-on-sqlite.md).

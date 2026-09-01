@@ -46,3 +46,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0029](0029-decision-log-restructured-as-one-adr-per-file.md) | Decision log restructured as one ADR per file | Accepted | 2026-08-27 |
 | [0030](0030-dark-console-palette-no-severity-colour.md) | Dark console palette — colour marks category and attention, never severity | Accepted | 2026-08-29 |
 | [0031](0031-component-grammar-chip-states-fact-segmented-control-chooses.md) | Component grammar — a chip states a fact, a segmented control makes a choice | Accepted | 2026-08-29 |
+| [0032](0032-inference-runtime-decode-path-and-detector-licence.md) | Inference runtime, decode path, and detector licence | Accepted | 2026-09-01 |
+| [0033](0033-backend-framework-packaging-and-auth.md) | Backend framework, packaging, and the authentication mechanism | Accepted | 2026-09-01 |
+| [0034](0034-local-event-store-on-sqlite.md) | The local event store is SQLite, and the egress queue lives in it | Accepted | 2026-09-01 |
+| [0035](0035-operator-console-stack-and-video-transport.md) | Operator console stack, and video reaches the browser separately from detections | Accepted | 2026-09-01 |

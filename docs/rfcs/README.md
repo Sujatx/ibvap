@@ -15,9 +15,10 @@ an RFC proposes one that isn't made yet.
 
 ## Index
 
-| # | Title | Status |
-|---|---|---|
-| [0001](0001-video-ingest-and-analytics-pipeline.md) | Video ingest and analytics pipeline | Draft |
+No RFC has been written yet. The five the project needs — the video ingest
+and analytics pipeline, the rule evaluation engine, the event store and alert
+state pipeline, the web application and API contracts, and the generic C2
+event egress publisher — are Phase 3 of the [roadmap](../../ROADMAP.md).
 
 ## Template
 

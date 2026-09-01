@@ -37,7 +37,7 @@ To avoid context exhaustion and ensure complete technical clarity before team co
 
 ```mermaid
 graph TD
-    P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADR 0032)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
+    P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADRs 0032–0035)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
     P2 --> P3["Phase 3: System Design & RFCs<br/><b>RFCs 0001–0005 & Architecture §4–7</b>"]
     P3 --> PPT["Milestone: Presentation Deck<br/><b>Assemble Hackathon PPT with UI & Architecture</b>"]
     P3 --> P4["Phase 4: Work Breakdown Structure<br/><b>GitHub Task Issues with Mock Contracts</b>"]
@@ -56,10 +56,19 @@ graph TD
      - **Backend & Streaming Server**: FastAPI (Python) + WebSockets / WebRTC / MSE gateway.
      - **Local Event Storage**: SQLite (with WAL mode) or DuckDB for fast local timeseries audit queries.
      - **Operator Web Console**: React + TypeScript + Vite + Tailwind CSS + HTML5 Canvas.
-  2. Create [`docs/adr/0032-technology-stack-selection.md`](docs/adr/0032-technology-stack-selection.md) in MADR format.
+  2. Record the result as **four** ADRs in MADR format, not one — [`CLAUDE.md`](CLAUDE.md) rule 7 is one file per decision, so a later change of mind on storage does not reopen the frontend:
+     - [ADR 0032](docs/adr/0032-inference-runtime-decode-path-and-detector-licence.md) — inference runtime, decode path, and detector licence.
+     - [ADR 0033](docs/adr/0033-backend-framework-packaging-and-auth.md) — backend framework, packaging, and the authentication mechanism.
+     - [ADR 0034](docs/adr/0034-local-event-store-on-sqlite.md) — the local event store, and the egress queue inside it.
+     - [ADR 0035](docs/adr/0035-operator-console-stack-and-video-transport.md) — operator console stack, and how video reaches the browser.
 * **Definition of Done (DoD)**:
-  - ADR 0032 is committed and indexed in [`docs/adr/README.md`](docs/adr/README.md).
+  - ADRs 0032–0035 are committed and indexed in [`docs/adr/README.md`](docs/adr/README.md).
   - All dependency layers are chosen with zero ambiguity remaining for backend, frontend, and ML.
+
+> [!NOTE]
+> **Status: complete (2026-09-01).** The four ADRs are written and indexed. The
+> superseded RFC 0001, drafted against an earlier ordering, was removed in the
+> same pass — Phase 3 writes it fresh.
 
 ---
 
@@ -85,7 +94,7 @@ graph TD
 ### Phase 3: System Design & RFCs (The API & Data Contracts)
 * **Goal**: Write the complete technical design documents that define all internal APIs, WebSocket message schemas, data models, and component boundaries.
 * **Key Deliverables**:
-  1. **[RFC 0001](docs/rfcs/0001-video-ingest-and-analytics-pipeline.md)**: Move Video Ingest and Analytics Pipeline from Draft to **Accepted**.
+  1. **RFC 0001**: *Video Ingest and Analytics Pipeline* — RTSP/ONVIF ingest including analog channels behind a DVR/XVR, the per-camera capability-measurement pass [ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md) requires, and inference placement (edge vs. central), which the stack ADRs deliberately left open.
   2. **RFC 0002**: *Rule Evaluation Engine* — Spatial geometry evaluation (Ray Casting / Shapely), loitering timers, temporal conditions, and rule matching logic.
   3. **RFC 0003**: *Event Store & Alert State Pipeline* — SQLite schema, write-ahead logging, retention policy, alert snooze/suppression state machine ([ADR 0027](docs/adr/0027-suppression-works-like-notification-snooze.md)).
   4. **RFC 0004**: *Web Application & API Contracts* — Comprehensive OpenAPI specification (REST CRUD) and `/ws/live` WebSocket frame/event schemas.
@@ -145,7 +154,7 @@ graph TD
 
 | Phase | Core Deliverable | Output Location | Next Dependent Step |
 |---|---|---|---|
-| **Phase 1** | Tech Stack ADR | `docs/adr/0032-technology-stack-selection.md` | Unblocks RFC drafting |
+| **Phase 1** | Tech Stack ADRs 0032–0035 | [`docs/adr/`](docs/adr/README.md) | Unblocks RFC drafting |
 | **Phase 2** | 5 Hi-Fi Screens | Figma `03 Hi-fi` | Unblocks Frontend task tickets |
 | **Phase 3** | RFCs 0001–0005 & Architecture §4–7 | `docs/rfcs/*.md`, `docs/architecture/README.md` | Unblocks Backend/CV/API task tickets |
 | **Phase 4** | WBS & GitHub Task Tickets | GitHub Issues & Milestones | Unblocks Team coding |

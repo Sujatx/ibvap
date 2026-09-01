@@ -33,7 +33,7 @@ not restated here: see the [PRD](https://app.notion.com/p/3c986dda46e28195ba55dd
 
 The architecture's job is to satisfy those requirements against hardware and
 network conditions that are measured, not assumed — see
-[§2](#2-constraints) and [RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md).
+[§2](#2-constraints).
 
 ## 2. Constraints
 
@@ -63,10 +63,14 @@ graph LR
   IBVAP -->|publishes events| C2["Command & control system (generic, undetermined — ADR 0006)"]
 ```
 
-**Technical context.** Not yet decided — no ingest protocol, storage engine,
-or deployment topology has been chosen. See
-[RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md) (Draft) for
-the proposal under review.
+**Technical context.** The software stack is chosen —
+[0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md),
+[0033](../adr/0033-backend-framework-packaging-and-auth.md),
+[0034](../adr/0034-local-event-store-on-sqlite.md) and
+[0035](../adr/0035-operator-console-stack-and-video-transport.md) between
+them settle the decode path, inference runtime, backend, event store,
+authentication and operator console. Ingest protocol details and deployment
+topology are not; they belong to the [RFCs](../rfcs/README.md) that follow.
 
 ## 4. Solution Strategy
 
@@ -81,9 +85,10 @@ Not yet decided. The product-level strategy that architecture must satisfy:
 - No learned anomaly model for "suspicious activity" — an operator-authored
   rule engine over reliable primitives instead ([ADR 0012](../adr/0012-suspicious-activity-as-operator-authored-rules.md)).
 
-The technology choices that implement this strategy — model runtime,
-edge-vs-central inference placement, storage — are open; see
-[RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md).
+The technology that implements this strategy is chosen — see
+[0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md)
+through [0035](../adr/0035-operator-console-stack-and-video-transport.md).
+Edge-vs-central inference placement remains open.
 
 ## 5. Building Block View
 
@@ -111,15 +116,18 @@ assumed, no reliable power assumed, no console/engineer assumed on-site.
 | No invented vocabulary in any surface (no "intruder", "threat level") | Decided — PRD §5.2 |
 | Attributable actions — every consequential action tied to a person and a time | Decided — PRD §5.2 |
 | Time-integrity marking on events under a suspect clock | Decided — PRD §8 |
-| Payload-progressive event delivery (record → crop → full clip on request) | Decided — PRD §5.1, [RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md) |
-| Model runtime, inference placement (edge vs. central), storage engine, auth mechanism | Open — under discussion in [RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md) |
+| Payload-progressive event delivery (record → crop → full clip on request) | Decided — PRD §5.1 |
+| Model runtime and decode path | Decided — [ADR 0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md) |
+| Authentication mechanism | Decided — [ADR 0033](../adr/0033-backend-framework-packaging-and-auth.md) |
+| Storage engine | Decided — [ADR 0034](../adr/0034-local-event-store-on-sqlite.md) |
+| Inference placement (edge vs. central) | Open — belongs to the ingest [RFC](../rfcs/README.md) |
 
 ## 9. Architecture Decisions
 
 Recorded as ADRs, one file per decision, in
 [docs/adr/](../adr/README.md) — not duplicated here. Decisions with
 architectural consequence so far: 0004, 0006, 0007, 0009, 0011, 0012, 0013,
-0015.
+0015, and the stack itself in 0032–0035.
 
 ## 10. Quality Requirements
 
@@ -129,8 +137,12 @@ avoid the drift risk of two copies of the same numbers.
 ## 11. Risks and Technical Debt
 
 Owned by product — see PRD §8. Architecture-specific risks will be added
-here once [RFC 0001](../rfcs/0001-video-ingest-and-analytics-pipeline.md) is
-accepted and implementation begins.
+here once the [RFCs](../rfcs/README.md) are accepted and implementation
+begins. Two are already named in the stack decisions and carried forward:
+decode throughput for five concurrent 1080N H.264 streams is unmeasured on
+the target machine ([ADR 0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md)),
+and the WebRTC gateway is the one third-party binary in the front-end path
+([ADR 0035](../adr/0035-operator-console-stack-and-video-transport.md)).
 
 ## 12. Glossary
 
