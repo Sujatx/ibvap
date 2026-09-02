@@ -38,7 +38,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0021](0021-case-two-axis-state-model.md) | The Case gets a real two-axis state model | Accepted, screen cut by 0016 | 2026-08-26 |
 | [0022](0022-measurement-rate-and-ranked-offender-views.md) | Measurement dashboard — rate + ranked-offender views | Accepted, screen cut by 0016 | 2026-08-26 |
 | [0023](0023-dismissal-cause-captured-on-suppression.md) | Dismissal cause captured on suppression, not assessment | Accepted | 2026-08-26 |
-| [0024](0024-session-lockout-and-recovery-for-one-person-site.md) | Session, lockout and recovery for a one-person site | Accepted | 2026-08-26 |
+| [0024](0024-session-lockout-and-recovery-for-one-person-site.md) | Session, lockout and recovery for a one-person site | Superseded by 0037 | 2026-08-26 |
 | [0025](0025-suppression-auto-expiry-flagged-for-elevation.md) | Suppression auto-expiry, flagged for elevation | Superseded by 0026 | 2026-08-26 |
 | [0026](0026-suppression-does-not-expire-visibility-replaces-timer.md) | Suppression does not expire; visibility replaces the timer | Superseded by 0027 | 2026-08-26 |
 | [0027](0027-suppression-works-like-notification-snooze.md) | Suppression works like a notification snooze | Accepted | 2026-08-26 |
@@ -50,3 +50,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0033](0033-backend-framework-packaging-and-auth.md) | Backend framework, packaging, and the authentication mechanism | Accepted | 2026-09-01 |
 | [0034](0034-local-event-store-on-sqlite.md) | The local event store is SQLite, and the egress queue lives in it | Accepted | 2026-09-01 |
 | [0035](0035-operator-console-stack-and-video-transport.md) | Operator console stack, and video reaches the browser separately from detections | Accepted | 2026-09-01 |
+| [0036](0036-wireframe-breakpoints-and-required-state-set.md) | Three console widths, and the state set a screen is not finished without | Superseded by 0039 | 2026-09-01 |
+| [0037](0037-sign-in-follows-the-reference-username-password.md) | Sign in follows the reference — username and password, with a password reset | Accepted, supersedes 0024 | 2026-09-01 |
+| [0038](0038-historical-timeline-on-the-focused-camera-view.md) | A historical timeline on the focused-camera view | Accepted | 2026-09-02 |
+| [0039](0039-state-coverage-evidenced-three-ways.md) | State coverage is evidenced three ways, not one frame per state | Accepted, supersedes 0036 | 2026-09-02 |

@@ -82,12 +82,18 @@ proposes a non-trivial implementation not yet decided, reviewed before code.
 (the technology stack) is done. It supersedes the ordering this section used
 to carry. What is open, at the time of writing:
 
-- **Phase 2 — the Figma design is unfinished.** `02 UI Kit` is built (three
-  variable collections, nine text styles, close to forty components; palette
-  settled in [ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md),
-  control grammar in [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)).
-  The 5 screens on `01 Wireframes` have not been reviewed, and `03 Hi-fi` is
-  empty.
+- **Phase 2 — Task 1 is done; `03 Hi-fi` has not started.** `01 Wireframes`
+  holds 37 frames across five screens and a shell section, at 1440 and 1280,
+  every state either drawn or annotated and proved on the State matrix board
+  ([ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md)); the
+  focused-camera view carries the historical timeline
+  ([ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)).
+  `02 UI Kit` is built (three variable collections, nine text styles, close to
+  forty components; palette settled in [ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md),
+  control grammar in [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)),
+  but its `Kit gaps` board lists fifteen components missing outright, six
+  needing new variants and two needing changes. Building those is the first
+  work of Task 2. `03 Hi-fi` is empty.
 - **Phase 3 — no RFC exists yet.** All five are still to be written: ingest and
   analytics pipeline, rule engine, event store and alert state, web
   application and API contracts, egress publisher.

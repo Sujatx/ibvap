@@ -120,14 +120,16 @@ assumed, no reliable power assumed, no console/engineer assumed on-site.
 | Model runtime and decode path | Decided — [ADR 0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md) |
 | Authentication mechanism | Decided — [ADR 0033](../adr/0033-backend-framework-packaging-and-auth.md) |
 | Storage engine | Decided — [ADR 0034](../adr/0034-local-event-store-on-sqlite.md) |
+| Recorded playback on the focused-camera view, read-only, no export | Decided — [ADR 0038](../adr/0038-historical-timeline-on-the-focused-camera-view.md) |
 | Inference placement (edge vs. central) | Open — belongs to the ingest [RFC](../rfcs/README.md) |
+| Recorded-video retrieval path from the recorder | Open — belongs to the ingest [RFC](../rfcs/README.md); unverified on the rig |
 
 ## 9. Architecture Decisions
 
 Recorded as ADRs, one file per decision, in
 [docs/adr/](../adr/README.md) — not duplicated here. Decisions with
 architectural consequence so far: 0004, 0006, 0007, 0009, 0011, 0012, 0013,
-0015, and the stack itself in 0032–0035.
+0015, 0038, and the stack itself in 0032–0035.
 
 ## 10. Quality Requirements
 
@@ -143,6 +145,17 @@ decode throughput for five concurrent 1080N H.264 streams is unmeasured on
 the target machine ([ADR 0032](../adr/0032-inference-runtime-decode-path-and-detector-licence.md)),
 and the WebRTC gateway is the one third-party binary in the front-end path
 ([ADR 0035](../adr/0035-operator-console-stack-and-video-transport.md)).
+
+A third is added by [ADR 0038](../adr/0038-historical-timeline-on-the-focused-camera-view.md):
+the timeline is the only surface that reads from someone else's recorder over
+a path nobody here has exercised. Live ingest is settled; recorded playback is
+a different route — ONVIF Profile G replay, a vendor RTSP playback URL with a
+time range, or recorder files read directly — and none of them is verified on
+the rig, whose firmware is already on record as reporting success for settings
+it discards. Seeking is also decode-bound and competes with live ingest for the
+same shared recorder bandwidth. If no route exists, the timeline is refused per
+[ADR 0007](../adr/0007-refuse-unsupported-capabilities-not-degrade.md) rather
+than faked, which is honest but is not what the decision is for.
 
 ## 12. Glossary
 

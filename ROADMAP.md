@@ -16,8 +16,8 @@ All development adheres to the established project principles recorded in [`CLAU
    - **Figma**: Screen flows, wireframes, component library (`02 UI Kit`), hi-fi screens (`03 Hi-fi`).
    - **GitHub Issues**: Executable work packages, task tickets, bugs.
 2. **Five-Screen MVP Freeze ([ADR 0016](docs/adr/0016-mvp-ui-cut-to-five-screens.md))**:
-   - `S-01 Sign in`: Operator authentication & session recovery ([ADR 0024](docs/adr/0024-session-lockout-and-recovery-for-one-person-site.md)).
-   - `S-02 Live View`: Real-time video grid, detection bounding-box overlays, inline capability status / refusal ([ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md)).
+   - `S-01 Sign in`: Operator authentication & session recovery ([ADR 0037](docs/adr/0037-sign-in-follows-the-reference-username-password.md), superseding 0024).
+   - `S-02 Live View`: Real-time video grid, detection bounding-box overlays, inline capability status / refusal ([ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md)), historical timeline on the focused-camera view ([ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)).
    - `S-03 Rules`: Authoring operator rules for virtual fence, loitering, ANPR, night movement ([ADR 0011](docs/adr/0011-virtual-fence-plus-open-border-framing.md), [ADR 0012](docs/adr/0012-suspicious-activity-as-operator-authored-rules.md), [ADR 0013](docs/adr/0013-night-time-movement-detection-as-explicit-capability.md)).
    - `S-04 Alerts & Events`: Chronological audit log, alert triage, snooze/suppression ([ADR 0023](docs/adr/0023-dismissal-cause-captured-on-suppression.md), [ADR 0027](docs/adr/0027-suppression-works-like-notification-snooze.md)), impact grading ([ADR 0018](docs/adr/0018-operator-assigned-impact-grade.md)).
    - `S-05 Integration`: Generic C2 egress endpoint configuration & live verification ([ADR 0006](docs/adr/0006-c2-integration-via-generic-event-contract.md)).
@@ -80,8 +80,8 @@ graph TD
      - Add missing interactive controls (collapse controls for side navigation rail, camera selection sidebar, and event detail drawers).
      - Verify layout hierarchy, density, and spatial allocation across 1080p console displays.
   2. **Hi-Fi Screen Generation (`03 Hi-fi`)**:
-     - Assemble **`S-01 Sign in`**: Screen layout, credential entry, session lock state, recovery trigger ([ADR 0024](docs/adr/0024-session-lockout-and-recovery-for-one-person-site.md)).
-     - Assemble **`S-02 Live View`**: 8-channel grid / focused camera layout, transparent HTML5 overlay bounds, category chips ([ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)), inline capability refusal badges ([ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md)), and collapse toggles.
+     - Assemble **`S-01 Sign in`**: Screen layout, credential entry, session lock state, password reset ([ADR 0037](docs/adr/0037-sign-in-follows-the-reference-username-password.md)).
+     - Assemble **`S-02 Live View`**: 8-channel grid / focused camera layout, transparent HTML5 overlay bounds, category chips ([ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)), inline capability refusal badges ([ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md)), collapse toggles, and the historical timeline with its playback-refusal state ([ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)).
      - Assemble **`S-03 Rules`**: Spatial polygon/line drawing editor for virtual fences, schedule/night-mode selectors, parameter sliders.
      - Assemble **`S-04 Alerts & Events`**: Real-time event feed, filter drawer, impact grading controls ([ADR 0018](docs/adr/0018-operator-assigned-impact-grade.md)), snooze/suppression modal ([ADR 0027](docs/adr/0027-suppression-works-like-notification-snooze.md)), crop & clip preview.
      - Assemble **`S-05 Integration`**: C2 webhook/MQTT endpoint input, payload schema tester, connection status ping indicator ([ADR 0006](docs/adr/0006-c2-integration-via-generic-event-contract.md)).
@@ -89,12 +89,58 @@ graph TD
   - All 5 screens are fully assembled in `03 Hi-fi` using solely components from `02 UI Kit`.
   - Wireframe gaps (collapse triggers, drawer behaviors) are completely resolved.
 
+> [!NOTE]
+> **Task 1 status: complete (2026-09-02).** `01 Wireframes` was rebuilt rather
+> than audited — the five existing frames drew one state at one width each, so
+> there was no base to audit — and then consolidated once the rebuild had done
+> its job of finding the gaps. It now holds **37 frames** in six sections: five
+> screens plus a shell section, drawn at 1440 and 1280, with 14 annotation
+> panels carrying the states that do not change the arrangement. 1920 is fluid
+> rather than a breakpoint and is proved once on a shell frame. The seven-state
+> floor is unchanged and is proved by the **State matrix** board, not by the
+> frame count. The collapse controls this task asked for are drawn (nav rail,
+> camera sidebar, and the detail panel, which becomes an overlay drawer at
+> 1280). The focused-camera view carries the historical timeline. `99 Archive`
+> holds the five 2026-08 frames and the 45 consolidated ones, both locked.
+> Decisions: [ADR 0037](docs/adr/0037-sign-in-follows-the-reference-username-password.md)
+> (sign-in, superseding 0024),
+> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)
+> (the timeline) and
+> [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md)
+> (how coverage is evidenced, superseding 0036). The prototype runs from `S-01`
+> through the console and into the timeline. The kit gaps are listed on
+> `02 UI Kit` — fifteen components missing outright, six needing new variants,
+> two needing changes — and are the first work of Task 2.
+
+> [!IMPORTANT]
+> **Recorded playback — decided 2026-09-02, not yet drawn.** The wireframes give
+> an operator two ways to see footage, and both are tied to a single event: the
+> crop on `S-04`, and "Request the full clip" for that event's clip. Neither
+> lets anyone scrub a camera's recorded video, jump to a time, or watch the
+> minutes either side of an event.
+>
+> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)
+> settles this by the first of the two paths this note originally set out. A
+> timeline ships, on the focused-camera view of `S-02`, with a route into it from
+> the `S-04` event detail. It reverses the refusal recorded in
+> [ADR 0036](docs/adr/0036-wireframe-breakpoints-and-required-state-set.md) and
+> states its own boundary — read-only against the estate, no export, no PTZ, no
+> multi-camera synchronised replay, and no analytics run against recorded video.
+>
+> Two things it depends on and does not resolve. **The retrieval path is not
+> established:** live ingest is settled by
+> [ADR 0035](docs/adr/0035-operator-console-stack-and-video-transport.md), but
+> recorded playback is a different route, and RFC 0001 has to measure it against
+> the rig before any timeline code is written. **And the frames are still to be
+> drawn** — `01 Wireframes` does not yet carry the timeline, so Task 2 must not
+> draw `03 Hi-fi` for `S-02` until it does.
+
 ---
 
 ### Phase 3: System Design & RFCs (The API & Data Contracts)
 * **Goal**: Write the complete technical design documents that define all internal APIs, WebSocket message schemas, data models, and component boundaries.
 * **Key Deliverables**:
-  1. **RFC 0001**: *Video Ingest and Analytics Pipeline* — RTSP/ONVIF ingest including analog channels behind a DVR/XVR, the per-camera capability-measurement pass [ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md) requires, and inference placement (edge vs. central), which the stack ADRs deliberately left open.
+  1. **RFC 0001**: *Video Ingest and Analytics Pipeline* — RTSP/ONVIF ingest including analog channels behind a DVR/XVR, the per-camera capability-measurement pass [ADR 0007](docs/adr/0007-refuse-unsupported-capabilities-not-degrade.md) requires, and inference placement (edge vs. central), which the stack ADRs deliberately left open. It must also **measure whether the recorder will serve recorded video at all** — the retrieval path the timeline in [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md) depends on is unverified on the rig, and if there is none, the timeline ships as a refusal on every camera.
   2. **RFC 0002**: *Rule Evaluation Engine* — Spatial geometry evaluation (Ray Casting / Shapely), loitering timers, temporal conditions, and rule matching logic.
   3. **RFC 0003**: *Event Store & Alert State Pipeline* — SQLite schema, write-ahead logging, retention policy, alert snooze/suppression state machine ([ADR 0027](docs/adr/0027-suppression-works-like-notification-snooze.md)).
   4. **RFC 0004**: *Web Application & API Contracts* — Comprehensive OpenAPI specification (REST CRUD) and `/ws/live` WebSocket frame/event schemas.

@@ -1,7 +1,7 @@
 # 24. Session, lockout and recovery for a one-person, no-IT site
 
 **Date:** 2026-08-26
-**Status:** Accepted
+**Status:** Superseded by [0037](0037-sign-in-follows-the-reference-username-password.md)
 
 ## Context
 
