@@ -90,50 +90,12 @@ graph TD
   - Wireframe gaps (collapse triggers, drawer behaviors) are completely resolved.
 
 > [!NOTE]
-> **Task 1 status: complete (2026-09-02).** `01 Wireframes` was rebuilt rather
-> than audited — the five existing frames drew one state at one width each, so
-> there was no base to audit — and then consolidated once the rebuild had done
-> its job of finding the gaps. It now holds **37 frames** in six sections: five
-> screens plus a shell section, drawn at 1440 and 1280, with 14 annotation
-> panels carrying the states that do not change the arrangement. 1920 is fluid
-> rather than a breakpoint and is proved once on a shell frame. The seven-state
-> floor is unchanged and is proved by the **State matrix** board, not by the
-> frame count. The collapse controls this task asked for are drawn (nav rail,
-> camera sidebar, and the detail panel, which becomes an overlay drawer at
-> 1280). The focused-camera view carries the historical timeline. `99 Archive`
-> holds the five 2026-08 frames and the 45 consolidated ones, both locked.
-> Decisions: [ADR 0037](docs/adr/0037-sign-in-follows-the-reference-username-password.md)
-> (sign-in, superseding 0024),
-> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)
-> (the timeline) and
-> [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md)
-> (how coverage is evidenced, superseding 0036). The prototype runs from `S-01`
-> through the console and into the timeline. The kit gaps are listed on
-> `02 UI Kit` — fifteen components missing outright, six needing new variants,
-> two needing changes — and are the first work of Task 2.
-
-> [!IMPORTANT]
-> **Recorded playback — decided 2026-09-02, not yet drawn.** The wireframes give
-> an operator two ways to see footage, and both are tied to a single event: the
-> crop on `S-04`, and "Request the full clip" for that event's clip. Neither
-> lets anyone scrub a camera's recorded video, jump to a time, or watch the
-> minutes either side of an event.
->
-> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)
-> settles this by the first of the two paths this note originally set out. A
-> timeline ships, on the focused-camera view of `S-02`, with a route into it from
-> the `S-04` event detail. It reverses the refusal recorded in
-> [ADR 0036](docs/adr/0036-wireframe-breakpoints-and-required-state-set.md) and
-> states its own boundary — read-only against the estate, no export, no PTZ, no
-> multi-camera synchronised replay, and no analytics run against recorded video.
->
-> Two things it depends on and does not resolve. **The retrieval path is not
-> established:** live ingest is settled by
-> [ADR 0035](docs/adr/0035-operator-console-stack-and-video-transport.md), but
-> recorded playback is a different route, and RFC 0001 has to measure it against
-> the rig before any timeline code is written. **And the frames are still to be
-> drawn** — `01 Wireframes` does not yet carry the timeline, so Task 2 must not
-> draw `03 Hi-fi` for `S-02` until it does.
+> **Task 1 status: complete (2026-09-02).** `01 Wireframes` was rebuilt and then
+> consolidated; the timeline it added is recorded in
+> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md) and
+> how state coverage is evidenced in
+> [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md). Task 2 starts
+> by building the kit gaps listed on `02 UI Kit`, not by drawing a screen.
 
 ---
 
