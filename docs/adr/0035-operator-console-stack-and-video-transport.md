@@ -1,7 +1,7 @@
 # 35. Operator console stack, and video reaches the browser separately from detections
 
 **Date:** 2026-09-01
-**Status:** Accepted
+**Status:** Accepted — gateway choice settled by [0054](0054-go2rtc-is-the-webrtc-gateway.md)
 
 ## Context
 

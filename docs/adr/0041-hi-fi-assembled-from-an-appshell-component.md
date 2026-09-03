@@ -1,7 +1,7 @@
 # 41. The hi-fi screens are assembled, and what assembling them settled
 
 **Date:** 2026-09-02
-**Status:** Accepted — collapsed-rail canvas narrowed by [0047](0047-rail-collapse-becomes-baked-frame-pairs.md), flow-frame scope narrowed by [0048](0048-phase-2-closes-flow-frames-deferred.md)
+**Status:** Accepted — collapsed-rail canvas narrowed by [0047](0047-rail-collapse-becomes-baked-frame-pairs.md), flow-frame scope narrowed by [0048](0048-phase-2-closes-flow-frames-deferred.md), collapse-as-frames narrowed by [0057](0057-hi-fi-frames-are-the-ui-specification.md)
 
 ## Context
 

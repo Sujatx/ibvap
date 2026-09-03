@@ -1,7 +1,7 @@
 # 37. Sign in follows the reference — username and password, with a password reset
 
 **Date:** 2026-09-01
-**Status:** Accepted. Supersedes [0024](0024-session-lockout-and-recovery-for-one-person-site.md)
+**Status:** Accepted. Supersedes [0024](0024-session-lockout-and-recovery-for-one-person-site.md) — recovery regression settled by [0055](0055-offline-password-recovery-by-local-admin-reset.md)
 
 ## Context
 

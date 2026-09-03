@@ -1,7 +1,7 @@
 # 47. The rail's collapsed state is baked frame pairs, not a runtime variant swap
 
 **Date:** 2026-09-03
-**Status:** Accepted — narrows [0041](0041-hi-fi-assembled-from-an-appshell-component.md)
+**Status:** Accepted — narrows [0041](0041-hi-fi-assembled-from-an-appshell-component.md); applies to the Figma prototype only, narrowed by [0057](0057-hi-fi-frames-are-the-ui-specification.md)
 
 ## Context
 

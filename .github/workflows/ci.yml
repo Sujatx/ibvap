@@ -15,20 +15,25 @@ jobs:
         with:
           python-version: "3.12"
 
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
       - name: Install dependencies
+        # requirements.txt belongs to the dev CCTV rig (dvr.py) and is installed
+        # as-is; everything else resolves through pyproject.toml (ADR 0033).
         run: |
-          python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install ruff pytest
+          uv sync --group dev
 
       - name: Lint
         # dvr.py / backups/ are the preserved dev-rig setup (CLAUDE.md rule 6) — not linted.
-        run: ruff check . --extend-exclude dvr.py,backups
+        run: uv run ruff check . --extend-exclude dvr.py,backups
 
       - name: Test
         run: |
           if [ -d tests ] || compgen -G "**/test_*.py" > /dev/null; then
-            pytest
+            uv run pytest
           else
             echo "No tests yet — skipping."
           fi

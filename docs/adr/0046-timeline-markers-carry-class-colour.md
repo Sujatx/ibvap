@@ -1,7 +1,7 @@
 # 46. Timeline markers carry class colour, and the axis is drawn as a band rather than a scatter
 
 **Date:** 2026-09-03
-**Status:** Accepted — supersedes the marker rule in [0038](0038-historical-timeline-on-the-focused-camera-view.md) and [0045](0045-timeline-second-pass-controls-and-density.md)
+**Status:** Accepted — supersedes the marker rule in [0038](0038-historical-timeline-on-the-focused-camera-view.md) and [0045](0045-timeline-second-pass-controls-and-density.md) — store obligation settled by [0056](0056-an-event-carries-one-primary-class.md)
 
 ## Context
 

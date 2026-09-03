@@ -15,10 +15,24 @@ an RFC proposes one that isn't made yet.
 
 ## Index
 
-No RFC has been written yet. The five the project needs — the video ingest
-and analytics pipeline, the rule evaluation engine, the event store and alert
-state pipeline, the web application and API contracts, and the generic C2
-event egress publisher — are Phase 3 of the [roadmap](../../ROADMAP.md).
+| # | Title | Status |
+|---|---|---|
+| [0001](0001-video-ingest-capability-measurement-and-playback.md) | Video ingest, capability measurement, and playback retrieval | Accepted |
+| [0002](0002-rule-evaluation-engine.md) | Rule evaluation engine | Accepted |
+| [0003](0003-event-store-and-alert-state.md) | Event store and alert state pipeline | Accepted |
+| [0004](0004-web-application-and-api-contracts.md) | Web application and API contracts | Accepted |
+| [0005](0005-c2-event-egress-publisher.md) | Generic C2 event egress publisher | Accepted |
+| [0006](0006-detection-and-analytics-primitives.md) | Detection and analytics primitives | Accepted |
+
+Six, not the five the [roadmap](../../ROADMAP.md) originally named: the model
+primitives were split out of 0001, which otherwise carried ingest, capability
+measurement, inference placement, playback retrieval *and* every detection
+model.
+
+Decode throughput and the recorded-playback route are established per
+deployment, at commissioning, rather than as one-time measurements this
+document blocks on — see RFC 0001's Decode throughput and Recorded-video
+retrieval sections.
 
 ## Template
 
