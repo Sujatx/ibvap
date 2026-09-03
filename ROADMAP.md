@@ -90,12 +90,27 @@ graph TD
   - Wireframe gaps (collapse triggers, drawer behaviors) are completely resolved.
 
 > [!NOTE]
-> **Task 1 status: complete (2026-09-02).** `01 Wireframes` was rebuilt and then
-> consolidated; the timeline it added is recorded in
-> [ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md) and
-> how state coverage is evidenced in
-> [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md). Task 2 starts
-> by building the kit gaps listed on `02 UI Kit`, not by drawing a screen.
+> **Status: Phase 2 complete (2026-09-03).** `01 Wireframes` and `02 UI Kit`
+> were done first; `03 Hi-fi` now holds twelve frames — sign in, the five
+> screens (S-02 as grid and focused camera), each of the five real screens
+> paired with a baked rail-collapsed counterpart at the same 1440 canvas, and
+> the 1920 fluid proof — all assembled from an `AppShell` component and swept
+> clean of raw values. The focused view was rebuilt at the density of the
+> archived reference — a full-width picture, an alerts rail, a camera spec
+> list, a camera strip, a site sketch and a timeline with its full control
+> surface. Rail navigation was then fixed to stay collapsed and highlight
+> correctly across every screen, and camera stills went onto Live View, Rules
+> and one Alerts row. The flow-state frames (`too many attempts`, `drawing a
+> zone`, and the rest) are deferred, out of Phase 2 scope. See
+> [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md),
+> [ADR 0040](docs/adr/0040-kit-gaps-built-out-for-hi-fi.md),
+> [ADR 0041](docs/adr/0041-hi-fi-assembled-from-an-appshell-component.md),
+> [ADR 0043](docs/adr/0043-focused-camera-view-rebuilt-around-the-picture.md),
+> [ADR 0044](docs/adr/0044-site-sketch-returns-on-live-view.md),
+> [ADR 0045](docs/adr/0045-timeline-second-pass-controls-and-density.md),
+> [ADR 0046](docs/adr/0046-timeline-markers-carry-class-colour.md),
+> [ADR 0047](docs/adr/0047-rail-collapse-becomes-baked-frame-pairs.md) and
+> [ADR 0048](docs/adr/0048-phase-2-closes-flow-frames-deferred.md).
 
 ---
 

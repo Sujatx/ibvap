@@ -82,18 +82,20 @@ proposes a non-trivial implementation not yet decided, reviewed before code.
 (the technology stack) is done. It supersedes the ordering this section used
 to carry. What is open, at the time of writing:
 
-- **Phase 2 — Task 1 is done; `03 Hi-fi` has not started.** `01 Wireframes`
-  holds 37 frames across five screens and a shell section, at 1440 and 1280,
-  every state either drawn or annotated and proved on the State matrix board
-  ([ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md)); the
-  focused-camera view carries the historical timeline
-  ([ADR 0038](docs/adr/0038-historical-timeline-on-the-focused-camera-view.md)).
-  `02 UI Kit` is built (three variable collections, nine text styles, close to
-  forty components; palette settled in [ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md),
-  control grammar in [ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)),
-  but its `Kit gaps` board lists fifteen components missing outright, six
-  needing new variants and two needing changes. Building those is the first
-  work of Task 2. `03 Hi-fi` is empty.
+- **Phase 2 is done.** `01 Wireframes`, `02 UI Kit` and `03 Hi-fi` (twelve
+  frames, rail navigation correct collapsed or expanded, camera stills applied
+  across Live View and Rules, Alerts carries one populated row) are complete;
+  the flow-state frames (`too many attempts`, `drawing a zone`, and the rest)
+  are deferred out of Phase 2 scope, not built. See
+  [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md),
+  [ADR 0040](docs/adr/0040-kit-gaps-built-out-for-hi-fi.md),
+  [ADR 0041](docs/adr/0041-hi-fi-assembled-from-an-appshell-component.md),
+  [ADR 0043](docs/adr/0043-focused-camera-view-rebuilt-around-the-picture.md),
+  [ADR 0044](docs/adr/0044-site-sketch-returns-on-live-view.md),
+  [ADR 0045](docs/adr/0045-timeline-second-pass-controls-and-density.md),
+  [ADR 0046](docs/adr/0046-timeline-markers-carry-class-colour.md),
+  [ADR 0047](docs/adr/0047-rail-collapse-becomes-baked-frame-pairs.md) and
+  [ADR 0048](docs/adr/0048-phase-2-closes-flow-frames-deferred.md).
 - **Phase 3 — no RFC exists yet.** All five are still to be written: ingest and
   analytics pipeline, rule engine, event store and alert state, web
   application and API contracts, egress publisher.

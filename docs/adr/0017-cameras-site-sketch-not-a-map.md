@@ -1,7 +1,7 @@
 # 17. A static site sketch on the Cameras list, not a map
 
 **Date:** 2026-08-26
-**Status:** Accepted — screen cut from current build by [0016](0016-mvp-ui-cut-to-five-screens.md)
+**Status:** Accepted — screen cut from current build by [0016](0016-mvp-ui-cut-to-five-screens.md), narrowed onto Live View by [0044](0044-site-sketch-returns-on-live-view.md)
 
 ## Context
 

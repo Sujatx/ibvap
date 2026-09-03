@@ -31,7 +31,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0014](0014-mvp-scoped-to-one-deployment-site.md) | MVP scoped to one deployment site, complete end-to-end | Accepted | 2026-08-25 |
 | [0015](0015-mvp-validated-against-development-cctv-rig.md) | MVP validated against the development CCTV rig | Accepted | 2026-08-25 |
 | [0016](0016-mvp-ui-cut-to-five-screens.md) | MVP UI cut to five screens | Accepted | 2026-08-26 |
-| [0017](0017-cameras-site-sketch-not-a-map.md) | Cameras site sketch, not a map | Accepted, screen cut by 0016 | 2026-08-26 |
+| [0017](0017-cameras-site-sketch-not-a-map.md) | Cameras site sketch, not a map | Accepted, screen cut by 0016, narrowed by 0044 | 2026-08-26 |
 | [0018](0018-operator-assigned-impact-grade.md) | Operator-assigned impact grade | Accepted | 2026-08-26 |
 | [0019](0019-case-association-exempts-evidence-from-retention-clock.md) | Case-association exempts evidence from retention clock | Superseded by 0021 | 2026-08-26 |
 | [0020](0020-egress-classification-field-deferred.md) | Egress classification field: considered, deferred | Accepted (deferred) | 2026-08-26 |
@@ -52,5 +52,14 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0035](0035-operator-console-stack-and-video-transport.md) | Operator console stack, and video reaches the browser separately from detections | Accepted | 2026-09-01 |
 | [0036](0036-wireframe-breakpoints-and-required-state-set.md) | Three console widths, and the state set a screen is not finished without | Superseded by 0039 | 2026-09-01 |
 | [0037](0037-sign-in-follows-the-reference-username-password.md) | Sign in follows the reference — username and password, with a password reset | Accepted, supersedes 0024 | 2026-09-01 |
-| [0038](0038-historical-timeline-on-the-focused-camera-view.md) | A historical timeline on the focused-camera view | Accepted | 2026-09-02 |
+| [0038](0038-historical-timeline-on-the-focused-camera-view.md) | A historical timeline on the focused-camera view | Accepted, marker rule superseded by 0046 | 2026-09-02 |
 | [0039](0039-state-coverage-evidenced-three-ways.md) | State coverage is evidenced three ways, not one frame per state | Accepted, supersedes 0036 | 2026-09-02 |
+| [0040](0040-kit-gaps-built-out-for-hi-fi.md) | The kit gaps are built, and what building them settled | Accepted | 2026-09-02 |
+| [0041](0041-hi-fi-assembled-from-an-appshell-component.md) | The hi-fi screens are assembled, and what assembling them settled | Accepted | 2026-09-02 |
+| [0042](0042-sign-in-photograph-and-a-capability-icon-family.md) | The sign-in panel carries the photograph, and the icons become one family at two grids | Accepted | 2026-09-02 |
+| [0043](0043-focused-camera-view-rebuilt-around-the-picture.md) | The focused camera view is rebuilt around the picture, and Live View gains an alerts rail | Accepted | 2026-09-03 |
+| [0044](0044-site-sketch-returns-on-live-view.md) | The site sketch returns, on Live View, and stops short of being a map | Accepted, narrows 0017 | 2026-09-03 |
+| [0045](0045-timeline-second-pass-controls-and-density.md) | The timeline's second pass — the controls it gains, and the hue it still refuses | Accepted, marker rule superseded by 0046 | 2026-09-03 |
+| [0046](0046-timeline-markers-carry-class-colour.md) | Timeline markers carry class colour, and the axis is drawn as a band | Accepted, supersedes the marker rule in 0038 and 0045 | 2026-09-03 |
+| [0047](0047-rail-collapse-becomes-baked-frame-pairs.md) | The rail's collapsed state is baked frame pairs, not a runtime variant swap | Accepted, narrows 0041 | 2026-09-03 |
+| [0048](0048-phase-2-closes-flow-frames-deferred.md) | Phase 2 closes here; the flow frames are deferred, not built | Accepted, narrows 0041 | 2026-09-03 |

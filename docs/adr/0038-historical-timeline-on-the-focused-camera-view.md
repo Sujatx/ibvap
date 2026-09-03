@@ -1,7 +1,7 @@
 # 38. A historical timeline on the focused-camera view
 
 **Date:** 2026-09-02
-**Status:** Accepted
+**Status:** Accepted — marker rule superseded by [0046](0046-timeline-markers-carry-class-colour.md)
 
 ## Context
 
