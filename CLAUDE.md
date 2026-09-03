@@ -96,13 +96,17 @@ to carry. What is open, at the time of writing:
   [ADR 0046](docs/adr/0046-timeline-markers-carry-class-colour.md),
   [ADR 0047](docs/adr/0047-rail-collapse-becomes-baked-frame-pairs.md) and
   [ADR 0048](docs/adr/0048-phase-2-closes-flow-frames-deferred.md).
-- **Phase 3 — no RFC exists yet.** All five are still to be written: ingest and
-  analytics pipeline, rule engine, event store and alert state, web
-  application and API contracts, egress publisher.
-  [docs/architecture/README.md](docs/architecture/README.md) §4–7 stay "not yet
-  decided" until they land.
+- **Phase 3 — six RFCs drafted, none Accepted yet.** [RFC 0001](docs/rfcs/0001-video-ingest-capability-measurement-and-playback.md)
+  through [0006](docs/rfcs/0006-detection-and-analytics-primitives.md) exist as
+  `Draft`; the model primitives were split out of 0001, which is why there are
+  six rather than the five the roadmap first named.
+  [docs/architecture/README.md](docs/architecture/README.md) §4–7 are written.
+  Decisions taken along the way are ADRs 0049–0060. Decode throughput and the
+  recorded-playback route are treated as per-deployment facts established at
+  commissioning, not as one-time measurements this repository blocks on — see
+  [RFC 0001](docs/rfcs/0001-video-ingest-capability-measurement-and-playback.md).
+  Nothing is Accepted until each RFC has been reviewed.
 - **Phase 4 — no task issues.** Do not write implementation-ready GitHub issues
   until Phase 3 clears; a task isn't "ready" (per
   [CONTRIBUTING.md](CONTRIBUTING.md)) while the capability it depends on has no
   accepted RFC. Labels and milestones can be created now.
-- **Still owed: an ADR recording the four-homes split** described in §2.

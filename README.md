@@ -144,15 +144,15 @@ graph TD
 | Notion | Research (domain, users, competitors, technology) | Complete |
 | Notion | Vision & Scope | Complete |
 | Notion | PRD | Complete |
-| Repo | Decisions (ADR 0001 – 0035) | Accepted |
+| Repo | Decisions ([ADR 0001 – 0058](docs/adr/README.md)) | Accepted |
 | Repo | MVP scope | Frozen — five screens (ADR 0016) |
-| Figma | Screen flow (FigJam) + wireframes | In Progress — Drafted, pending review |
-| Figma | UI kit — tokens, type ramp, components | Built (ADR 0030 palette, ADR 0031 control grammar) |
-| Figma | Hi-fi screens | Not started |
-| Repo | Tech stack (ADR 0032 – 0035) | Phase 1 complete — runtime, backend, event store, console |
-| Repo | [RFCs](docs/rfcs/README.md) — ingest, rules, event store, API, egress | Phase 3 — none written yet |
-| Repo | Architecture | Skeleton in place ([docs/architecture/](docs/architecture/README.md)), §4–7 pending RFCs |
-| Repo | Engineering | Not started |
+| Figma | Screen flow (FigJam) + wireframes | Complete — 37 frames, consolidated (ADR 0039) |
+| Figma | UI kit — tokens, type ramp, components | Built (ADR 0030 palette, ADR 0031 control grammar, gaps closed in ADR 0040) |
+| Figma | Hi-fi screens | Phase 2 complete — twelve frames (ADR 0048); flow-state frames deferred |
+| Repo | Tech stack (ADR 0032 – 0035, 0050 – 0060) | Phase 1 complete; the models, gateway and placement the stack left open are now decided |
+| Repo | [RFCs](docs/rfcs/README.md) — ingest, rules, event store, API, egress, analytics | Phase 3 — all six drafted, none Accepted |
+| Repo | [Architecture](docs/architecture/README.md) | §1–12 written; §4–7 filled from the RFCs. Diagrams still outstanding |
+| Repo | Engineering | Not started — Phase 4 is gated on the RFCs being Accepted |
 
 ## 8. Where to find things
 

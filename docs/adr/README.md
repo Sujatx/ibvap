@@ -22,7 +22,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0005](0005-core-workflows-modelled-around-artefacts-and-states.md) | Core workflows modelled around artefacts and their states | Accepted, narrowed by 0016 | 2026-08-25 |
 | [0006](0006-c2-integration-via-generic-event-contract.md) | Satisfy C2 integration via a generic event contract, not a named adapter | Accepted | 2026-08-25 |
 | [0007](0007-refuse-unsupported-capabilities-not-degrade.md) | Refuse unsupported capabilities, rather than degrade them | Accepted, narrowed by 0016 | 2026-08-25 |
-| [0008](0008-face-detection-unconditional-gated-recognition.md) | Face detection unconditional; gated recognition specified | Accepted, narrowed by 0016 | 2026-08-25 |
+| [0008](0008-face-detection-unconditional-gated-recognition.md) | Face detection unconditional; gated recognition specified | Accepted, narrowed by 0016, matching exercised by 0059 | 2026-08-25 |
 | [0009](0009-all-eight-capabilities-with-declared-maturity.md) | All eight SIH capabilities addressed, with declared maturity | Accepted | 2026-08-25 |
 | [0010](0010-support-posture-analytics-layer.md) | IBVAP as a support-posture analytics layer | Accepted, narrowed by 0016 | 2026-08-25 |
 | [0011](0011-virtual-fence-plus-open-border-framing.md) | Virtual fence ships in full, plus an open-border framing | Accepted | 2026-08-25 |
@@ -30,7 +30,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0013](0013-night-time-movement-detection-as-explicit-capability.md) | Night-time movement detection as an explicit capability | Accepted | 2026-08-25 |
 | [0014](0014-mvp-scoped-to-one-deployment-site.md) | MVP scoped to one deployment site, complete end-to-end | Accepted | 2026-08-25 |
 | [0015](0015-mvp-validated-against-development-cctv-rig.md) | MVP validated against the development CCTV rig | Accepted | 2026-08-25 |
-| [0016](0016-mvp-ui-cut-to-five-screens.md) | MVP UI cut to five screens | Accepted | 2026-08-26 |
+| [0016](0016-mvp-ui-cut-to-five-screens.md) | MVP UI cut to five screens | Accepted, the matching cut is narrowed by 0059 | 2026-08-26 |
 | [0017](0017-cameras-site-sketch-not-a-map.md) | Cameras site sketch, not a map | Accepted, screen cut by 0016, narrowed by 0044 | 2026-08-26 |
 | [0018](0018-operator-assigned-impact-grade.md) | Operator-assigned impact grade | Accepted | 2026-08-26 |
 | [0019](0019-case-association-exempts-evidence-from-retention-clock.md) | Case-association exempts evidence from retention clock | Superseded by 0021 | 2026-08-26 |
@@ -49,7 +49,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0032](0032-inference-runtime-decode-path-and-detector-licence.md) | Inference runtime, decode path, and detector licence | Accepted | 2026-09-01 |
 | [0033](0033-backend-framework-packaging-and-auth.md) | Backend framework, packaging, and the authentication mechanism | Accepted | 2026-09-01 |
 | [0034](0034-local-event-store-on-sqlite.md) | The local event store is SQLite, and the egress queue lives in it | Accepted | 2026-09-01 |
-| [0035](0035-operator-console-stack-and-video-transport.md) | Operator console stack, and video reaches the browser separately from detections | Accepted | 2026-09-01 |
+| [0035](0035-operator-console-stack-and-video-transport.md) | Operator console stack, and video reaches the browser separately from detections | Accepted, gateway settled by 0054 | 2026-09-01 |
 | [0036](0036-wireframe-breakpoints-and-required-state-set.md) | Three console widths, and the state set a screen is not finished without | Superseded by 0039 | 2026-09-01 |
 | [0037](0037-sign-in-follows-the-reference-username-password.md) | Sign in follows the reference — username and password, with a password reset | Accepted, supersedes 0024 | 2026-09-01 |
 | [0038](0038-historical-timeline-on-the-focused-camera-view.md) | A historical timeline on the focused-camera view | Accepted, marker rule superseded by 0046 | 2026-09-02 |
@@ -60,6 +60,18 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0043](0043-focused-camera-view-rebuilt-around-the-picture.md) | The focused camera view is rebuilt around the picture, and Live View gains an alerts rail | Accepted | 2026-09-03 |
 | [0044](0044-site-sketch-returns-on-live-view.md) | The site sketch returns, on Live View, and stops short of being a map | Accepted, narrows 0017 | 2026-09-03 |
 | [0045](0045-timeline-second-pass-controls-and-density.md) | The timeline's second pass — the controls it gains, and the hue it still refuses | Accepted, marker rule superseded by 0046 | 2026-09-03 |
-| [0046](0046-timeline-markers-carry-class-colour.md) | Timeline markers carry class colour, and the axis is drawn as a band | Accepted, supersedes the marker rule in 0038 and 0045 | 2026-09-03 |
-| [0047](0047-rail-collapse-becomes-baked-frame-pairs.md) | The rail's collapsed state is baked frame pairs, not a runtime variant swap | Accepted, narrows 0041 | 2026-09-03 |
+| [0046](0046-timeline-markers-carry-class-colour.md) | Timeline markers carry class colour, and the axis is drawn as a band | Accepted, supersedes the marker rule in 0038 and 0045; store obligation settled by 0056 | 2026-09-03 |
+| [0047](0047-rail-collapse-becomes-baked-frame-pairs.md) | The rail's collapsed state is baked frame pairs, not a runtime variant swap | Accepted, Figma-only, narrowed by 0057 | 2026-09-03 |
 | [0048](0048-phase-2-closes-flow-frames-deferred.md) | Phase 2 closes here; the flow frames are deferred, not built | Accepted, narrows 0041 | 2026-09-03 |
+| [0049](0049-four-homes-for-project-artefacts.md) | Four homes for project artefacts, decided by one question | Accepted | 2026-09-03 |
+| [0050](0050-single-process-inference-placement.md) | Ingest, inference and rules run in one process on one node | Accepted | 2026-09-03 |
+| [0051](0051-face-detection-model-and-refusal-threshold.md) | Face detection is YuNet, and it is refused below 24 pixels | Accepted, extended by 0059 | 2026-09-03 |
+| [0052](0052-anpr-two-stage-chain-with-a-grammar-gate.md) | ANPR is a two-stage ONNX chain, and its grammar gate rejects but never repairs | Accepted | 2026-09-03 |
+| [0053](0053-night-movement-as-a-detector-independent-primitive.md) | Night-time movement is a detector-independent primitive | Accepted | 2026-09-03 |
+| [0054](0054-go2rtc-is-the-webrtc-gateway.md) | go2rtc is the WebRTC gateway | Accepted, settles the open choice in 0035 | 2026-09-03 |
+| [0055](0055-offline-password-recovery-by-local-admin-reset.md) | Offline password recovery returns, as a local administrator reset | Accepted, settles the regression in 0037 | 2026-09-03 |
+| [0056](0056-an-event-carries-one-primary-class.md) | An event carries exactly one primary class | Accepted, settles the store obligation in 0046 | 2026-09-03 |
+| [0057](0057-hi-fi-frames-are-the-ui-specification.md) | The hi-fi frames are the UI specification, and rail collapse is runtime state | Accepted, narrows 0041 and 0047 | 2026-09-03 |
+| [0058](0058-model-artefacts-are-versioned-files-with-a-manifest.md) | Model artefacts are versioned files with a manifest, not code | Accepted | 2026-09-03 |
+| [0059](0059-face-recognition-ships-against-a-configured-watchlist.md) | Face recognition ships against a configured watchlist, using SFace, exactly as 0008 gated it | Accepted, narrows 0016; extends 0051 | 2026-09-03 |
+| [0060](0060-file-backed-frame-source-for-testing.md) | A file-backed frame source, for testing and demonstration against footage the rig cannot produce | Accepted | 2026-09-03 |
