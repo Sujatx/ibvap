@@ -1,4 +1,5 @@
-dvr.env
+src/dvr/dvr.env
 __pycache__/
 *.pyc
 snap_*.jpg
+.ruff_cache/

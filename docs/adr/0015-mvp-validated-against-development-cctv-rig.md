@@ -1,7 +1,7 @@
 # 15. MVP developed and validated against the existing development CCTV rig
 
 **Date:** 2026-08-25
-**Status:** Accepted
+**Status:** Accepted, extended by 0060
 
 ## Context
 
@@ -9,7 +9,7 @@ A single measured recorder already falsified three convenient assumptions
 (UDP viability, the "1080" resolution claim, and read-back-vs-trust
 firmware behaviour) — which is why development is validated against real
 hardware constraints rather than specified ones. Per
-[CLAUDE.md](../../CLAUDE.md) rule 6, the existing setup (`dvr.py`,
+[CLAUDE.md](../../CLAUDE.md) rule 5, the existing setup (`dvr.py`,
 `dvr.env`, `backups/`, `requirements.txt`) is preserved, not modified —
 IBVAP consumes it, it does not replace it.
 

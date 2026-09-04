@@ -15,18 +15,16 @@ computer vision.
 
 ## 2. Where work happens
 
-Discovery and delivery run continuously and in parallel — there is no
-research → product → design → architecture → engineering waterfall. What
-governs a piece of work is not which stage it's "in", but **which of four
-homes it belongs in**, decided by one question: *does this change when the
-code changes?*
+Discovery and delivery run continuously and in parallel, governed by
+**which of four homes a piece of work belongs in** — decided by one
+question: *does this change when the code changes?*
 
 | Home | Holds | Because |
 |---|---|---|
 | **This repo** | Code, ADRs, architecture, RFCs, CI, contributing rules | Changes with the code |
-| **[Notion](https://app.notion.com/p/3c986dda46e28132a92fef10b9d75132?pvs=204)** | Vision & Scope, PRD, research | Product/discovery — doesn't change with the code |
-| **[Figma](https://www.figma.com/files/team/1549054683813925758/project/645637828?fuid=1549054681745812988)** | Screen flow, wireframes, UI kit | *Is* the design, not a description of it |
-| **GitHub Issues** | Tasks, bugs | Work, not a document |
+| **[Notion](https://app.notion.com/p/3c986dda46e28132a92fef10b9d75132?pvs=204)** | Vision & Scope, PRD, research | Product and discovery, stable across code changes |
+| **[Figma](https://www.figma.com/files/team/1549054683813925758/project/645637828?fuid=1549054681745812988)** | Screen flow, wireframes, UI kit | The design itself |
+| **GitHub Issues** | Tasks, bugs | Work items to track |
 
 Each artifact has exactly one home — never mirrored across two. The
 rationale is recorded as an ADR in [docs/adr/](docs/adr/README.md); see
@@ -35,7 +33,7 @@ rationale is recorded as an ADR in [docs/adr/](docs/adr/README.md); see
 
 Within the repo: an **ADR** ([docs/adr/](docs/adr/README.md)) records a
 decision already made; an **RFC** ([docs/rfcs/](docs/rfcs/README.md))
-proposes a non-trivial implementation not yet decided, reviewed before code.
+proposes a non-trivial implementation, reviewed before code.
 
 ## 3. Rules
 
@@ -44,69 +42,91 @@ proposes a non-trivial implementation not yet decided, reviewed before code.
    rewrite, simplify, reinterpret, remove, or add to it.
 2. Do not invent requirements. Every product feature must trace back to the
    official problem statement.
-3. Do not implement product features before they are defined in the
-   [Notion PRD](https://app.notion.com/p/3c986dda46e28195ba55dd42265e7072?pvs=204).
-4. Do not make major technical decisions before research (Notion) supports
+3. Do not make major technical decisions before research (Notion) supports
    them.
-5. Each artifact has exactly one home — repo, Notion, Figma, or GitHub
+4. Each artifact has exactly one home — repo, Notion, Figma, or GitHub
    Issues (§2). Don't restate or mirror one in another; link to it instead.
-6. Preserve the existing CCTV access/testing setup (`dvr.py`, `dvr.env`,
-   `backups/`, `requirements.txt`). These belong to the developer's home CCTV
-   setup used for development and testing. Do not modify, replace, refactor, or
-   delete them.
-7. In every research/product/design/architecture document, make clear which
-   claims are verifiable/sourced fact, which are unverified assumptions, and
-   which are hypotheses still to be tested — through plain, naturally hedged
-   wording (e.g. "is inferred from...", "not independently verified",
-   "plausibly"), not repeated inline labels or a legend. A **DECISION** is
-   different: it is a choice actually made, and must be recorded as its own
-   file in [docs/adr/](docs/adr/README.md), one file per decision, numbered
-   sequentially, in the standard ADR (Nygard/MADR) format — `Status`,
-   `Context`, `Decision`, `Consequences`. Never appended to a running log,
-   never split by which stage was active when the decision was made; a
-   change of mind is a new numbered file that supersedes the old one, not an
-   edit to it. A non-trivial implementation not yet decided gets an RFC in
-   [docs/rfcs/](docs/rfcs/README.md) first, reviewed before code — see
-   [CONTRIBUTING.md](CONTRIBUTING.md).
-8. Any document of more than a few sections opens with a short, positive
-   statement of what it is and records — not a paragraph or blockquote of
-   what it is not or does not do — followed by a `## Contents` list linking
-   to its top-level headings. State a genuine scope boundary once, in plain
-   prose, where it matters; don't restate it as a standalone disclaimer.
-9. Every code change traces to a GitHub issue. Branch names are
-   `<type>/<issue#>-<slug>` (e.g. `feat/42-live-view-detection-overlay`);  See [CONTRIBUTING.md](CONTRIBUTING.md).
+5. Preserve the existing CCTV access/testing setup, under `src/dvr/`
+   (`dvr.py`, `dvr.env`, `backups/`, `requirements.txt`). These belong to the
+   developer's home CCTV setup used for development and testing. Do not
+   modify, replace, refactor, or delete their contents.
 
 ## 4. Where the project is
 
-[ROADMAP.md](ROADMAP.md) is the order of work — five phases, of which Phase 1
-(the technology stack) is done. It supersedes the ordering this section used
-to carry. What is open, at the time of writing:
+[ROADMAP.md](ROADMAP.md) holds the phase-by-phase status — per §3 rule 4,
+it is not duplicated here. Phases 1–3 are done; Phase 4 (writing GitHub task
+issues) is unblocked but not yet started. Every issue's Definition of Ready
+traces to the [System Design Document](docs/architecture/system-design/README.md),
+an ADR, or a PRD requirement, per [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- **Phase 2 is done.** `01 Wireframes`, `02 UI Kit` and `03 Hi-fi` (twelve
-  frames, rail navigation correct collapsed or expanded, camera stills applied
-  across Live View and Rules, Alerts carries one populated row) are complete;
-  the flow-state frames (`too many attempts`, `drawing a zone`, and the rest)
-  are deferred out of Phase 2 scope, not built. See
-  [ADR 0039](docs/adr/0039-state-coverage-evidenced-three-ways.md),
-  [ADR 0040](docs/adr/0040-kit-gaps-built-out-for-hi-fi.md),
-  [ADR 0041](docs/adr/0041-hi-fi-assembled-from-an-appshell-component.md),
-  [ADR 0043](docs/adr/0043-focused-camera-view-rebuilt-around-the-picture.md),
-  [ADR 0044](docs/adr/0044-site-sketch-returns-on-live-view.md),
-  [ADR 0045](docs/adr/0045-timeline-second-pass-controls-and-density.md),
-  [ADR 0046](docs/adr/0046-timeline-markers-carry-class-colour.md),
-  [ADR 0047](docs/adr/0047-rail-collapse-becomes-baked-frame-pairs.md) and
-  [ADR 0048](docs/adr/0048-phase-2-closes-flow-frames-deferred.md).
-- **Phase 3 — six RFCs drafted, none Accepted yet.** [RFC 0001](docs/rfcs/0001-video-ingest-capability-measurement-and-playback.md)
-  through [0006](docs/rfcs/0006-detection-and-analytics-primitives.md) exist as
-  `Draft`; the model primitives were split out of 0001, which is why there are
-  six rather than the five the roadmap first named.
-  [docs/architecture/README.md](docs/architecture/README.md) §4–7 are written.
-  Decisions taken along the way are ADRs 0049–0060. Decode throughput and the
-  recorded-playback route are treated as per-deployment facts established at
-  commissioning, not as one-time measurements this repository blocks on — see
-  [RFC 0001](docs/rfcs/0001-video-ingest-capability-measurement-and-playback.md).
-  Nothing is Accepted until each RFC has been reviewed.
-- **Phase 4 — no task issues.** Do not write implementation-ready GitHub issues
-  until Phase 3 clears; a task isn't "ready" (per
-  [CONTRIBUTING.md](CONTRIBUTING.md)) while the capability it depends on has no
-  accepted RFC. Labels and milestones can be created now.
+One thing is genuinely open, tracked in the System Design Document's
+[Risks and Open Items](docs/architecture/system-design/10-risks-and-open-items.md):
+the detailed sequence/state diagrams still owed.
+
+## 5. AI Engineering & Coding Standards
+
+Act as a Principal Software Engineer. Adhere to the following industry-standard
+practices, derived from Google, Microsoft, and Airbnb style guides, for every
+line of implementation code written in this repository (Phase 5 onward).
+
+### 5.1 Architectural boundaries & modularity
+
+- **Single Responsibility Principle.** Each file, class, and function has
+  exactly one reason to change.
+- **Strict layering.** Never mix HTTP/API routing logic with business logic
+  or database queries. Keep layers isolated: `types/` (data shapes and
+  interfaces), `db/` or `repositories/` (database interactions only),
+  `services/` (core business logic), `controllers/` or `routes/`
+  (HTTP/input handling).
+- **Size limits.** Target 150–250 lines per file; treat 300 as a hard limit.
+  Break larger files into smaller, composable modules. Keep functions under
+  30 lines.
+
+### 5.2 Code clarity & simplicity
+
+- **Clarity over cleverness.** Write code that is easy to read, not just easy
+  to write. Avoid dense one-liners, complex ternary chains, or nested loops.
+- **KISS, DRY, YAGNI.** Extract duplicated logic into shared utilities, but do
+  not build speculative abstractions for features that don't exist yet in the
+  accepted RFCs.
+- **Guard clauses first.** Use early returns to handle invalid states,
+  permissions, or missing data at the top of a function. Don't nest
+  `if`/`else` logic deeper than two levels.
+
+### 5.3 Defensive programming & error handling
+
+- **Never swallow errors.** No empty `except`/`catch` blocks. Handle, log, or
+  escalate every error explicitly.
+- **Fail fast.** Validate inputs and fail as early in the execution path as
+  possible, rather than let corrupted state propagate.
+- **Explicit typing.** No `Any`/`any`, no untyped dicts, no `unknown` without
+  a narrowing check. Define exhaustive types for every parameter and return
+  value — Pydantic models on the backend, TypeScript interfaces on the
+  frontend, matching what the accepted RFCs already specify.
+
+### 5.4 Naming conventions
+
+- **Descriptive over short.** A name states its exact purpose —
+  `fetch_active_user_profile()`, not `get_data()`.
+- **Boolean naming.** Prefix with `is`, `has`, `should`, or `can` (e.g.
+  `is_valid`, `has_permission`).
+- **Casing follows the language, not one convention repo-wide** — this
+  project has both a Python backend and a TypeScript frontend, and the
+  accepted RFCs already fix which is which:
+  - **Python** (backend, per [ADR 0033](docs/adr/0033-backend-framework-packaging-and-auth.md)):
+    `snake_case` for variables, functions and module names — PEP 8 — matching
+    every dataclass and Pydantic model already in RFCs 0001–0006;
+    `PascalCase` for classes; `UPPER_SNAKE_CASE` for module-level constants.
+  - **TypeScript** (frontend, per [ADR 0035](docs/adr/0035-operator-console-stack-and-video-transport.md)):
+    `camelCase` for variables, functions and object properties; `PascalCase`
+    for components, classes, interfaces and types; `UPPER_SNAKE_CASE` for
+    global constants and environment variables.
+
+### 5.5 Execution protocol
+
+Before generating implementation code:
+
+1. Outline the file structure being modified or created.
+2. Verify the planned files won't exceed the 300-line limit (§5.1).
+3. State the layered architectural approach being followed.
+4. Output the code file-by-file.

@@ -21,7 +21,7 @@ All development adheres to the established project principles recorded in [`CLAU
    - `S-03 Rules`: Authoring operator rules for virtual fence, loitering, ANPR, night movement ([ADR 0011](docs/adr/0011-virtual-fence-plus-open-border-framing.md), [ADR 0012](docs/adr/0012-suspicious-activity-as-operator-authored-rules.md), [ADR 0013](docs/adr/0013-night-time-movement-detection-as-explicit-capability.md)).
    - `S-04 Alerts & Events`: Chronological audit log, alert triage, snooze/suppression ([ADR 0023](docs/adr/0023-dismissal-cause-captured-on-suppression.md), [ADR 0027](docs/adr/0027-suppression-works-like-notification-snooze.md)), impact grading ([ADR 0018](docs/adr/0018-operator-assigned-impact-grade.md)).
    - `S-05 Integration`: Generic C2 egress endpoint configuration & live verification ([ADR 0006](docs/adr/0006-c2-integration-via-generic-event-contract.md)).
-   - *Note:* There is no separate "Settings" page; configuration is localized within these 5 screens and environment configs.
+   - Configuration is localized within these 5 screens and environment configs.
 3. **Settled Design Grammar**:
    - Palette: Dark console palette ([ADR 0030](docs/adr/0030-dark-console-palette-no-severity-colour.md)) — colour denotes category/attention, never subjective severity.
    - Component Grammar: Chips state facts, segmented controls make choices ([ADR 0031](docs/adr/0031-component-grammar-chip-states-fact-segmented-control-chooses.md)).
@@ -38,7 +38,7 @@ To avoid context exhaustion and ensure complete technical clarity before team co
 ```mermaid
 graph TD
     P1["Phase 1: Foundations & Baseline<br/><b>Tech Stack Selection (ADRs 0032–0035)</b>"] --> P2["Phase 2: Figma UI/UX Design<br/><b>Wireframes Polish & 5 Hi-Fi Screens</b>"]
-    P2 --> P3["Phase 3: System Design & RFCs<br/><b>RFCs 0001–0005 & Architecture §4–7</b>"]
+    P2 --> P3["Phase 3: System Design & RFCs<br/><b>Six RFCs Accepted & Architecture §4–7</b>"]
     P3 --> PPT["Milestone: Presentation Deck<br/><b>Assemble Hackathon PPT with UI & Architecture</b>"]
     P3 --> P4["Phase 4: Work Breakdown Structure<br/><b>GitHub Task Issues with Mock Contracts</b>"]
     P4 --> P5["Phase 5: Parallel Implementation<br/><b>CV, Backend, Frontend, and C2 Tracks</b>"]
@@ -56,7 +56,7 @@ graph TD
      - **Backend & Streaming Server**: FastAPI (Python) + WebSockets / WebRTC / MSE gateway.
      - **Local Event Storage**: SQLite (with WAL mode) or DuckDB for fast local timeseries audit queries.
      - **Operator Web Console**: React + TypeScript + Vite + Tailwind CSS + HTML5 Canvas.
-  2. Record the result as **four** ADRs in MADR format, not one — [`CLAUDE.md`](CLAUDE.md) rule 7 is one file per decision, so a later change of mind on storage does not reopen the frontend:
+  2. Record the result as **four** ADRs in MADR format, not one — this project's convention is one file per decision, so a later change of mind on storage does not reopen the frontend:
      - [ADR 0032](docs/adr/0032-inference-runtime-decode-path-and-detector-licence.md) — inference runtime, decode path, and detector licence.
      - [ADR 0033](docs/adr/0033-backend-framework-packaging-and-auth.md) — backend framework, packaging, and the authentication mechanism.
      - [ADR 0034](docs/adr/0034-local-event-store-on-sqlite.md) — the local event store, and the egress queue inside it.
@@ -111,6 +111,14 @@ graph TD
 > [ADR 0046](docs/adr/0046-timeline-markers-carry-class-colour.md),
 > [ADR 0047](docs/adr/0047-rail-collapse-becomes-baked-frame-pairs.md) and
 > [ADR 0048](docs/adr/0048-phase-2-closes-flow-frames-deferred.md).
+>
+> **Addendum (2026-09-04):** a Watchlist screen was added on top of the above,
+> reached from Rules by a page-level tab — subject enrollment and gallery
+> management, with the four-condition config behind a settings menu, closing
+> the hi-fi gap [ADR 0059](docs/adr/0059-face-recognition-ships-against-a-configured-watchlist.md)
+> flagged. `PhotoUpload`, `SubjectCard`, and a shared `PageHeader` component
+> (title/description text properties, a swappable actions slot) were added to
+> `02 UI Kit`.
 
 ---
 
@@ -129,13 +137,19 @@ graph TD
   - All 6 RFCs are merged with status `Accepted`.
   - Every API endpoint and WebSocket message has an exact JSON example and TypeScript/Pydantic type definition.
 
-> **Status: drafted (2026-09-03); not yet Accepted.** All six RFCs exist as
-> `Draft` and architecture §4–7 are written. Twelve decisions taken along the
-> way are recorded as ADRs 0049–0060, including that decode throughput and the
-> recorded-playback route are per-deployment facts established at
-> commissioning rather than one-time measurements this phase blocks on. What
-> remains before the phase closes: the diagrams, then review and acceptance of
-> all six.
+> **Status: Accepted (2026-09-03).** All six RFCs are `Accepted` and
+> architecture §4–7 are written; [`docs/architecture/system-design/`](docs/architecture/system-design/README.md)
+> carries a fuller, review-ready synthesis of the same accepted design split
+> across dedicated files. Twelve decisions taken along the way are recorded as
+> ADRs 0049–0060, including that decode throughput and the recorded-playback
+> route are per-deployment facts established at commissioning rather than
+> one-time measurements this phase blocks on. This unblocks Phase 4 per
+> [CONTRIBUTING.md](CONTRIBUTING.md)'s Definition of Ready, which gates a task
+> on an accepted RFC, not on a drawn diagram. Still outstanding, tracked as
+> ongoing rather than phase-blocking work: the detailed sequence and state
+> diagrams each RFC names but does not draw, and a Figma/Notion home for the
+> watchlist enrollment and match-review screens
+> ([ADR 0059](docs/adr/0059-face-recognition-ships-against-a-configured-watchlist.md)).
 
 > [!NOTE]
 > **Milestone: Presentation & Team Preparation**  
@@ -181,6 +195,7 @@ graph TD
   - Developers branch off `main` using `<type>/<issue#>-<slug>` naming.
   - Development proceeds in parallel using mock data contracts defined in Phase 3.
   - Ingest and video overlays are validated against real CCTV streams from the `dvr.py` rig.
+  - ANPR and face recognition are validated against fed footage through the file-backed ingest source (ADR 0060), since the rig's own wide-area channels measure below both capabilities' pixel floors.
   - Final integration verified against the generic C2 event contract.
 
 ---
@@ -191,6 +206,6 @@ graph TD
 |---|---|---|---|
 | **Phase 1** | Tech Stack ADRs 0032–0035 | [`docs/adr/`](docs/adr/README.md) | Unblocks RFC drafting |
 | **Phase 2** | 5 Hi-Fi Screens | Figma `03 Hi-fi` | Unblocks Frontend task tickets |
-| **Phase 3** | RFCs 0001–0005 & Architecture §4–7 | `docs/rfcs/*.md`, `docs/architecture/README.md` | Unblocks Backend/CV/API task tickets |
+| **Phase 3** | Six RFCs (0001–0006) Accepted & Architecture §4–7 | `docs/rfcs/*.md`, `docs/architecture/README.md`, `docs/architecture/system-design/` | Unblocks Backend/CV/API task tickets |
 | **Phase 4** | WBS & GitHub Task Tickets | GitHub Issues & Milestones | Unblocks Team coding |
 | **Phase 5** | Production Software | `src/` / `backend/` / `frontend/` | Hackathon Demo & Submission |

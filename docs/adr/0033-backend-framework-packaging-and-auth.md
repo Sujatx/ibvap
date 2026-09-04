@@ -20,8 +20,8 @@ isolated network; and nothing may expire or disable because a licence or
 update server is unreachable. Those rule out every hosted identity provider
 and every dependency that phones home.
 
-`requirements.txt` at the repository root belongs to the development CCTV rig
-and is preserved unmodified ([CLAUDE.md](../../CLAUDE.md) rule 6). IBVAP's own
+`src/dvr/requirements.txt` belongs to the development CCTV rig
+and is preserved unmodified ([CLAUDE.md](../../CLAUDE.md) rule 5). IBVAP's own
 dependencies need somewhere else to live that does not collide with it, and
 [CI](../../.github/workflows/ci.yml) already installs that file conditionally.
 

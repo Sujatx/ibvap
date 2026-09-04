@@ -50,7 +50,7 @@ to be cut at an I-frame boundary and stored as the original bitstream rather
 than re-encoded — re-encoding costs an encode session and invalidates any
 hash taken at capture. OpenCV stays, for image operations only. `dvr.py` is
 not touched and keeps its own OpenCV capture path
-([CLAUDE.md](../../CLAUDE.md) rule 6).
+([CLAUDE.md](../../CLAUDE.md) rule 5).
 
 **Hardware decode via NVDEC where the GPU is present, software FFmpeg decode
 as the fallback.** Decode is the binding cost, so it gets the silicon. The

@@ -67,7 +67,7 @@ on both a bright daylight frame and a monochrome IR frame, because the same
 camera produces both.
 
 The token values themselves live in Figma and are not restated here, per
-[CLAUDE.md](../../CLAUDE.md) rule 5.
+[CLAUDE.md](../../CLAUDE.md) rule 4.
 
 ## Consequences
 

@@ -20,15 +20,16 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        # requirements.txt belongs to the dev CCTV rig (dvr.py) and is installed
-        # as-is; everything else resolves through pyproject.toml (ADR 0033).
+        # src/dvr/requirements.txt belongs to the dev CCTV rig (src/dvr/dvr.py)
+        # and is installed as-is; everything else resolves through pyproject.toml
+        # (ADR 0033).
         run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f src/dvr/requirements.txt ]; then pip install -r src/dvr/requirements.txt; fi
           uv sync --group dev
 
       - name: Lint
-        # dvr.py / backups/ are the preserved dev-rig setup (CLAUDE.md rule 6) — not linted.
-        run: uv run ruff check . --extend-exclude dvr.py,backups
+        # src/dvr/ is the preserved dev-rig setup (CLAUDE.md rule 5) — not linted.
+        run: uv run ruff check . --extend-exclude src/dvr
 
       - name: Test
         run: |

@@ -8,8 +8,8 @@
 The project previously split its decision record into two files by
 workflow stage (`docs/00-project/decisions.md` for project-level
 decisions, `docs/03-design/decisions.md` for design-stage decisions),
-justified by [CLAUDE.md](../../CLAUDE.md) rule 7's "or the relevant stage's
-own decisions log." That split was defended as intentional (project-level
+justified by [CLAUDE.md](../../CLAUDE.md)'s then-current decision-log rule,
+"or the relevant stage's own decisions log." That split was defended as intentional (project-level
 scope decisions vs. design-stage presentation decisions), but on review
 that defence doesn't hold up against how decision records are actually
 kept in real software engineering practice: Architecture Decision Records
@@ -33,8 +33,10 @@ retired. All 28 decisions they recorded (Nos. 1–28 above) are ported into
 [docs/adr/README.md](README.md). New decisions of any kind — project,
 product, design, or architecture — are recorded the same way: one new
 numbered file in `docs/adr/`, never appended to a running log, never split
-by stage. [CLAUDE.md](../../CLAUDE.md) rule 7 is updated to describe this
-convention instead of the per-stage log it previously specified.
+by stage. [CLAUDE.md](../../CLAUDE.md)'s decision-log rule is updated to
+describe this convention instead of the per-stage log it previously
+specified — later folded into general project practice rather than kept as
+its own standalone numbered rule.
 
 ## Consequences
 

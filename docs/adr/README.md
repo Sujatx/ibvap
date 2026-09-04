@@ -29,7 +29,7 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0012](0012-suspicious-activity-as-operator-authored-rules.md) | Suspicious activity as an operator-authored rule engine | Accepted | 2026-08-25 |
 | [0013](0013-night-time-movement-detection-as-explicit-capability.md) | Night-time movement detection as an explicit capability | Accepted | 2026-08-25 |
 | [0014](0014-mvp-scoped-to-one-deployment-site.md) | MVP scoped to one deployment site, complete end-to-end | Accepted | 2026-08-25 |
-| [0015](0015-mvp-validated-against-development-cctv-rig.md) | MVP validated against the development CCTV rig | Accepted | 2026-08-25 |
+| [0015](0015-mvp-validated-against-development-cctv-rig.md) | MVP validated against the development CCTV rig | Accepted, extended by 0060 | 2026-08-25 |
 | [0016](0016-mvp-ui-cut-to-five-screens.md) | MVP UI cut to five screens | Accepted, the matching cut is narrowed by 0059 | 2026-08-26 |
 | [0017](0017-cameras-site-sketch-not-a-map.md) | Cameras site sketch, not a map | Accepted, screen cut by 0016, narrowed by 0044 | 2026-08-26 |
 | [0018](0018-operator-assigned-impact-grade.md) | Operator-assigned impact grade | Accepted | 2026-08-26 |
@@ -74,4 +74,4 @@ NNNN`, and the old file gets `Status: Superseded by NNNN`.
 | [0057](0057-hi-fi-frames-are-the-ui-specification.md) | The hi-fi frames are the UI specification, and rail collapse is runtime state | Accepted, narrows 0041 and 0047 | 2026-09-03 |
 | [0058](0058-model-artefacts-are-versioned-files-with-a-manifest.md) | Model artefacts are versioned files with a manifest, not code | Accepted | 2026-09-03 |
 | [0059](0059-face-recognition-ships-against-a-configured-watchlist.md) | Face recognition ships against a configured watchlist, using SFace, exactly as 0008 gated it | Accepted, narrows 0016; extends 0051 | 2026-09-03 |
-| [0060](0060-file-backed-frame-source-for-testing.md) | A file-backed frame source, for testing and demonstration against footage the rig cannot produce | Accepted | 2026-09-03 |
+| [0060](0060-file-backed-frame-source-for-testing.md) | A file-backed frame source, for testing and demonstration against footage the rig cannot produce | Accepted, extends 0015 | 2026-09-03 |

@@ -6,6 +6,11 @@ and marks plainly what architecture work has not happened yet — per
 [CLAUDE.md](../../CLAUDE.md) §2, architecture is not decided ahead of the
 research and product scope it depends on.
 
+A fuller, review-ready expansion of the same accepted design — data model,
+API contracts, security design and the rest — lives in
+[docs/architecture/system-design/](system-design/README.md), synthesised from
+the six accepted RFCs. Where the two overlap, the RFC is authoritative.
+
 ## Contents
 
 1. [Introduction and Goals](#1-introduction-and-goals)
@@ -45,7 +50,8 @@ network conditions that are measured, not assumed — see
 | No licence-driven degradation — nothing expires or disables because a licence/update server is unreachable | PRD §5.2 |
 | Commissioned by a non-specialist in under an hour, no site survey | PRD §5.2, §3 |
 | Validated against the existing development CCTV rig — TCP-only RTSP, fixed 1080N anamorphic encode, a shared 12,288 kbps / 120 fps budget across 8 channels, firmware that reports success for settings it silently discards | [ADR 0015](../adr/0015-mvp-validated-against-development-cctv-rig.md) |
-| The rig (`dvr.py`, `dvr.env`, `backups/`, `requirements.txt`) is preserved unmodified — consumed, not replaced | [CLAUDE.md](../../CLAUDE.md) rule 6 |
+| ANPR and face recognition validated separately, against fed footage that clears their pixel floors — the rig's own wide-area channels cannot demonstrate either working | [ADR 0060](../adr/0060-file-backed-frame-source-for-testing.md), extending ADR 0015 |
+| The rig (`dvr.py`, `dvr.env`, `backups/`, `requirements.txt`) is preserved unmodified — consumed, not replaced | [CLAUDE.md](../../CLAUDE.md) rule 5 |
 | The real target camera estate (models, resolutions, IP vs. analog-behind-DVR, ONVIF conformance) is unmeasured | PRD §9 |
 
 ## 3. Context and Scope
@@ -206,7 +212,8 @@ CUDA versions cannot be pinned by hand — neither of which exists yet.
 Recorded as ADRs, one file per decision, in
 [docs/adr/](../adr/README.md) — not duplicated here. Decisions with
 architectural consequence so far: 0004, 0006, 0007, 0009, 0011, 0012, 0013,
-0015, 0038, and the stack itself in 0032–0035.
+0015, 0038; the stack itself in 0032–0035; and the placement, model and
+gateway decisions Phase 3's RFCs surfaced, 0049–0060.
 
 ## 10. Quality Requirements
 

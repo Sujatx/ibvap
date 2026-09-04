@@ -1,19 +1,21 @@
-## What this does
-
-## Traces to
-
-<!-- Issue this closes, and the PRD clause / ADR / RFC behind it. -->
 Closes #
 
-## RFC / ADR
+## Description
 
-<!-- If this implements a non-trivial design, link the RFC it follows.
-     If it makes a decision worth recording independently, link the ADR. -->
+<!-- What this PR does, and why. -->
 
 ## How this was tested
 
+<!-- Test configuration, commands run, manual verification steps. -->
+
+## Screenshots
+
+<!-- For UI changes. Delete this section otherwise. -->
+
 ## Checklist
 
+- [ ] Self-review completed
 - [ ] Tests added for the behaviour in the linked issue
 - [ ] CI is green
 - [ ] Docs describing how the code works are updated in this PR (see [CONTRIBUTING.md](../CONTRIBUTING.md))
+- [ ] No new warnings generated

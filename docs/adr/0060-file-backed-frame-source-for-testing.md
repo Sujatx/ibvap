@@ -1,7 +1,7 @@
 # 60. A file-backed frame source, for testing and demonstration against footage the rig cannot produce
 
 **Date:** 2026-09-03
-**Status:** Accepted
+**Status:** Accepted, extends 0015
 
 ## Context
 

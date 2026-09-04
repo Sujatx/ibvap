@@ -14,14 +14,14 @@ dev = [
     "pytest>=8.0",
 ]
 
-# The rig's own requirements.txt (opencv-python, numpy) belongs to dvr.py and is
-# preserved unmodified — CLAUDE.md rule 6. It is deliberately not mirrored here.
+# The rig's own requirements.txt (opencv-python, numpy) belongs to src/dvr/dvr.py
+# and is preserved unmodified — CLAUDE.md rule 5. It is deliberately not mirrored here.
 
 [tool.ruff]
 target-version = "py312"
 line-length = 100
-# dvr.py and backups/ are the preserved dev-rig setup (CLAUDE.md rule 6).
-extend-exclude = ["dvr.py", "backups"]
+# src/dvr/ is the preserved dev-rig setup (CLAUDE.md rule 5).
+extend-exclude = ["src/dvr"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
@@ -29,7 +29,7 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-exclude = ['dvr\.py', 'backups/']
+exclude = ['src/dvr/']
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

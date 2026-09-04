@@ -111,7 +111,7 @@ vendor-specific RTSP playback URL carrying a time range, or reading recorder fil
 directly.
 
 The development rig ([0015](0015-mvp-validated-against-development-cctv-rig.md)) is a
-Dahua HD-XVR-4801H1-H, and [`dvr.py`](../../dvr.py) reaches it on the live endpoint
+Dahua HD-XVR-4801H1-H, and [`dvr.py`](../../src/dvr/dvr.py) reaches it on the live endpoint
 `/cam/realmonitor?channel=N&subtype=0`. Dahua recorders conventionally expose recorded
 playback on a separate path taking a start and end time, so the route plausibly exists
 here — but it is not verified on this unit, and this is the same firmware that
