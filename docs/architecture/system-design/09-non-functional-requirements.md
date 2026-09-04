@@ -36,7 +36,9 @@ capacity is treated as a per-site operational fact rather than a number fixed
 once in this document (see
 [10-risks-and-open-items.md](10-risks-and-open-items.md)).
 
-VRAM budget against the 4 GB target machine:
+GPU memory consumption, measured on the development machine
+([ADR 0032](../../adr/0032-inference-runtime-decode-path-and-detector-licence.md))
+and still to be validated against the confirmed site deployment hardware:
 
 | Consumer | Estimate |
 |---|---|
@@ -44,12 +46,13 @@ VRAM budget against the 4 GB target machine:
 | Detector weights + activations | ~400 MB |
 | YuNet, SFace, plate detector, plate OCR | ~180 MB combined |
 | NVDEC sessions, 5 channels | ~500 MB |
-| Headroom | Remainder of 4 GB |
+| **Measured total** | **~1.38 GB** |
 
-The stated order of retreat if the measured total does not fit: reduce
-detector input resolution → reduce analysed rate to the 3 fps floor → move ROI
-models to CPU → reduce channel count — the last of which is recorded as a
-hardware finding, not a quiet reduction in what the platform claims.
+The stated order of retreat if the measured total does not fit the deployment
+hardware's available GPU memory: reduce detector input resolution → reduce
+analysed rate to the 3 fps floor → move ROI models to CPU → reduce channel
+count — the last of which is recorded as a hardware finding, not a quiet
+reduction in what the platform claims.
 
 ## Availability and reliability
 

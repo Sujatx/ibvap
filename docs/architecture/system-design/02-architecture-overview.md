@@ -19,14 +19,14 @@ a rewrite.
 **Single-process, modular monolith, split-ready.** Ingest, decode, inference
 and rule evaluation run in one Python process on one site machine
 ([ADR 0050](../../adr/0050-single-process-inference-placement.md)), because
-decode and model memory compete for the same 4 GB of VRAM and an in-process
-handoff avoids a copy the hardware cannot spare. The module boundary is drawn
+decode and model memory share the same GPU budget and an in-process
+handoff avoids a copy the deployment cannot spare. The module boundary is drawn
 so a later split to two processes, or an edge/central split, is a change to
 one adapter, not a redesign (RFC 0001, Inference placement).
 
 This is a deliberate departure from a microservice-per-capability design: at
 one site with one operator and no elastic compute, service boundaries would
-buy isolation this deployment does not need yet, at a VRAM cost it cannot
+buy isolation this deployment does not need yet, at a resource cost it cannot
 afford.
 
 ## Building blocks

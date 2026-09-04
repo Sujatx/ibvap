@@ -84,8 +84,8 @@ on a single site machine.**
 
 Decode is the binding cost, not inference — ADR 0032 measures roughly 8 ms per
 small-YOLO inference against a decode workload that is unmeasured and expected
-to dominate. Both compete for the same 4 GB of VRAM on the target machine, and
-NVDEC sessions and model memory come out of the same budget. A two-process split
+to dominate. Both compete for the same GPU memory, and NVDEC sessions and model
+memory come out of the same budget. A two-process split
 would add a frame copy and a serialisation boundary to the one resource that
 cannot spare either, in exchange for isolation this deployment does not yet need.
 
@@ -488,7 +488,8 @@ The configured template is not a fallback for convenience, it is the route that
 works on the hardware actually in the room.
 
 **Analysing every decoded frame.** Rejected: at 25 fps × 5 channels the model
-cascade in RFC 0006 does not fit 4 GB of VRAM, and it buys nothing — a person
+cascade in RFC 0006 does not fit the available GPU memory budget, and it buys
+nothing — a person
 crossing a fence does not do it in 40 ms. Sampling to an analysed rate, with the
 3 fps tracking floor as a hard constraint, is the trade.
 

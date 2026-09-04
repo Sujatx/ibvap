@@ -14,8 +14,8 @@ where inference runs relative to the cameras.
 is where it had to close.
 
 The facts that decide it are all in 0032 already. Decode is the binding compute
-cost, not inference. The target machine has 4 GB of VRAM, shared between NVDEC
-decode sessions and every model loaded at once. Analysing fewer frames does not
+cost, not inference. GPU memory is shared between NVDEC decode sessions and
+every model loaded at once on a single machine. Analysing fewer frames does not
 decode fewer frames, because P-frames depend on their predecessors. And the
 deployment is one site, one machine, one operator
 ([0014](0014-mvp-scoped-to-one-deployment-site.md)).
@@ -53,7 +53,8 @@ camera streams to the browser and touches nothing in this pipeline.
 
 The frame never leaves the process, so there is no copy, no serialisation and no
 shared-memory segment to manage. On a machine where decode and model weights
-compete for the same 4 GB, that is the difference the decision is being made for.
+compete for the same GPU memory, that is the difference the decision is being
+made for.
 
 Fault isolation is genuinely worse than a split would give. A crash in the
 decoder takes the API down with it, and at an unattended post that means the

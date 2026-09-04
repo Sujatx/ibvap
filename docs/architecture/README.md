@@ -99,7 +99,7 @@ track identity — rather than throttled.
 
 **Inference is central and in-process.** Ingest, decode, inference and rule
 evaluation run in one process on one machine, because decode and model weights
-compete for the same 4 GB of VRAM
+share the same GPU memory budget
 ([ADR 0050](../adr/0050-single-process-inference-placement.md)). The
 `FrameSource`/`FrameSink` boundary keeps a later split a transport change.
 

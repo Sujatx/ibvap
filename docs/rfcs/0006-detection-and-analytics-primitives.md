@@ -27,8 +27,10 @@ placement and the playback probe. The two are read together: RFC 0001 produces
 frames and per-camera verdicts, this one consumes them and produces primitives
 for [RFC 0002](0002-rule-evaluation-engine.md) to evaluate.
 
-Two constraints shape every choice below. The target machine has 4 GB of VRAM,
-shared between NVDEC decode sessions and every model loaded at once. And the rig
+Two constraints shape every choice below. GPU memory on the development
+machine is shared between NVDEC decode sessions and every model loaded at
+once, and that budget is not yet a confirmed specification of the site
+deployment hardware. And the rig
 encodes 1080N — 960 px of real horizontal detail stretched to 1920 on display —
 so the pixels available for small objects are half what the displayed resolution
 suggests.
@@ -88,8 +90,9 @@ the detector swappable and the licence reversible.
 
 ### The cascade
 
-Running four model families on every frame of five cameras does not fit 4 GB and
-would buy nothing. Work is therefore gated on what the previous stage found.
+Running four model families on every frame of five cameras does not fit the
+available GPU memory budget and would buy nothing. Work is therefore gated on
+what the previous stage found.
 
 ```
 analysed frame
@@ -164,7 +167,8 @@ Two floors bound how far the analysed rate can be reduced to buy room:
   yields 1 fps — below the tracking floor. Frame skipping and tracking are
   mutually exclusive on this hardware.
 
-VRAM, as a budget to be verified rather than a measurement:
+GPU memory, measured on the development machine and still to be verified
+against the confirmed site deployment hardware:
 
 | Consumer | Estimate |
 |---|---|
@@ -172,14 +176,15 @@ VRAM, as a budget to be verified rather than a measurement:
 | Detector weights + activations | ~400 MB |
 | YuNet, SFace, plate detector, plate OCR | ~180 MB combined |
 | NVDEC sessions, 5 channels | ~500 MB |
-| Headroom | remainder of 4 GB |
+| **Measured total** | **~1.38 GB** |
 
-If the measured total does not fit, the order of retreat is stated now rather
-than improvised later: reduce detector input resolution, then reduce the analysed
-rate to the 3 fps floor, then move ROI models to the CPU execution provider,
-then reduce the number of channels — and if it comes to the last one, that is a
-finding about the hardware which goes in the architecture's risk section, not a
-quiet reduction in what the platform claims.
+If the measured total does not fit the deployment hardware's available GPU
+memory, the order of retreat is stated now rather than improvised later:
+reduce detector input resolution, then reduce the analysed rate to the 3 fps
+floor, then move ROI models to the CPU execution provider, then reduce the
+number of channels — and if it comes to the last one, that is a finding about
+the hardware which goes in the architecture's risk section, not a quiet
+reduction in what the platform claims.
 
 ### Class taxonomy
 

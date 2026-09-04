@@ -59,7 +59,7 @@ separately from day, because a daylight verdict does not imply a night one.
 ## The detection cascade
 
 Four model families are gated on what the previous stage found, so they fit a
-4 GB VRAM budget shared with NVDEC:
+constrained GPU memory budget shared with NVDEC:
 
 ```mermaid
 flowchart TD

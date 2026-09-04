@@ -52,7 +52,7 @@ graph TB
 ## Process model
 
 Ingest, decode, inference and rule evaluation share one process because decode
-and model weights compete for the same 4 GB of VRAM
+and model weights compete for the same GPU memory
 (RFC 0001; [02-architecture-overview.md](02-architecture-overview.md)). go2rtc
 is the one deliberate exception — it needs its own RTSP session to the
 recorder to republish video without transcoding, independent of the analytics

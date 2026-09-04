@@ -24,11 +24,12 @@ below the roughly 3 fps floor at which multi-object tracking's identity
 association collapses. On this hardware, frame skipping and tracking are
 mutually exclusive.
 
-The hardware is now fixed rather than hypothetical. Development and the
-demo both run on an ASUS TUF A15 — Ryzen 7 7445HS (6 cores, 12 threads),
-RTX 3050 Laptop with 4 GB of VRAM, 16 GB DDR5, Windows 11. The same research
-carries a measured figure for exactly that GPU: about 8 ms for a small
-YOLO-class model at 320 px input. The rig
+Development and the demo both run on an ASUS TUF A15 — Ryzen 7 7445HS (6
+cores, 12 threads), RTX 3050 Laptop with 4 GB of VRAM, 16 GB DDR5, Windows
+11. This is the development and demo machine, not a confirmed specification
+of the site deployment hardware. The same research carries a measured
+figure for exactly that GPU: about 8 ms for a small YOLO-class model at
+320 px input. The rig
 ([ADR 0015](0015-mvp-validated-against-development-cctv-rig.md)) delivers
 five live H.264 channels at 1080N — 960×1080 encoded, stretched to 1920×1080
 for display.
@@ -103,9 +104,11 @@ one to watch. Decode of five concurrent 1080N H.264 streams is, and it is
 unmeasured on this machine; the first thing implementation has to produce is
 that measurement, not a detection.
 
-4 GB of VRAM is a real ceiling and constrains this to small models at modest
-input resolution. It also means concurrent NVDEC sessions and model memory
-compete, which is another reason the decode measurement comes first.
+Decode and inference sharing GPU memory is what motivates small models at
+modest input resolution — concurrent NVDEC sessions and model memory compete,
+which is another reason the decode measurement comes first. The dev machine's
+4 GB is not a confirmed deployment ceiling; sizing needs re-validating against
+the actual site hardware once it is specified.
 
 Choosing PyAV over OpenCV's capture means re-establishing, in IBVAP's own
 ingest, the five behaviours `dvr.py` already had to learn the hard way —
